@@ -1,0 +1,12 @@
+//created on: May 9, 2017
+package drools.spring.rules
+
+import drools.spring.example.facts.Item;
+
+rule "Classify Item - High Range"
+    when
+        $i: Item( cost > 200, category == Category.NA )
+    then
+        $i.setCategory(Item.Category.HIGH_RANGE);
+        update($i);
+end
