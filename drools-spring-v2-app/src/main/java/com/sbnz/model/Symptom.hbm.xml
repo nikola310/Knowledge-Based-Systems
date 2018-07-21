@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2018 12:49:22 PM by Hibernate Tools 4.3.5.Final -->
+<hibernate-mapping>
+    <class name="com.sbnz.model.Symptom" table="symptom" catalog="sbnz" optimistic-lock="version">
+        <id name="symId" type="long">
+            <column name="SYM_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="symDesc" type="string">
+            <column name="SYM_DESC" length="250" not-null="true" />
+        </property>
+        <set name="diseases" table="has" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="SYM_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sbnz.model.Disease">
+                <column name="DISEASE_ID" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

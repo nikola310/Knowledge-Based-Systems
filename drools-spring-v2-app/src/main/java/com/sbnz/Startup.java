@@ -1,4 +1,4 @@
-package drools.spring.example;
+package com.sbnz;
 
 import java.util.Arrays;
 
@@ -9,17 +9,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication
-public class SampleApp {
+@ComponentScan(basePackages = "com.sbnz")
+@EntityScan("com.sbnz.model")
+@EnableJpaRepositories("com.sbnz.repository")
+@EnableTransactionManagement
+public class Startup {
 	
-	private static Logger log = LoggerFactory.getLogger(SampleApp.class);
+	private static Logger log = LoggerFactory.getLogger(Startup.class);
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(SampleApp.class, args); 
+		ApplicationContext ctx = SpringApplication.run(Startup.class, args); 
 
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);

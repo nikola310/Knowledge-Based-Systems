@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2018 12:49:22 PM by Hibernate Tools 4.3.5.Final -->
+<hibernate-mapping>
+    <class name="com.sbnz.model.User" table="user" catalog="sbnz" optimistic-lock="version">
+        <id name="userId" type="long">
+            <column name="USER_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="userName" type="string">
+            <column name="USER_NAME" length="100" not-null="true" />
+        </property>
+        <property name="userSurname" type="string">
+            <column name="USER_SURNAME" length="200" not-null="true" />
+        </property>
+        <property name="userUsername" type="string">
+            <column name="USER_USERNAME" length="150" not-null="true" />
+        </property>
+        <property name="userType" type="char">
+            <column name="USER_TYPE" length="1" not-null="true" />
+        </property>
+        <set name="patients" table="patient" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USER_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.sbnz.model.Patient" />
+        </set>
+    </class>
+</hibernate-mapping>

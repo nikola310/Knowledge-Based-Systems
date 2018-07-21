@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2018 12:49:22 PM by Hibernate Tools 4.3.5.Final -->
+<hibernate-mapping>
+    <class name="com.sbnz.model.Diagnosis" table="diagnosis" catalog="sbnz" optimistic-lock="version">
+        <id name="diagnosisId" type="long">
+            <column name="DIAGNOSIS_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="diagnosisDate" type="date">
+            <column name="DIAGNOSIS_DATE" length="10" not-null="true" />
+        </property>
+        <set name="diseases" table="disease" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="DIAGNOSIS_ID" />
+            </key>
+            <one-to-many class="com.sbnz.model.Disease" />
+        </set>
+    </class>
+</hibernate-mapping>

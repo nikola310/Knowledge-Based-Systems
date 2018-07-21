@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2018 12:49:22 PM by Hibernate Tools 4.3.5.Final -->
+<hibernate-mapping>
+    <class name="com.sbnz.model.Patient" table="patient" catalog="sbnz" optimistic-lock="version">
+        <id name="patientId" type="long">
+            <column name="PATIENT_ID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="user" class="com.sbnz.model.User" fetch="select">
+            <column name="USER_ID" not-null="true" />
+        </many-to-one>
+        <property name="patientName" type="string">
+            <column name="PATIENT_NAME" length="100" not-null="true" />
+        </property>
+        <property name="patientSurname" type="string">
+            <column name="PATIENT_SURNAME" length="250" not-null="true" />
+        </property>
+        <property name="patientBloodPressure" type="int">
+            <column name="PATIENT_BLOOD_PRESSURE" not-null="true" />
+        </property>
+        <property name="patientTemperature" type="java.lang.Float">
+            <column name="PATIENT_TEMPERATURE" precision="12" scale="0" />
+        </property>
+        <set name="ingredients" table="allergic_to" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="PATIENT_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sbnz.model.Ingredient">
+                <column name="INGREDIENT_ID" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
