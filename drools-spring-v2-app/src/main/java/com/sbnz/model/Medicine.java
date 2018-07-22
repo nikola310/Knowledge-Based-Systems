@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -52,6 +53,7 @@ public class Medicine implements java.io.Serializable {
 
 	@Id
 	@GenericGenerator(name = "generator", strategy = "increment")
+	@GeneratedValue(generator="generator")
 	@Column(name = "MEDICINE_ID", unique = true, nullable = false)
 	public long getMedicineId() {
 		return this.medicineId;

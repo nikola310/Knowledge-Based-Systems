@@ -3,12 +3,12 @@
  */
 package com.sbnz.interfaces.services;
 
-import com.sbnz.model.User;
+import com.sbnz.dto.UserDTO;
 
 /**
  * @author Nikola
  *
  */
-public interface UserServiceInterface extends ServiceInterface<User> {
+public interface UserServiceInterface extends ServiceInterface<UserDTO> {
 
 }

@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,8 +47,8 @@ public class Diagnosis implements java.io.Serializable {
 	}
 
 	@Id
-	@GenericGenerator(name = "generator", strategy = "increment")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GenericGenerator(name="generator" , strategy="increment")
+	@GeneratedValue(generator="generator")
 	@Column(name = "DIAGNOSIS_ID", unique = true, nullable = false)
 	public long getDiagnosisId() {
 		return this.diagnosisId;

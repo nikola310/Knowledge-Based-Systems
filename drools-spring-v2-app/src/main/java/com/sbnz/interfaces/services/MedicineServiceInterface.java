@@ -3,12 +3,12 @@
  */
 package com.sbnz.interfaces.services;
 
-import com.sbnz.model.Medicine;
+import com.sbnz.dto.MedicineDTO;
 
 /**
  * @author Nikola
  *
  */
-public interface MedicineServiceInterface extends ServiceInterface<Medicine> {
+public interface MedicineServiceInterface extends ServiceInterface<MedicineDTO> {
 
 }

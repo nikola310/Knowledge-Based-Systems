@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.controller;
 
 import java.util.List;

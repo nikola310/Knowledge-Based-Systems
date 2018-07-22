@@ -3,12 +3,12 @@
  */
 package com.sbnz.interfaces.services;
 
-import com.sbnz.model.Symptom;
+import com.sbnz.dto.SymptomDTO;
 
 /**
  * @author Nikola
  *
  */
-public interface SymptomServiceInterface extends ServiceInterface<Symptom> {
+public interface SymptomServiceInterface extends ServiceInterface<SymptomDTO> {
 
 }
