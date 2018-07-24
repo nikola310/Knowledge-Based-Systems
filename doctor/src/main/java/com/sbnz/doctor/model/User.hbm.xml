@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Jul 24, 2018 3:48:05 PM by Hibernate Tools 5.0.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sbnz" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.sbnz.doctor.model.User" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="user">
+        <id name="userId" type="java.lang.Long">
+            <column name="USER_ID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="userName" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="USER_NAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="userSurname" optimistic-lock="true" type="string" unique="false">
+            <column length="200" name="USER_SURNAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="userUsername" optimistic-lock="true" type="string" unique="false">
+            <column length="150" name="USER_USERNAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="userType" optimistic-lock="true" type="char" unique="false">
+            <column length="1" name="USER_TYPE" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="userPassword" optimistic-lock="true" type="string" unique="false">
+            <column length="250" name="USER_PASSWORD" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="patients" optimistic-lock="true" sort="unsorted" table="patient">
+            <key on-delete="noaction">
+                <column name="USER_ID" not-null="true"/>
+            </key>
+            <one-to-many class="com.sbnz.doctor.model.Patient" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

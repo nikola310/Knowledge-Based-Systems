@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Jul 24, 2018 3:48:05 PM by Hibernate Tools 5.0.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sbnz" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.sbnz.doctor.model.Disease" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="disease">
+        <id name="diseaseId" type="java.lang.Long">
+            <column name="DISEASE_ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.sbnz.doctor.model.Diagnosis" embed-xml="true" fetch="select" insert="true" name="diagnosis" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="DIAGNOSIS_ID"/>
+        </many-to-one>
+        <many-to-one class="com.sbnz.doctor.model.Medicine" embed-xml="true" fetch="select" insert="true" name="medicine" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="MEDICINE_ID"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="diseaseName" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="DISEASE_NAME" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="symptoms" optimistic-lock="true" sort="unsorted" table="has">
+            <key on-delete="noaction">
+                <column name="DISEASE_ID" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.sbnz.doctor.model.Symptom" not-found="exception" unique="false">
+                <column name="SYM_ID" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

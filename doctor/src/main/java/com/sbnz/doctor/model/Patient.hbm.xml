@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Jul 24, 2018 3:48:05 PM by Hibernate Tools 5.0.6.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="sbnz" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.sbnz.doctor.model.Patient" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="patient">
+        <id name="patientId" type="java.lang.Long">
+            <column name="PATIENT_ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.sbnz.doctor.model.User" embed-xml="true" fetch="select" insert="true" name="user" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="USER_ID" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="patientName" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="PATIENT_NAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="patientSurname" optimistic-lock="true" type="string" unique="false">
+            <column length="250" name="PATIENT_SURNAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="patientBloodPressure" optimistic-lock="true" type="int" unique="false">
+            <column name="PATIENT_BLOOD_PRESSURE" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="patientTemperature" optimistic-lock="true" type="java.lang.Float" unique="false">
+            <column name="PATIENT_TEMPERATURE" precision="12" scale="0"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="ingredients" optimistic-lock="true" sort="unsorted" table="allergic_to">
+            <key on-delete="noaction">
+                <column name="PATIENT_ID" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.sbnz.doctor.model.Ingredient" not-found="exception" unique="false">
+                <column name="INGREDIENT_ID" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

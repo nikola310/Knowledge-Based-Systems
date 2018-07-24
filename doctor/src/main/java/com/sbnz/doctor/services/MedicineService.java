@@ -1,0 +1,95 @@
+package com.sbnz.doctor.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sbnz.doctor.dto.MedicineDTO;
+import com.sbnz.doctor.interfaces.converters.MedicineConverterInterface;
+import com.sbnz.doctor.interfaces.services.MedicineServiceInterface;
+import com.sbnz.doctor.model.Medicine;
+import com.sbnz.doctor.repository.MedicineRepository;
+
+/**
+ * 
+ * @author Nikola
+ *
+ */
+@Service
+@Transactional
+public class MedicineService implements MedicineServiceInterface {
+
+	@Autowired
+	private MedicineRepository repository;
+
+	@Autowired
+	private MedicineConverterInterface converter;
+
+	@Override
+	public MedicineDTO Create(MedicineDTO dto) {
+		try {
+
+			Medicine entity = converter.DtoToEntity(dto);
+			System.out.println(entity.getMedicineId());
+			repository.save(entity);
+			return dto;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public MedicineDTO Read(long id) {
+		try {
+			return converter.entityToDto(repository.getOne(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<MedicineDTO> ReadAll() {
+		ArrayList<MedicineDTO> list = new ArrayList<MedicineDTO>();
+
+		try {
+			for (Medicine entity : repository.findAll()) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
+	}
+
+	@Override
+	public MedicineDTO Update(MedicineDTO dto) {
+		try {
+			repository.save(converter.DtoToEntity(dto));
+			return dto;
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public MedicineDTO Delete(long id) {
+		Medicine entity = repository.getOne(id);
+		if (entity == null) {
+			throw new IllegalArgumentException("Tried to delete non-existing entity");
+		}
+
+		repository.delete(entity);
+
+		return converter.entityToDto(entity);
+	}
+
+}
