@@ -588,7 +588,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>58FAE17C-935E-45BD-90D1-05DC1F4A1344</a:CustomPictureID>
+<a:CustomPictureID>03432697-6AC2-4F05-9A6B-5A378510DC55</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -610,7 +610,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:CustomPictureType>4</a:CustomPictureType>
 <a:CustomTextMode>1</a:CustomTextMode>
-<a:CustomPictureID>118C2925-8A75-4BE4-AFA3-7311404A5F6E</a:CustomPictureID>
+<a:CustomPictureID>333D00A8-5F90-45A7-86DD-2B13C93A64AF</a:CustomPictureID>
 <a:GradientEndColor>16777215</a:GradientEndColor>
 <a:KeepAspect>1</a:KeepAspect>
 <c:Object>
@@ -646,7 +646,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>MODEL</a:Code>
 <a:CreationDate>1531938036</a:CreationDate>
 <a:Creator>Nikola</a:Creator>
-<a:ModificationDate>1532078573</a:ModificationDate>
+<a:ModificationDate>1532364648</a:ModificationDate>
 <a:Modifier>Nikola</a:Modifier>
 <a:Location>file:///%[PRJ_ROOT_DIR]%/Model.cdm</a:Location>
 <a:Extension>cdm</a:Extension>

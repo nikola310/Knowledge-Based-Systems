@@ -28,10 +28,11 @@ body {
 </style>
 
 
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/url-utils.js"></script>
+<script type="text/javascript" src="js/edit-user.js"></script>
 </head>
 
-<body>
+<body onload="loadUser();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -60,22 +61,46 @@ body {
 	<!-- Page Content -->
 	<div class="container">
 		<div class="container-page">
-			<form action="" onsubmit="return login();">
+			<form onsubmit="return editUser();" action="">
 				<div class="col-md-6">
-					<h3 class="dark-grey">Login</h3>
+					<h3 class="dark-grey">Edit user</h3>
 
 					<div class="form-group col-lg-6">
 						<label>Username:</label> <input type="text" class="form-control"
-							id="username">
+							id="username" maxlength="150">
 					</div>
+
 					<div class="form-group col-lg-6">
-						<label>Password:</label> <input type="password"
+						<label>Name:</label> <input type="text" class="form-control"
+							id="name" maxlength="100">
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Surname:</label> <input type="text" class="form-control"
+							id="surname" maxlength="200">
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Change existing password:</label> <input type="password"
 							class="form-control" id="password">
 					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Type</label>
+						<div class="radio">
+							<label><input type="radio" name="optradio" id="doctor"
+								value="doctor" checked>Doctor</label>
+						</div>
+						<div class="radio">
+							<label><input type="radio" name="optradio" id="admin"
+								value="admin">Administrator</label>
+						</div>
+					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit">Login</button>
+				<button type="submit" class="btn btn-primary" id="submit">Create</button>
 			</form>
 		</div>
+		
 	</div>
 
 	<!-- Bootstrap core JavaScript -->

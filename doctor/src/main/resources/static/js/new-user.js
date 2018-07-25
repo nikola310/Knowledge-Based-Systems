@@ -2,21 +2,28 @@
  * @author Nikola
  */
 
-function login() {
-	var log = JSON.stringify({
-		"username" : $("#username").val(),
-		"password" : $("#password").val()
+function createUser() {
+	var type = "D";
+	if ($("#admin")[0].checked) {
+		type = "A";
+	}
+
+	var newUser = JSON.stringify({
+		"userName" : $("#username").val(),
+		"userSurname" : $("#name").val(),
+		"userUsername" : $("#surname").val(),
+		"userType" : type,
+		"userPassword" : $("#password").val()
 	});
 
 	$.ajax({
 		type : 'post',
-		url : 'login',
-		data : log,
+		url : 'user',
+		data : newUser,
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
 			console.log("Success!");
-			window.location.replace("index.html");
 		},
 		fail : function(data) {
 			console.log(data);

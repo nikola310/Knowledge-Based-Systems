@@ -2,6 +2,8 @@ package com.sbnz.doctor.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +55,20 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<UserDTO> add(@Validated @RequestBody UserDTO body, Errors errors) {
+	public ResponseEntity<UserDTO> add(@Validated @RequestBody UserDTO body, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<UserDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<UserDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<UserDTO>(body, HttpStatus.NOT_ACCEPTABLE);
 		}
 
 		UserDTO dto = service.Create(body);
@@ -68,9 +81,16 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<UserDTO> edit(@Validated @RequestBody UserDTO dto, Errors errors) {
+	public ResponseEntity<UserDTO> edit(@Validated @RequestBody UserDTO dto, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<UserDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
 		}
 
 		if (service.Update(dto) == null) {
@@ -81,13 +101,23 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<UserDTO> delete(@PathVariable int id) {
+	public ResponseEntity<UserDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
 		UserDTO dto = service.Delete(id);
 		if (dto == null) {
 			new ResponseEntity<UserDTO>(dto, HttpStatus.NOT_FOUND);
 		}
 
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<UserDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
 		return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);
 	}
-	
+
 }
