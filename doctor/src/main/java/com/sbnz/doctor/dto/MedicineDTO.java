@@ -14,7 +14,7 @@ public class MedicineDTO {
 
 	private long medicineId;
 	@NotNull
-	@Size(min = 5, max = 150)
+	@Size(max = 150)
 	private String medicineName;
 	@NotNull
 	private char medicineType;

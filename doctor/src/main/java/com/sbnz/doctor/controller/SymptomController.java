@@ -2,6 +2,8 @@ package com.sbnz.doctor.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.SymptomDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.SymptomServiceInterface;
 
 /**
@@ -54,9 +57,20 @@ public class SymptomController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<SymptomDTO> add(@Validated @RequestBody SymptomDTO body, Errors errors) {
+	public ResponseEntity<SymptomDTO> add(@Validated @RequestBody SymptomDTO body, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<SymptomDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymptomDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymptomDTO>(body, HttpStatus.FORBIDDEN);
 		}
 
 		SymptomDTO dto = service.Create(body);
@@ -69,9 +83,20 @@ public class SymptomController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<SymptomDTO> edit(@Validated @RequestBody SymptomDTO dto, Errors errors) {
+	public ResponseEntity<SymptomDTO> edit(@Validated @RequestBody SymptomDTO dto, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<SymptomDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymptomDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymptomDTO>(dto, HttpStatus.FORBIDDEN);
 		}
 
 		if (service.Update(dto) == null) {
@@ -82,7 +107,18 @@ public class SymptomController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<SymptomDTO> delete(@PathVariable int id) {
+	public ResponseEntity<SymptomDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymptomDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymptomDTO>(HttpStatus.FORBIDDEN);
+		}
+
 		SymptomDTO dto = service.Delete(id);
 		if (dto == null) {
 			new ResponseEntity<SymptomDTO>(dto, HttpStatus.NOT_FOUND);

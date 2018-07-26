@@ -10,6 +10,6 @@ import com.sbnz.doctor.model.User;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	public User getUserByUserName(String username);
+	public User getUserByUserUsername(String username);
 
 }

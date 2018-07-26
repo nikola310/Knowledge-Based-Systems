@@ -93,7 +93,7 @@ public class UserService implements UserServiceInterface {
 
 	@Override
 	public UserDTO getUserByUsername(String username) {
-		User entity = repository.getUserByUserName(username);
+		User entity = repository.getUserByUserUsername(username);
 		if (entity == null) {
 			throw new IllegalArgumentException("User does not exists: " + username);
 		}

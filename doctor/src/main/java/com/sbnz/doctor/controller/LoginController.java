@@ -40,8 +40,6 @@ public class LoginController {
 			System.out.println("service null");
 		}
 
-		System.out.println(body.getUsername());
-
 		UserDTO dto = service.getUserByUsername(body.getUsername());
 
 		if (dto == null) {

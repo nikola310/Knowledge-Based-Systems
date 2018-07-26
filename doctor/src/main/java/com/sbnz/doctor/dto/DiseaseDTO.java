@@ -14,11 +14,9 @@ public class DiseaseDTO {
 
 	private long diseaseId;
 	@NotNull
-	@Size(max = 200, min = 5)
+	@Size(max = 200)
 	private String diseaseName;
-	@NotNull
 	private long diagnosisId;
-	@NotNull
 	private long medicineId;
 
 	public DiseaseDTO() {
