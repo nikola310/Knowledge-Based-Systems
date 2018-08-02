@@ -1,16 +1,15 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,19 +26,19 @@ public class Diagnosis implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long diagnosisId;
+	private Disease disease;
+	private Patient patient;
+	private User user;
 	private Date diagnosisDate;
-	private Set<Disease> diseases = new HashSet<Disease>(0);
 
 	public Diagnosis() {
 	}
 
-	public Diagnosis(Date diagnosisDate) {
+	public Diagnosis(Disease disease, Patient patient, User user, Date diagnosisDate) {
+		this.disease = disease;
+		this.patient = patient;
+		this.user = user;
 		this.diagnosisDate = diagnosisDate;
-	}
-
-	public Diagnosis(Date diagnosisDate, Set<Disease> diseases) {
-		this.diagnosisDate = diagnosisDate;
-		this.diseases = diseases;
 	}
 
 	@Id
@@ -54,6 +53,36 @@ public class Diagnosis implements java.io.Serializable {
 		this.diagnosisId = diagnosisId;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DISEASE_ID", nullable = false)
+	public Disease getDisease() {
+		return this.disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PATIENT_ID", nullable = false)
+	public Patient getPatient() {
+		return this.patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID", nullable = false)
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DIAGNOSIS_DATE", nullable = false, length = 10)
 	public Date getDiagnosisDate() {
@@ -62,15 +91,6 @@ public class Diagnosis implements java.io.Serializable {
 
 	public void setDiagnosisDate(Date diagnosisDate) {
 		this.diagnosisDate = diagnosisDate;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "diagnosis")
-	public Set<Disease> getDiseases() {
-		return this.diseases;
-	}
-
-	public void setDiseases(Set<Disease> diseases) {
-		this.diseases = diseases;
 	}
 
 }

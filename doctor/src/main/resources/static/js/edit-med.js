@@ -31,7 +31,6 @@ function editMed() {
 		"medicineName" : $("#name").val(),
 		"medicineType" : type
 	});
-	console.log(edit);
 
 	$.ajax({
 		type : 'PUT',
@@ -40,7 +39,6 @@ function editMed() {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
-			console.log("Success!");
 			window.alert("Update successful.");
 			window.location.replace("admin.html");
 		},

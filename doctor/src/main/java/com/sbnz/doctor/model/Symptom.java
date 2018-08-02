@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,9 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,7 +25,7 @@ public class Symptom implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long symId;
 	private String symDesc;
-	private Set<Disease> diseases = new HashSet<Disease>(0);
+	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
 
 	public Symptom() {
 	}
@@ -36,9 +34,9 @@ public class Symptom implements java.io.Serializable {
 		this.symDesc = symDesc;
 	}
 
-	public Symptom(String symDesc, Set<Disease> diseases) {
+	public Symptom(String symDesc, Set<Symptomdisease> symptomdiseases) {
 		this.symDesc = symDesc;
-		this.diseases = diseases;
+		this.symptomdiseases = symptomdiseases;
 	}
 
 	@Id
@@ -62,16 +60,13 @@ public class Symptom implements java.io.Serializable {
 		this.symDesc = symDesc;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "has", catalog = "sbnz", joinColumns = {
-			@JoinColumn(name = "SYM_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "DISEASE_ID", nullable = false, updatable = false) })
-	public Set<Disease> getDiseases() {
-		return this.diseases;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "symptom")
+	public Set<Symptomdisease> getSymptomdiseases() {
+		return this.symptomdiseases;
 	}
 
-	public void setDiseases(Set<Disease> diseases) {
-		this.diseases = diseases;
+	public void setSymptomdiseases(Set<Symptomdisease> symptomdiseases) {
+		this.symptomdiseases = symptomdiseases;
 	}
 
 }

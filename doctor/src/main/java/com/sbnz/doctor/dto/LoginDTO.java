@@ -15,6 +15,7 @@ public class LoginDTO {
 	private String username;
 	@NotNull
 	private String password;
+	private char type;
 
 	public String getUsername() {
 		return username;
@@ -30,6 +31,14 @@ public class LoginDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public char getType() {
+		return type;
+	}
+
+	public void setType(char type) {
+		this.type = type;
 	}
 
 }

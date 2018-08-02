@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,8 +25,8 @@ public class Ingredient implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long ingredientId;
 	private String ingredientName;
-	private Set<Medicine> medicines = new HashSet<Medicine>(0);
-	private Set<Patient> patients = new HashSet<Patient>(0);
+	private Set<Ingredientmedicine> ingredientmedicines = new HashSet<Ingredientmedicine>(0);
+	private Set<Allergy> allergies = new HashSet<Allergy>(0);
 
 	public Ingredient() {
 	}
@@ -35,10 +35,10 @@ public class Ingredient implements java.io.Serializable {
 		this.ingredientName = ingredientName;
 	}
 
-	public Ingredient(String ingredientName, Set<Medicine> medicines, Set<Patient> patients) {
+	public Ingredient(String ingredientName, Set<Ingredientmedicine> ingredientmedicines, Set<Allergy> allergies) {
 		this.ingredientName = ingredientName;
-		this.medicines = medicines;
-		this.patients = patients;
+		this.ingredientmedicines = ingredientmedicines;
+		this.allergies = allergies;
 	}
 
 	@Id
@@ -62,22 +62,22 @@ public class Ingredient implements java.io.Serializable {
 		this.ingredientName = ingredientName;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "ingredients")
-	public Set<Medicine> getMedicines() {
-		return this.medicines;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ingredient")
+	public Set<Ingredientmedicine> getIngredientmedicines() {
+		return this.ingredientmedicines;
 	}
 
-	public void setMedicines(Set<Medicine> medicines) {
-		this.medicines = medicines;
+	public void setIngredientmedicines(Set<Ingredientmedicine> ingredientmedicines) {
+		this.ingredientmedicines = ingredientmedicines;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "ingredients")
-	public Set<Patient> getPatients() {
-		return this.patients;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ingredient")
+	public Set<Allergy> getAllergies() {
+		return this.allergies;
 	}
 
-	public void setPatients(Set<Patient> patients) {
-		this.patients = patients;
+	public void setAllergies(Set<Allergy> allergies) {
+		this.allergies = allergies;
 	}
 
 }

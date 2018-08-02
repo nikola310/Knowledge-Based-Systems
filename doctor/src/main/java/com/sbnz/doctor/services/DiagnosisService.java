@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.converters.DiagnosisConverterInterface;
+import com.sbnz.doctor.interfaces.converters.UserConverterInterface;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 import com.sbnz.doctor.model.Diagnosis;
+import com.sbnz.doctor.model.Patient;
 import com.sbnz.doctor.repository.DiagnosisRepository;
 
 /**
@@ -27,12 +31,14 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 	@Autowired
 	private DiagnosisConverterInterface converter;
 
+	@Autowired
+	private UserConverterInterface userConverter;
+
 	@Override
 	public DiagnosisDTO Create(DiagnosisDTO dto) {
 		try {
 
 			Diagnosis entity = converter.DtoToEntity(dto);
-			System.out.println(entity.getDiagnosisId());
 			repository.save(entity);
 			return dto;
 		} catch (Exception e) {
@@ -91,10 +97,31 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
 		}
-		
+
 		repository.delete(entity);
 
 		return converter.entityToDto(entity);
+	}
+
+	@Override
+	public List<MyDiagnosisDTO> getDiagnoses(UserDTO user) {
+		ArrayList<MyDiagnosisDTO> list = new ArrayList<MyDiagnosisDTO>();
+
+		try {
+			for (Diagnosis entity : repository.getDiagnosisByUser(userConverter.DtoToEntity(user))) {
+				MyDiagnosisDTO tmp = new MyDiagnosisDTO();
+				tmp.setDate(entity.getDiagnosisDate());
+				tmp.setDiagnosisId(entity.getDiagnosisId());
+				tmp.setDisease(entity.getDisease().getDiseaseName());
+				Patient p = entity.getPatient();
+				tmp.setPatient(p.getPatientName() + " " + p.getPatientSurname());
+				list.add(tmp);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

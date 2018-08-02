@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,10 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,31 +24,30 @@ public class Patient implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long patientId;
-	private User user;
 	private String patientName;
 	private String patientSurname;
 	private int patientBloodPressure;
 	private Float patientTemperature;
-	private Set<Ingredient> ingredients = new HashSet<Ingredient>(0);
+	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
+	private Set<Allergy> allergies = new HashSet<Allergy>(0);
 
 	public Patient() {
 	}
 
-	public Patient(User user, String patientName, String patientSurname, int patientBloodPressure) {
-		this.user = user;
+	public Patient(String patientName, String patientSurname, int patientBloodPressure) {
 		this.patientName = patientName;
 		this.patientSurname = patientSurname;
 		this.patientBloodPressure = patientBloodPressure;
 	}
 
-	public Patient(User user, String patientName, String patientSurname, int patientBloodPressure,
-			Float patientTemperature, Set<Ingredient> ingredients) {
-		this.user = user;
+	public Patient(String patientName, String patientSurname, int patientBloodPressure, Float patientTemperature,
+			Set<Diagnosis> diagnosises, Set<Allergy> allergies) {
 		this.patientName = patientName;
 		this.patientSurname = patientSurname;
 		this.patientBloodPressure = patientBloodPressure;
 		this.patientTemperature = patientTemperature;
-		this.ingredients = ingredients;
+		this.diagnosises = diagnosises;
+		this.allergies = allergies;
 	}
 
 	@Id
@@ -64,16 +60,6 @@ public class Patient implements java.io.Serializable {
 
 	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID", nullable = false)
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	@Column(name = "PATIENT_NAME", nullable = false, length = 100)
@@ -112,16 +98,22 @@ public class Patient implements java.io.Serializable {
 		this.patientTemperature = patientTemperature;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "allergic_to", catalog = "sbnz", joinColumns = {
-			@JoinColumn(name = "PATIENT_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "INGREDIENT_ID", nullable = false, updatable = false) })
-	public Set<Ingredient> getIngredients() {
-		return this.ingredients;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+	public Set<Diagnosis> getDiagnosises() {
+		return this.diagnosises;
 	}
 
-	public void setIngredients(Set<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+	public void setDiagnosises(Set<Diagnosis> diagnosises) {
+		this.diagnosises = diagnosises;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+	public Set<Allergy> getAllergies() {
+		return this.allergies;
+	}
+
+	public void setAllergies(Set<Allergy> allergies) {
+		this.allergies = allergies;
 	}
 
 }

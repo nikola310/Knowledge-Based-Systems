@@ -28,6 +28,7 @@ function editSym() {
 		success : function(data) {
 			console.log("Success!");
 			window.alert("Update successful.");
+			window.location.replace("admin.html");
 		},
 		fail : function(data) {
 			console.log(data);

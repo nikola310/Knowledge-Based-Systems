@@ -30,6 +30,7 @@ body {
 
 <script type="text/javascript" src="js/url-utils.js"></script>
 <script type="text/javascript" src="js/edit-symptom.js"></script>
+<script type="text/javascript" src="js/logout.js"></script>
 </head>
 
 <body onload="loadSym();">
@@ -51,8 +52,8 @@ body {
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="logout();">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -63,7 +64,7 @@ body {
 		<div class="container-page">
 			<form onsubmit="return editSym();" action="">
 				<div class="col-md-6">
-					<h3 class="dark-grey">Edit medicine</h3>
+					<h3 class="dark-grey">Edit symptom</h3>
 
 					<div class="form-group col-lg-6">
 						<label>Description:</label> <input type="text"

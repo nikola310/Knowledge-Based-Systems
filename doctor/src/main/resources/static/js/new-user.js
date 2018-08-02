@@ -9,9 +9,9 @@ function createUser() {
 	}
 
 	var newUser = JSON.stringify({
-		"userName" : $("#username").val(),
-		"userSurname" : $("#name").val(),
-		"userUsername" : $("#surname").val(),
+		"userName" : $("#name").val(),
+		"userSurname" : $("#surname").val(),
+		"userUsername" : $("#username").val(),
 		"userType" : type,
 		"userPassword" : $("#password").val()
 	});
@@ -24,14 +24,15 @@ function createUser() {
 		dataType : "json",
 		success : function(data) {
 			console.log("Success!");
+			window.location.replace("admin.html");
 		},
 		fail : function(data) {
 			console.log(data);
-			window.alert("Bad credentials!");
+			window.alert("Fail!");
 		},
 		error : function(data) {
 			console.log(data);
-			window.alert("Bad credentials!");
+			window.alert("Error!");
 		}
 	});
 

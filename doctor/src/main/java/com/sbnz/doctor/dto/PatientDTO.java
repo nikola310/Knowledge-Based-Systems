@@ -16,10 +16,10 @@ public class PatientDTO {
 	@NotNull
 	private long userId;
 	@NotNull
-	@Size(min = 5, max = 100)
+	@Size(max = 100)
 	private String patientName;
 	@NotNull
-	@Size(min = 5, max = 100)
+	@Size(max = 250)
 	private String patientSurname;
 	@NotNull
 	private int patientBloodPressure;

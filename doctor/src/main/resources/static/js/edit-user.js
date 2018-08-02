@@ -25,9 +25,9 @@ function editUser() {
 
 	var edit = JSON.stringify({
 		"userId" : id,
-		"userName" : $("#username").val(),
-		"userSurname" : $("#name").val(),
-		"userUsername" : $("#surname").val(),
+		"userName" : $("#name").val(),
+		"userSurname" : $("#surname").val(),
+		"userUsername" : $("#username").val(),
 		"userType" : type,
 		"userPassword" : $("#password").val()
 	});
@@ -42,10 +42,11 @@ function editUser() {
 		success : function(data) {
 			console.log("Success!");
 			window.alert("Update successful.");
+			window.location.replace("admin.html");
 		},
 		fail : function(data) {
 			console.log(data);
-			window.alert("Bad credentials!");
+			window.alert("Fail!");
 		},
 		error : function(data) {
 			console.log(data);

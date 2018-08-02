@@ -23,13 +23,12 @@ import com.sbnz.doctor.interfaces.services.UserServiceInterface;
  *
  */
 @RestController
-@RequestMapping("/login")
 public class LoginController {
 
 	@Autowired
 	private UserServiceInterface service;
 
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<LoginDTO> login(@Validated @RequestBody LoginDTO body, @Context HttpServletRequest request,
 			Errors errors) {
 		if (errors.hasErrors()) {
@@ -52,11 +51,13 @@ public class LoginController {
 
 		request.getSession().setAttribute("user", dto);
 
+		body.setType(dto.getUserType());
+
 		return new ResponseEntity<LoginDTO>(body, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<UserDTO> logout(@Context HttpServletRequest request, Errors errors) {
+	@RequestMapping(value = "/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<UserDTO> logout(@Context HttpServletRequest request) {
 
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 
@@ -64,7 +65,8 @@ public class LoginController {
 			return new ResponseEntity<UserDTO>(user, HttpStatus.BAD_REQUEST);
 		}
 
-		request.getSession().removeAttribute("user");
+//		request.getSession().removeAttribute("user");
+		request.getSession().invalidate();
 
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}

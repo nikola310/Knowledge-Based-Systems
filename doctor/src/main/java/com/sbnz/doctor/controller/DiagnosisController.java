@@ -2,6 +2,8 @@ package com.sbnz.doctor.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 
 /**
@@ -53,7 +57,8 @@ public class DiagnosisController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<DiagnosisDTO> add(@Validated @RequestBody DiagnosisDTO body, Errors errors) {
+	public ResponseEntity<DiagnosisDTO> add(@Validated @RequestBody DiagnosisDTO body, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.BAD_REQUEST);
 		}
@@ -68,7 +73,8 @@ public class DiagnosisController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<DiagnosisDTO> edit(@Validated @RequestBody DiagnosisDTO dto, Errors errors) {
+	public ResponseEntity<DiagnosisDTO> edit(@Validated @RequestBody DiagnosisDTO dto, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
@@ -81,12 +87,27 @@ public class DiagnosisController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<DiagnosisDTO> delete(@PathVariable int id) {
+	public ResponseEntity<DiagnosisDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
 		DiagnosisDTO dto = service.Delete(id);
 		if (dto == null) {
 			new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/mine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<MyDiagnosisDTO>> getMine(@Context HttpServletRequest request) {
+		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
+		if (dto == null) {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (dto.getUserType() != 'D') {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
+		}
+
+		List<MyDiagnosisDTO> lista = service.getDiagnoses(dto);
+		return new ResponseEntity<List<MyDiagnosisDTO>>(lista, HttpStatus.OK);
 	}
 }

@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,10 +26,10 @@ public class Disease implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long diseaseId;
-	private Diagnosis diagnosis;
 	private Medicine medicine;
 	private String diseaseName;
-	private Set<Symptom> symptoms = new HashSet<Symptom>(0);
+	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
+	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 
 	public Disease() {
 	}
@@ -38,11 +38,12 @@ public class Disease implements java.io.Serializable {
 		this.diseaseName = diseaseName;
 	}
 
-	public Disease(Diagnosis diagnosis, Medicine medicine, String diseaseName, Set<Symptom> symptoms) {
-		this.diagnosis = diagnosis;
+	public Disease(Medicine medicine, String diseaseName, Set<Symptomdisease> symptomdiseases,
+			Set<Diagnosis> diagnosises) {
 		this.medicine = medicine;
 		this.diseaseName = diseaseName;
-		this.symptoms = symptoms;
+		this.symptomdiseases = symptomdiseases;
+		this.diagnosises = diagnosises;
 	}
 
 	@Id
@@ -55,16 +56,6 @@ public class Disease implements java.io.Serializable {
 
 	public void setDiseaseId(Long diseaseId) {
 		this.diseaseId = diseaseId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DIAGNOSIS_ID")
-	public Diagnosis getDiagnosis() {
-		return this.diagnosis;
-	}
-
-	public void setDiagnosis(Diagnosis diagnosis) {
-		this.diagnosis = diagnosis;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -86,13 +77,22 @@ public class Disease implements java.io.Serializable {
 		this.diseaseName = diseaseName;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "diseases")
-	public Set<Symptom> getSymptoms() {
-		return this.symptoms;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
+	public Set<Symptomdisease> getSymptomdiseases() {
+		return this.symptomdiseases;
 	}
 
-	public void setSymptoms(Set<Symptom> symptoms) {
-		this.symptoms = symptoms;
+	public void setSymptomdiseases(Set<Symptomdisease> symptomdiseases) {
+		this.symptomdiseases = symptomdiseases;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
+	public Set<Diagnosis> getDiagnosises() {
+		return this.diagnosises;
+	}
+
+	public void setDiagnosises(Set<Diagnosis> diagnosises) {
+		this.diagnosises = diagnosises;
 	}
 
 }

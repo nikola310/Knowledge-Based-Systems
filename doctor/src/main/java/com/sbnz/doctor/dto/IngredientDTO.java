@@ -14,7 +14,7 @@ public class IngredientDTO {
 
 	private long ingredientId;
 	@NotNull
-	@Size(min = 5, max = 250)
+	@Size(max = 250)
 	private String ingredientName;
 
 	public IngredientDTO() {

@@ -4,7 +4,6 @@
 
 function loadUsers() {
 	$.get("user", function(data) {
-		console.log(data);
 		jQuery.each(data, function(i, val) {
 
 			var td1 = $('<td>', {
@@ -67,11 +66,9 @@ function deleteUser(e) {
 			$(e).closest('tr').remove();
 		},
 		fail : function(data) {
-			console.log(data);
 			window.alert("Fail!");
 		},
 		error : function(data) {
-			console.log(data);
 			window.alert("Error!");
 		}
 	})
@@ -79,7 +76,6 @@ function deleteUser(e) {
 
 function loadMeds() {
 	$.get("medicine", function(data) {
-		console.log(data);
 		jQuery.each(data, function(i, val) {
 
 			var td1 = $('<td>', {
@@ -90,9 +86,9 @@ function loadMeds() {
 				html : "Antibiotic"
 			});
 			if (val.medicineType == "P") {
-				td4[0].innerHTML = "Painkiller";
+				td2[0].innerHTML = "Painkiller";
 			} else if (val.medicineType == "O") {
-				td4[0].innerHTML = "Other";
+				td2[0].innerHTML = "Other";
 			}
 
 			var a = $('<a>', {
@@ -104,18 +100,27 @@ function loadMeds() {
 				html : a[0].outerHTML
 			});
 
+			var a2 = $('<a>', {
+				href : "ingr-med.html?id=" + val.medicineId,
+				html : "Add ingredients"
+			});
+
+			var td4 = $('<td>', {
+				html : a2[0].outerHTML
+			});
+
 			var del = $('<button>', {
 				id : val.medicineId,
 				html : "Delete",
 				onclick : "deleteMed(this);"
 			});
-			var td4 = $('<td>', {
+			var td5 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
 			var tr = $('<tr>', {
 				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
-						+ td4[0].outerHTML
+						+ td4[0].outerHTML + td5[0].outerHTML
 			});
 
 			$("#meds-table tbody").append(tr);
@@ -135,11 +140,9 @@ function deleteMed(e) {
 			$(e).closest('tr').remove();
 		},
 		fail : function(data) {
-			console.log(data);
 			window.alert("Fail!");
 		},
 		error : function(data) {
-			console.log(data);
 			window.alert("Error!");
 		}
 	});
@@ -147,7 +150,6 @@ function deleteMed(e) {
 
 function loadSymptoms() {
 	$.get("symptom", function(data) {
-		console.log(data);
 		jQuery.each(data, function(i, val) {
 
 			var td1 = $('<td>', {
@@ -193,11 +195,9 @@ function deleteSym(e) {
 			$(e).closest('tr').remove();
 		},
 		fail : function(data) {
-			console.log(data);
 			window.alert("Fail!");
 		},
 		error : function(data) {
-			console.log(data);
 			window.alert("Error!");
 		}
 	});
@@ -205,7 +205,6 @@ function deleteSym(e) {
 
 function loadDiseases() {
 	$.get("disease", function(data) {
-		console.log(data);
 		jQuery.each(data, function(i, val) {
 
 			var td1 = $('<td>', {
@@ -221,17 +220,27 @@ function loadDiseases() {
 				html : a[0].outerHTML
 			});
 
+			var a2 = $('<a>', {
+				href : "sym-dis.html?id=" + val.diseaseId,
+				html : "Add symptoms"
+			});
+
+			var td3 = $('<td>', {
+				html : a2[0].outerHTML
+			});
+
 			var del = $('<button>', {
 				id : val.diseaseId,
 				html : "Delete",
 				onclick : "deleteDisease(this);"
 			});
-			var td3 = $('<td>', {
+			var td4 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
 			var tr = $('<tr>', {
 				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
+						+ td4[0].outerHTML
 			});
 
 			$("#disease-table tbody").append(tr);
@@ -251,11 +260,63 @@ function deleteDisease(e) {
 			$(e).closest('tr').remove();
 		},
 		fail : function(data) {
-			console.log(data);
 			window.alert("Fail!");
 		},
 		error : function(data) {
-			console.log(data);
+			window.alert("Error!");
+		}
+	});
+}
+
+function loadIngredients() {
+	$.get("ingredient", function(data) {
+		jQuery.each(data, function(i, val) {
+
+			var td1 = $('<td>', {
+				html : val.ingredientName
+			});
+
+			var a = $('<a>', {
+				href : "edit-ingredient.html?id=" + val.ingredientId,
+				html : "Edit"
+			});
+
+			var td2 = $('<td>', {
+				html : a[0].outerHTML
+			});
+
+			var del = $('<button>', {
+				id : val.diseaseId,
+				html : "Delete",
+				onclick : "deleteIngredient(this);"
+			});
+			var td3 = $('<td>', {
+				html : del[0].outerHTML
+			});
+
+			var tr = $('<tr>', {
+				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
+			});
+
+			$("#disease-table tbody").append(tr);
+		});
+	});
+}
+
+function deleteIngredient(e) {
+	$.ajax({
+		type : 'DELETE',
+		url : 'ingredient/' + e.id,
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function(data) {
+			window.alert("Disease deleted successfully.");
+			$(e).closest('tr').remove();
+		},
+		fail : function(data) {
+			window.alert("Fail!");
+		},
+		error : function(data) {
 			window.alert("Error!");
 		}
 	});

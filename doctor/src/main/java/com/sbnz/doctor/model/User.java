@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Jul 24, 2018 3:48:04 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,7 +29,7 @@ public class User implements java.io.Serializable {
 	private String userUsername;
 	private char userType;
 	private String userPassword;
-	private Set<Patient> patients = new HashSet<Patient>(0);
+	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 
 	public User() {
 	}
@@ -43,13 +43,13 @@ public class User implements java.io.Serializable {
 	}
 
 	public User(String userName, String userSurname, String userUsername, char userType, String userPassword,
-			Set<Patient> patients) {
+			Set<Diagnosis> diagnosises) {
 		this.userName = userName;
 		this.userSurname = userSurname;
 		this.userUsername = userUsername;
 		this.userType = userType;
 		this.userPassword = userPassword;
-		this.patients = patients;
+		this.diagnosises = diagnosises;
 	}
 
 	@Id
@@ -110,12 +110,12 @@ public class User implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Patient> getPatients() {
-		return this.patients;
+	public Set<Diagnosis> getDiagnosises() {
+		return this.diagnosises;
 	}
 
-	public void setPatients(Set<Patient> patients) {
-		this.patients = patients;
+	public void setDiagnosises(Set<Diagnosis> diagnosises) {
+		this.diagnosises = diagnosises;
 	}
 
 }

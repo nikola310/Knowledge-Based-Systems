@@ -2,14 +2,17 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-  <table-filter match-catalog="sbnz" match-name="allergic_to"/>
-  <table-filter match-catalog="sbnz" match-name="contains"/>
-  <table-filter match-catalog="sbnz" match-name="diagnosis"/>
-  <table-filter match-catalog="sbnz" match-name="disease"/>
-  <table-filter match-catalog="sbnz" match-name="has"/>
-  <table-filter match-catalog="sbnz" match-name="ingredient"/>
-  <table-filter match-catalog="sbnz" match-name="medicine"/>
-  <table-filter match-catalog="sbnz" match-name="patient"/>
-  <table-filter match-catalog="sbnz" match-name="symptom"/>
-  <table-filter match-catalog="sbnz" match-name="user"/>
+	<table-filter match-schema="sbnz" match-name=".*" />
+	<table-filter match-catalog="sbnz" match-name="allergy" />
+	<table-filter match-catalog="sbnz" match-name="diagnosis" />
+	<table-filter match-catalog="sbnz" match-name="disease" />
+	<table-filter match-catalog="sbnz" match-name="ingredient" />
+	<table-filter match-catalog="sbnz"
+		match-name="ingredientmedicine" />
+	<table-filter match-catalog="sbnz" match-name="medicine" />
+	<table-filter match-catalog="sbnz" match-name="patient" />
+	<table-filter match-catalog="sbnz" match-name="symptom" />
+	<table-filter match-catalog="sbnz"
+		match-name="symptomdisease" />
+	<table-filter match-catalog="sbnz" match-name="user" />
 </hibernate-reverse-engineering>

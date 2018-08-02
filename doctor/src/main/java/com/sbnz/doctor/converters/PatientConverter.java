@@ -1,14 +1,12 @@
 package com.sbnz.doctor.converters;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.interfaces.converters.PatientConverterInterface;
 import com.sbnz.doctor.model.Patient;
-import com.sbnz.doctor.repository.UserRepository;
 
 @Component
 @Transactional
@@ -16,8 +14,8 @@ public class PatientConverter implements PatientConverterInterface {
 
 	private ModelMapper mapper = new ModelMapper();
 
-	@Autowired
-	private UserRepository userRepo;
+//	@Autowired
+//	private UserRepository userRepo;
 
 	@Override
 	public PatientDTO entityToDto(Patient entity) {
@@ -25,7 +23,7 @@ public class PatientConverter implements PatientConverterInterface {
 
 		try {
 			dto = mapper.map(entity, PatientDTO.class);
-			dto.setUserId(entity.getUser().getUserId());
+			// dto.setUserId(entity.getgetUser().getUserId());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
@@ -39,7 +37,7 @@ public class PatientConverter implements PatientConverterInterface {
 
 		try {
 			entity = mapper.map(dto, Patient.class);
-			entity.setUser(userRepo.getOne(dto.getUserId()));
+//			entity.setUser(userRepo.getOne(dto.getUserId()));
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
