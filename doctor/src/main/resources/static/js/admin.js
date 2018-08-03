@@ -71,7 +71,7 @@ function deleteUser(e) {
 		error : function(data) {
 			window.alert("Error!");
 		}
-	})
+	});
 }
 
 function loadMeds() {
@@ -109,18 +109,28 @@ function loadMeds() {
 				html : a2[0].outerHTML
 			});
 
+			var a3 = $('<a>', {
+				href : "remove-ingr.html?id=" + val.medicineId,
+				html : "Remove ingredients"
+			});
+
+			var td5 = $('<td>', {
+				html : a3[0].outerHTML
+			});
+
 			var del = $('<button>', {
 				id : val.medicineId,
 				html : "Delete",
 				onclick : "deleteMed(this);"
 			});
-			var td5 = $('<td>', {
+			var td6 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
 			var tr = $('<tr>', {
 				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
 						+ td4[0].outerHTML + td5[0].outerHTML
+						+ td6[0].outerHTML
 			});
 
 			$("#meds-table tbody").append(tr);
@@ -229,18 +239,28 @@ function loadDiseases() {
 				html : a2[0].outerHTML
 			});
 
+			var a3 = $('<a>', {
+				href : "remove-sym.html?id=" + val.diseaseId,
+				html : "Remove symptoms"
+			});
+
+			var td4 = $('<td>', {
+				html : a3[0].outerHTML
+			});
+
 			var del = $('<button>', {
 				id : val.diseaseId,
 				html : "Delete",
 				onclick : "deleteDisease(this);"
 			});
-			var td4 = $('<td>', {
+
+			var td5 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
 			var tr = $('<tr>', {
 				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
-						+ td4[0].outerHTML
+						+ td4[0].outerHTML + td5[0].outerHTML
 			});
 
 			$("#disease-table tbody").append(tr);
@@ -286,7 +306,7 @@ function loadIngredients() {
 			});
 
 			var del = $('<button>', {
-				id : val.diseaseId,
+				id : val.ingredientId,
 				html : "Delete",
 				onclick : "deleteIngredient(this);"
 			});
@@ -298,7 +318,7 @@ function loadIngredients() {
 				html : td1[0].outerHTML + td2[0].outerHTML + td3[0].outerHTML
 			});
 
-			$("#disease-table tbody").append(tr);
+			$("#ingr-table tbody").append(tr);
 		});
 	});
 }
@@ -310,7 +330,7 @@ function deleteIngredient(e) {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
-			window.alert("Disease deleted successfully.");
+			window.alert("Ingredient deleted successfully.");
 			$(e).closest('tr').remove();
 		},
 		fail : function(data) {

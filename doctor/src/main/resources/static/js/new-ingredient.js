@@ -2,12 +2,12 @@
  * @author Nikola
  */
 
-function createIngredient(){
-	
+function createIngredient() {
+
 	var ing = JSON.stringify({
-		"ingredientName" : $("#name").val();
+		"ingredientName" : $("#name").val()
 	});
-	
+
 	$.ajax({
 		type : 'POST',
 		url : 'ingredient',
@@ -15,7 +15,6 @@ function createIngredient(){
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
-			console.log("Success!");
 			window.alert("Success!");
 			window.location.replace("admin.html");
 		},
@@ -28,4 +27,6 @@ function createIngredient(){
 			window.alert("Error!");
 		}
 	});
+
+	return false;
 }

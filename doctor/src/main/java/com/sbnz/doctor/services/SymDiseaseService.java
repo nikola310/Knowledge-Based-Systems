@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.SymDiseaseDTO;
 import com.sbnz.doctor.interfaces.converters.SymDiseaseConverterInterface;
@@ -13,6 +15,8 @@ import com.sbnz.doctor.repository.DiseaseRepository;
 import com.sbnz.doctor.repository.SymptomDiseaseRepository;
 import com.sbnz.doctor.repository.SymptomRepository;
 
+@Service
+@Transactional
 public class SymDiseaseService implements SymDiseaseServiceInterface {
 
 	@Autowired
@@ -95,6 +99,38 @@ public class SymDiseaseService implements SymDiseaseServiceInterface {
 		repository.delete(entity);
 
 		return converter.entityToDto(entity);
+	}
+
+	@Override
+	public List<SymDiseaseDTO> getBySymptom(long sym) {
+		ArrayList<SymDiseaseDTO> list = new ArrayList<SymDiseaseDTO>();
+
+		try {
+			for (Symptomdisease entity : repository.findBySymptom(symptomRepo.getOne(sym))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<SymDiseaseDTO> getByDisease(long dis) {
+		ArrayList<SymDiseaseDTO> list = new ArrayList<SymDiseaseDTO>();
+
+		try {
+			for (Symptomdisease entity : repository.findByDisease(diseaseRepo.getOne(dis))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
 	}
 
 }

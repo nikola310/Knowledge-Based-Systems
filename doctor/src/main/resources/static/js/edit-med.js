@@ -43,11 +43,9 @@ function editMed() {
 			window.location.replace("admin.html");
 		},
 		fail : function(data) {
-			console.log(data);
 			window.alert("Bad credentials!");
 		},
 		error : function(data) {
-			console.log(data);
 			window.alert("Error!");
 		}
 	});

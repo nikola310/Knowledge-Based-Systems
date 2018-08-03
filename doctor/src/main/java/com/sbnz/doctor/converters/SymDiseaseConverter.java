@@ -2,6 +2,8 @@ package com.sbnz.doctor.converters;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.SymDiseaseDTO;
 import com.sbnz.doctor.interfaces.converters.SymDiseaseConverterInterface;
@@ -9,6 +11,8 @@ import com.sbnz.doctor.model.Symptomdisease;
 import com.sbnz.doctor.repository.DiseaseRepository;
 import com.sbnz.doctor.repository.SymptomRepository;
 
+@Component
+@Transactional
 public class SymDiseaseConverter implements SymDiseaseConverterInterface {
 
 	private ModelMapper mapper = new ModelMapper();

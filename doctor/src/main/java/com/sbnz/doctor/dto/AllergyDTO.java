@@ -40,6 +40,9 @@ public class AllergyDTO {
 		this.ingredientName = ingredientName;
 	}
 
+	public AllergyDTO() {
+	}
+
 	public String getPatient() {
 		return patient;
 	}

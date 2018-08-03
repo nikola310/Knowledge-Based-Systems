@@ -11,6 +11,8 @@ import com.sbnz.doctor.dto.SymptomDTO;
 import com.sbnz.doctor.interfaces.converters.SymptomConverterInterface;
 import com.sbnz.doctor.interfaces.services.SymptomServiceInterface;
 import com.sbnz.doctor.model.Symptom;
+import com.sbnz.doctor.model.Symptomdisease;
+import com.sbnz.doctor.repository.SymptomDiseaseRepository;
 import com.sbnz.doctor.repository.SymptomRepository;
 
 /**
@@ -24,6 +26,9 @@ public class SymptomService implements SymptomServiceInterface {
 
 	@Autowired
 	private SymptomRepository repository;
+
+	@Autowired
+	private SymptomDiseaseRepository symDisRepo;
 
 	@Autowired
 	private SymptomConverterInterface converter;
@@ -84,6 +89,10 @@ public class SymptomService implements SymptomServiceInterface {
 		Symptom entity = repository.getOne(id);
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
+		}
+
+		for (Symptomdisease toDelete : symDisRepo.findBySymptom(entity)) {
+			symDisRepo.delete(toDelete);
 		}
 
 		repository.delete(entity);

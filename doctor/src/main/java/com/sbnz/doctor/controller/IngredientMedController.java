@@ -30,7 +30,7 @@ import com.sbnz.doctor.interfaces.services.IngredientMedServiceInterface;
 @RestController
 @RequestMapping(value = "/ingr-med")
 public class IngredientMedController {
-	
+
 	@Autowired
 	private IngredientMedServiceInterface service;
 
@@ -96,5 +96,27 @@ public class IngredientMedController {
 
 		return new ResponseEntity<IngredientMedDTO>(dto, HttpStatus.OK);
 	}
-	
+
+	@RequestMapping(value = "/ing/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<IngredientMedDTO>> getByIng(@PathVariable int id) {
+		List<IngredientMedDTO> dtos = service.getByIngredient(id);
+
+		if (dtos == null) {
+			return new ResponseEntity<List<IngredientMedDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<IngredientMedDTO>>(dtos, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/med/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<IngredientMedDTO>> getByMed(@PathVariable int id) {
+		List<IngredientMedDTO> dtos = service.getByMedicine(id);
+
+		if (dtos == null) {
+			return new ResponseEntity<List<IngredientMedDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<IngredientMedDTO>>(dtos, HttpStatus.OK);
+	}
+
 }

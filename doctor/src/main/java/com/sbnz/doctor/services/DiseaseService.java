@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.interfaces.converters.DiseaseConverterInterface;
 import com.sbnz.doctor.model.Disease;
+import com.sbnz.doctor.model.Symptomdisease;
 import com.sbnz.doctor.repository.DiseaseRepository;
+import com.sbnz.doctor.repository.SymptomDiseaseRepository;
 
 /**
  * 
@@ -26,6 +28,9 @@ public class DiseaseService implements com.sbnz.doctor.interfaces.services.Disea
 
 	@Autowired
 	private DiseaseConverterInterface converter;
+
+	@Autowired
+	private SymptomDiseaseRepository symDisRepo;
 
 	@Override
 	public DiseaseDTO Create(DiseaseDTO dto) {
@@ -81,8 +86,13 @@ public class DiseaseService implements com.sbnz.doctor.interfaces.services.Disea
 	@Override
 	public DiseaseDTO Delete(long id) {
 		Disease entity = repository.getOne(id);
+
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
+		}
+
+		for (Symptomdisease toDelete : symDisRepo.findByDisease(entity)) {
+			symDisRepo.delete(toDelete);
 		}
 
 		repository.delete(entity);

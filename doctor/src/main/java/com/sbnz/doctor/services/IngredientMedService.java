@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.IngredientMedDTO;
 import com.sbnz.doctor.interfaces.converters.IngredientMedConverterInterface;
@@ -13,6 +15,8 @@ import com.sbnz.doctor.repository.IngredientMedicineRepository;
 import com.sbnz.doctor.repository.IngredientRepository;
 import com.sbnz.doctor.repository.MedicineRepository;
 
+@Service
+@Transactional
 public class IngredientMedService implements IngredientMedServiceInterface {
 
 	@Autowired
@@ -95,6 +99,36 @@ public class IngredientMedService implements IngredientMedServiceInterface {
 		repository.delete(entity);
 
 		return converter.entityToDto(entity);
+	}
+
+	@Override
+	public List<IngredientMedDTO> getByIngredient(long ing) {
+		ArrayList<IngredientMedDTO> list = new ArrayList<IngredientMedDTO>();
+
+		try {
+			for (Ingredientmedicine entity : repository.findByIngredient(ingredientRepo.getOne(ing))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
+	}
+
+	@Override
+	public List<IngredientMedDTO> getByMedicine(long med) {
+		ArrayList<IngredientMedDTO> list = new ArrayList<IngredientMedDTO>();
+
+		try {
+			for (Ingredientmedicine entity : repository.findByMedicine(medRepo.getOne(med))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
 	}
 
 }

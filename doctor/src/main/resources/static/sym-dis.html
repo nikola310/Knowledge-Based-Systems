@@ -30,6 +30,7 @@ body {
 
 <script type="text/javascript" src="js/url-utils.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/sym-dis.js"></script>
 </head>
 
 <body onload="load();">
@@ -61,17 +62,14 @@ body {
 	<!-- Page Content -->
 	<div class="container">
 		<div class="container-page">
-			<form onsubmit="return editSym();" action="">
-				<div class="col-md-6" id="ingredient-container">
-					<h3 class="dark-grey" id="disease-name">Add symptoms to disease </h3>
-
-					<div class="form-group col-lg-6">
-						<label>Description:</label> <input type="text"
-							class="form-control" id="desc" maxlength="300">
-					</div>
-
+			<form onsubmit="return addSymptoms();" action="">
+				<div class="col-md-6">
+					<h3 class="dark-grey" id="disease-name">Add symptoms to
+						disease</h3>
+					<div id="sym-container"></div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit">Edit</button>
+				<button type="submit" class="btn btn-primary" id="submit">Add
+					symptoms</button>
 			</form>
 		</div>
 

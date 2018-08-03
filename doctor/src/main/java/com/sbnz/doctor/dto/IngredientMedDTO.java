@@ -62,4 +62,7 @@ public class IngredientMedDTO {
 	public void setMedicineName(String medicineName) {
 		this.medicineName = medicineName;
 	}
+
+	public IngredientMedDTO() {
+	}
 }

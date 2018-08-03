@@ -47,6 +47,9 @@ public class SymDiseaseDTO {
 		this.symptomDesc = symptomDesc;
 	}
 
+	public SymDiseaseDTO() {
+	}
+
 	public SymDiseaseDTO(long sdId, long diseaseId, long symptomId, String diseaseName, String symptomDesc) {
 		super();
 		this.sdId = sdId;

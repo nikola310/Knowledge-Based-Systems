@@ -102,11 +102,6 @@ public class UserController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<UserDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
-		UserDTO dto = service.Delete(id);
-		if (dto == null) {
-			new ResponseEntity<UserDTO>(dto, HttpStatus.NOT_FOUND);
-		}
-
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 
 		if (user == null) {
@@ -115,6 +110,12 @@ public class UserController {
 
 		if (user.getUserType() != 'A') {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		UserDTO dto = service.Delete(id);
+
+		if (dto == null) {
+			new ResponseEntity<UserDTO>(dto, HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);

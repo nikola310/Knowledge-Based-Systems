@@ -11,7 +11,10 @@ import com.sbnz.doctor.dto.IngredientDTO;
 import com.sbnz.doctor.interfaces.converters.IngredientConverterInterface;
 import com.sbnz.doctor.interfaces.services.IngredientServiceInterface;
 import com.sbnz.doctor.model.Ingredient;
+import com.sbnz.doctor.model.Ingredientmedicine;
+import com.sbnz.doctor.repository.IngredientMedicineRepository;
 import com.sbnz.doctor.repository.IngredientRepository;
+
 /**
  * 
  * @author Nikola
@@ -23,6 +26,9 @@ public class IngredientService implements IngredientServiceInterface {
 
 	@Autowired
 	private IngredientRepository repository;
+
+	@Autowired
+	private IngredientMedicineRepository imRepo;
 
 	@Autowired
 	private IngredientConverterInterface converter;
@@ -81,8 +87,13 @@ public class IngredientService implements IngredientServiceInterface {
 	@Override
 	public IngredientDTO Delete(long id) {
 		Ingredient entity = repository.getOne(id);
+
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
+		}
+		
+		for (Ingredientmedicine toDelete : imRepo.findByIngredient(entity)) {
+			imRepo.delete(toDelete);
 		}
 
 		repository.delete(entity);

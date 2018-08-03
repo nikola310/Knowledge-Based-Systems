@@ -2,6 +2,8 @@ package com.sbnz.doctor.converters;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.AllergyDTO;
 import com.sbnz.doctor.interfaces.converters.AllergyConverterInterface;
@@ -9,6 +11,8 @@ import com.sbnz.doctor.model.Allergy;
 import com.sbnz.doctor.repository.IngredientRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 
+@Component
+@Transactional
 public class AllergyConverter implements AllergyConverterInterface {
 
 	private ModelMapper mapper = new ModelMapper();

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.SymDiseaseDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.SymDiseaseServiceInterface;
 
 /**
@@ -60,6 +61,16 @@ public class SymDiseaseController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<SymDiseaseDTO> add(@Validated @RequestBody SymDiseaseDTO body, Errors errors,
 			@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
 		if (errors.hasErrors()) {
 			return new ResponseEntity<SymDiseaseDTO>(body, HttpStatus.BAD_REQUEST);
 		}
@@ -76,6 +87,16 @@ public class SymDiseaseController {
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<SymDiseaseDTO> edit(@Validated @RequestBody SymDiseaseDTO dto, Errors errors,
 			@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
 		if (errors.hasErrors()) {
 			return new ResponseEntity<SymDiseaseDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
@@ -89,12 +110,44 @@ public class SymDiseaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<SymDiseaseDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymDiseaseDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
 		SymDiseaseDTO dto = service.Delete(id);
 		if (dto == null) {
 			new ResponseEntity<SymDiseaseDTO>(dto, HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<SymDiseaseDTO>(dto, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/sym/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<SymDiseaseDTO>> getBySym(@PathVariable int id) {
+		List<SymDiseaseDTO> dtos = service.getBySymptom(id);
+
+		if (dtos == null) {
+			return new ResponseEntity<List<SymDiseaseDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<SymDiseaseDTO>>(dtos, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/dis/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<SymDiseaseDTO>> getByDis(@PathVariable int id) {
+		List<SymDiseaseDTO> dtos = service.getByDisease(id);
+
+		if (dtos == null) {
+			return new ResponseEntity<List<SymDiseaseDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<SymDiseaseDTO>>(dtos, HttpStatus.OK);
 	}
 
 }

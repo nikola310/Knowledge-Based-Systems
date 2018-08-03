@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.AllergyDTO;
 import com.sbnz.doctor.interfaces.converters.AllergyConverterInterface;
@@ -13,6 +15,8 @@ import com.sbnz.doctor.repository.AllergyRepository;
 import com.sbnz.doctor.repository.IngredientRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 
+@Service
+@Transactional
 public class AllergyService implements AllergyServiceInterface {
 
 	@Autowired
