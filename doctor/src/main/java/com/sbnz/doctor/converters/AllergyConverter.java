@@ -28,7 +28,8 @@ public class AllergyConverter implements AllergyConverterInterface {
 		AllergyDTO dto;
 
 		try {
-			dto = mapper.map(entity, AllergyDTO.class);
+			dto = new AllergyDTO();
+			dto.setAllergyId(entity.getAllergyId());
 			dto.setIngredientId(entity.getIngredient().getIngredientId());
 			dto.setIngredientName(entity.getIngredient().getIngredientName());
 			dto.setPatientId(entity.getPatient().getPatientId());

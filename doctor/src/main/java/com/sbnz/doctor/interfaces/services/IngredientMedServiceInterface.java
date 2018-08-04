@@ -10,4 +10,5 @@ public interface IngredientMedServiceInterface extends ServiceInterface<Ingredie
 
 	public List<IngredientMedDTO> getByMedicine(long med);
 
+	public IngredientMedDTO[] addInBulk(IngredientMedDTO[] dtos);
 }

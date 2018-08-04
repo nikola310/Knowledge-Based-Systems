@@ -13,4 +13,5 @@ public interface IngredientMedicineRepository extends JpaRepository<Ingredientme
 	public List<Ingredientmedicine> findByIngredient(Ingredient i);
 
 	public List<Ingredientmedicine> findByMedicine(Medicine m);
+	
 }

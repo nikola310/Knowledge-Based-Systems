@@ -150,4 +150,30 @@ public class SymDiseaseController {
 		return new ResponseEntity<List<SymDiseaseDTO>>(dtos, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/all", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<SymDiseaseDTO[]> addInBulk(@RequestBody SymDiseaseDTO[] body, Errors errors,
+			@Context HttpServletRequest request) {
+		if (errors.hasErrors()) {
+			return new ResponseEntity<SymDiseaseDTO[]>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<SymDiseaseDTO[]>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<SymDiseaseDTO[]>(body, HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		SymDiseaseDTO[] dtos = service.addInBulk(body);
+
+		if (dtos == null) {
+			return new ResponseEntity<SymDiseaseDTO[]>(dtos, HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<SymDiseaseDTO[]>(dtos, HttpStatus.CREATED);
+	}
+
 }

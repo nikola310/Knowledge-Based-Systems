@@ -2,6 +2,8 @@ package com.sbnz.doctor.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.PatientDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.PatientServiceInterface;
 
 /**
@@ -54,10 +57,23 @@ public class PatientController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<PatientDTO> add(@Validated @RequestBody PatientDTO body, Errors errors) {
+	public ResponseEntity<PatientDTO> add(@Validated @RequestBody PatientDTO body, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<PatientDTO>(body, HttpStatus.BAD_REQUEST);
 		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<PatientDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'D') {
+			return new ResponseEntity<PatientDTO>(body, HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		body.setUserId(user.getUserId());
 
 		PatientDTO dto = service.Create(body);
 
@@ -69,10 +85,23 @@ public class PatientController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<PatientDTO> edit(@Validated @RequestBody PatientDTO dto, Errors errors) {
+	public ResponseEntity<PatientDTO> edit(@Validated @RequestBody PatientDTO dto, Errors errors,
+			@Context HttpServletRequest request) {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<PatientDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<PatientDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'D') {
+			return new ResponseEntity<PatientDTO>(dto, HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		dto.setUserId(user.getUserId());
 
 		if (service.Update(dto) == null) {
 			return new ResponseEntity<PatientDTO>(dto, HttpStatus.BAD_REQUEST);
@@ -82,7 +111,17 @@ public class PatientController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<PatientDTO> delete(@PathVariable int id) {
+	public ResponseEntity<PatientDTO> delete(@PathVariable int id, @Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<PatientDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'D') {
+			return new ResponseEntity<PatientDTO>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
 		PatientDTO dto = service.Delete(id);
 		if (dto == null) {
 			new ResponseEntity<PatientDTO>(dto, HttpStatus.NOT_FOUND);

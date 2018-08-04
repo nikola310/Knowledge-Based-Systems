@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.IngredientMedDTO;
+import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.IngredientMedServiceInterface;
 
 /**
@@ -117,6 +118,32 @@ public class IngredientMedController {
 		}
 
 		return new ResponseEntity<List<IngredientMedDTO>>(dtos, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/all", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<IngredientMedDTO[]> addInBulk(@RequestBody IngredientMedDTO[] body, Errors errors,
+			@Context HttpServletRequest request) {
+		if (errors.hasErrors()) {
+			return new ResponseEntity<IngredientMedDTO[]>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<IngredientMedDTO[]>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'A') {
+			return new ResponseEntity<IngredientMedDTO[]>(body, HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		IngredientMedDTO[] dtos = service.addInBulk(body);
+
+		if (dtos == null) {
+			return new ResponseEntity<IngredientMedDTO[]>(dtos, HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<IngredientMedDTO[]>(dtos, HttpStatus.CREATED);
 	}
 
 }

@@ -10,9 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.interfaces.converters.PatientConverterInterface;
 import com.sbnz.doctor.interfaces.services.PatientServiceInterface;
+import com.sbnz.doctor.model.Allergy;
 import com.sbnz.doctor.model.Patient;
+import com.sbnz.doctor.repository.AllergyRepository;
 import com.sbnz.doctor.repository.PatientRepository;
-
 
 /**
  * 
@@ -28,6 +29,9 @@ public class PatientService implements PatientServiceInterface {
 
 	@Autowired
 	private PatientConverterInterface converter;
+
+	@Autowired
+	private AllergyRepository allergyRepo;
 
 	@Override
 	public PatientDTO Create(PatientDTO dto) {
@@ -85,6 +89,10 @@ public class PatientService implements PatientServiceInterface {
 		Patient entity = repository.getOne(id);
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
+		}
+
+		for (Allergy a : allergyRepo.findByPatient(entity)) {
+			allergyRepo.delete(a);
 		}
 
 		repository.delete(entity);

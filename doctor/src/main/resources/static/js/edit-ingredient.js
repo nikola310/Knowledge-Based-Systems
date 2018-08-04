@@ -20,7 +20,7 @@ function editIngredient() {
 
 	$.ajax({
 		type : 'PUT',
-		url : 'medicine',
+		url : 'ingredient',
 		data : edit,
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",

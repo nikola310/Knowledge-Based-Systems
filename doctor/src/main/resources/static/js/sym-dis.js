@@ -12,7 +12,6 @@ function load() {
 	});
 	
 	$.get("symptom", function(lista){
-		console.log(lista.length);
 		
 		$.get("sym-disease/dis/" + id, function(data){
 			if(data.length == 0){
@@ -61,32 +60,37 @@ function loadSymptoms(data){
 function addSymptoms(){
 	kids = $("#sym-container").children(":input");
 	
+	syms = [];
+	
 	jQuery.each(kids, function(i, val){
 		
 		if(val.checked){
 			
-			var symDis = JSON.stringify({
-				"diseaseId" : id,
-				"symptomId" : val.id.split("-")[1]
-			});
+			var symDis = {
+				"diseaseId" : parseInt(id),
+				"symptomId" : parseInt(val.id.split("-")[1])
+			};
+			
+			syms.push(symDis);
 
-			$.ajax({
-				type : 'POST',
-				url : 'sym-disease',
-				data : symDis,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json",
-				success : function(data) {
-					window.alert("Symptoms added successfully.");
-					window.location.replace("admin.html");
-				},
-				fail : function(data) {
-					window.alert("Fail!");
-				},
-				error : function(data) {
-					window.alert("Error!");
-				}
-			});
+		}
+	});
+	
+	$.ajax({
+		type : 'POST',
+		url : 'sym-disease/all',
+		data : JSON.stringify(syms),
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function(data) {
+			window.alert("Symptoms added successfully.");
+			window.location.replace("admin.html");
+		},
+		fail : function(data) {
+			window.alert("Fail!");
+		},
+		error : function(data) {
+			window.alert("Error!");
 		}
 	});
 	

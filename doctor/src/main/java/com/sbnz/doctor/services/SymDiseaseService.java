@@ -133,4 +133,20 @@ public class SymDiseaseService implements SymDiseaseServiceInterface {
 		return list;
 	}
 
+	@Override
+	public SymDiseaseDTO[] addInBulk(SymDiseaseDTO[] dtos) {
+		try {
+
+			for (SymDiseaseDTO tmp : dtos) {
+				Symptomdisease entity = converter.DtoToEntity(tmp);
+				repository.save(entity);
+			}
+
+			return dtos;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

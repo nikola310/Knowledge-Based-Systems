@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.dto;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +10,6 @@ import javax.validation.constraints.Size;
 public class PatientDTO {
 
 	private long patientId;
-	@NotNull
 	private long userId;
 	@NotNull
 	@Size(max = 100)

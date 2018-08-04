@@ -101,4 +101,50 @@ public class AllergyService implements AllergyServiceInterface {
 		return converter.entityToDto(entity);
 	}
 
+	@Override
+	public List<AllergyDTO> getByIngredient(long ing) {
+		ArrayList<AllergyDTO> list = new ArrayList<AllergyDTO>();
+
+		try {
+			for (Allergy entity : repository.findByIngredient(ingredientRepo.getOne(ing))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
+	}
+
+	@Override
+	public List<AllergyDTO> getByPatient(long patient) {
+		ArrayList<AllergyDTO> list = new ArrayList<AllergyDTO>();
+
+		try {
+			for (Allergy entity : repository.findByPatient(patientRepo.getOne(patient))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return list;
+	}
+
+	@Override
+	public AllergyDTO[] addInBulk(AllergyDTO[] dtos) {
+		try {
+			
+			for (AllergyDTO tmp : dtos) {
+				Allergy entity = converter.DtoToEntity(tmp);
+				repository.save(entity);
+			}
+
+			return dtos;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

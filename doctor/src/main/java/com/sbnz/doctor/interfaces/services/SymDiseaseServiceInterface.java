@@ -9,5 +9,7 @@ public interface SymDiseaseServiceInterface extends ServiceInterface<SymDiseaseD
 	public List<SymDiseaseDTO> getBySymptom(long sym);
 
 	public List<SymDiseaseDTO> getByDisease(long dis);
+	
+	public SymDiseaseDTO[] addInBulk(SymDiseaseDTO[] dtos);
 
 }

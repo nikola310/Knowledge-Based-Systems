@@ -6,15 +6,14 @@ var id;
 
 function load() {
 	id = getUrlParameter("id");
-	$.get("medicine/" + id, function(data) {
-		$("#medicine-name").text(
-				"Add ingredients to medicine \"" + data.medicineName + "\"");
+	$.get("patient/" + id, function(data) {
+		$("#patient-info").text(
+				"Add ingredients that cause allergic reaction to patient \"" + data.patientName + " " + data.patientSurname + "\"");
 	});
 	
 	$.get("ingredient", function(lista){
-		console.log(lista.length);
 		
-		$.get("ingr-med/med/" + id, function(data){
+		$.get("allergy/patient/" + id, function(data){
 			if(data.length == 0){
 				loadIngredients(lista);
 			}else{
@@ -62,30 +61,30 @@ function loadIngredients(data){
 function addIngredients(){
 	kids = $("#ingr-container").children(":input");
 	
-	ingrMeds = [];
+	allergies = [];
 	
 	jQuery.each(kids, function(i, val){
 		
 		if(val.checked){
 			
-			var ingr = {
-				"medicineId" : id,
-				"ingredientId" : val.id.split("-")[1]
+			var allergy = {
+				"patientId" : parseInt(id),
+				"ingredientId" : parseInt(val.id.split("-")[1])
 			};
 
-			ingrMeds.push(ingr);
+			allergies.push(allergy);
 		}
 	});
-
+	
 	$.ajax({
 		type : 'POST',
-		url : 'ingr-med/all',
-		data : JSON.stringify(ingrMeds),
+		url : 'allergy/all',
+		data : JSON.stringify(allergies),
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
 			window.alert("Ingredients added successfully.");
-			window.location.replace("admin.html");
+			window.location.replace("doctor.html");
 		},
 		fail : function(data) {
 			window.alert("Fail!");
@@ -94,7 +93,6 @@ function addIngredients(){
 			window.alert("Error!");
 		}
 	});
-
 	
 	return false;
 }

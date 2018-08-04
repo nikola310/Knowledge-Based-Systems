@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Bare - Start Bootstrap Template</title>
+
+<!-- Bootstrap core CSS -->
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<style>
+body {
+	padding-top: 54px;
+}
+
+@media ( min-width : 992px) {
+	body {
+		padding-top: 56px;
+	}
+}
+</style>
+
+<script type="text/javascript" src="js/url-utils.js"></script>
+<script type="text/javascript" src="js/edit-patient.js"></script>
+<script type="text/javascript" src="js/logout.js"></script>
 </head>
-<body>
+
+<body onload="loadPatient();">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Services</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="logout();">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Page Content -->
+	<div class="container">
+		<div class="container-page">
+			<form onsubmit="return editPatient();" action="">
+				<div class="col-md-6">
+					<h3 class="dark-grey">Edit patient</h3>
+
+					<div class="form-group col-lg-6">
+						<label>Name:</label> <input type="text" class="form-control"
+							id="name" maxlength="100">
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Surname:</label> <input type="text" class="form-control"
+							id="surname" maxlength="200">
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Temperature:</label> <input type="number" class="form-control"
+							id="temperature">
+					</div>
+
+					<div class="form-group col-lg-6">
+						<label>Blood pressure:</label> <input type="number" class="form-control"
+							id="pressure">
+					</div>
+
+				</div>
+				<button type="submit" class="btn btn-primary" id="submit">Edit</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
