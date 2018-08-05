@@ -8,6 +8,7 @@ function loadSym() {
 	id = getUrlParameter("id")
 	$.get("symptom/" + id, function(data) {
 		$("#desc").val(data.symDesc);
+		$("#code").val(data.symCode);
 	});
 }
 
@@ -15,7 +16,8 @@ function editSym() {
 
 	var edit = JSON.stringify({
 		"symId" : id,
-		"symDesc" : $("#desc").val()
+		"symDesc" : $("#desc").val(),
+		"symCode" : $("#code").val()
 	});
 	console.log(edit);
 

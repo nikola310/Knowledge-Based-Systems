@@ -15,6 +15,9 @@ public class SymptomDTO {
 	@NotNull
 	@Size(min = 5, max = 300)
 	private String symDesc;
+	@NotNull
+	@Size(min = 5, max = 5)
+	private String symCode;
 
 	public SymptomDTO() {
 		super();
@@ -40,5 +43,13 @@ public class SymptomDTO {
 
 	public void setSymDesc(String symDesc) {
 		this.symDesc = symDesc;
+	}
+
+	public String getSymCode() {
+		return symCode;
+	}
+
+	public void setSymCode(String symCode) {
+		this.symCode = symCode;
 	}
 }

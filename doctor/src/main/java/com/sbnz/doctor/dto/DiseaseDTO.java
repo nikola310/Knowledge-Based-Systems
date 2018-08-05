@@ -16,15 +16,16 @@ public class DiseaseDTO {
 	@NotNull
 	@Size(max = 200)
 	private String diseaseName;
+	@NotNull
+	@Size(min = 5, max = 5)
+	private String diseaseCode;
 	private long diagnosisId;
 	private long medicineId;
 
 	public DiseaseDTO() {
-		super();
 	}
 
 	public DiseaseDTO(long diseaseId, String diseaseName, long diagnosisId, long medicineId) {
-		super();
 		this.diseaseId = diseaseId;
 		this.diseaseName = diseaseName;
 		this.diagnosisId = diagnosisId;
@@ -61,5 +62,13 @@ public class DiseaseDTO {
 
 	public void setMedicineId(long medicineId) {
 		this.medicineId = medicineId;
+	}
+
+	public String getDiseaseCode() {
+		return diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
 	}
 }

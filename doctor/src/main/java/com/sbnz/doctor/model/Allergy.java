@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 4, 2018 9:09:23 PM by Hibernate Tools 5.0.6.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +21,7 @@ public class Allergy implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1796114425164577662L;
 	private Long allergyId;
 	private Ingredient ingredient;
 	private Patient patient;

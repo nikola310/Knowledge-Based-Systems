@@ -4,7 +4,8 @@
 
 function createDisease() {
 	var disease = JSON.stringify({
-		"diseaseName" : $("#name").val()
+		"diseaseName" : $("#name").val(),
+		"diseaseCode" : $("#code").val()
 	});
 
 	$.ajax({

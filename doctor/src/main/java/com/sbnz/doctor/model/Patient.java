@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 4, 2018 9:09:23 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class Patient implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1248121618143696484L;
 	private Long patientId;
 	private String patientName;
 	private String patientSurname;

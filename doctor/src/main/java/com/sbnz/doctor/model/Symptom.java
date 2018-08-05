@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 4, 2018 9:09:23 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,20 +22,23 @@ public class Symptom implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8130160428277033922L;
 	private Long symId;
 	private String symDesc;
+	private String symCode;
 	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
 
 	public Symptom() {
 	}
 
-	public Symptom(String symDesc) {
+	public Symptom(String symDesc, String symCode) {
 		this.symDesc = symDesc;
+		this.symCode = symCode;
 	}
 
-	public Symptom(String symDesc, Set<Symptomdisease> symptomdiseases) {
+	public Symptom(String symDesc, String symCode, Set<Symptomdisease> symptomdiseases) {
 		this.symDesc = symDesc;
+		this.symCode = symCode;
 		this.symptomdiseases = symptomdiseases;
 	}
 
@@ -58,6 +61,15 @@ public class Symptom implements java.io.Serializable {
 
 	public void setSymDesc(String symDesc) {
 		this.symDesc = symDesc;
+	}
+
+	@Column(name = "SYM_CODE", nullable = false, length = 5)
+	public String getSymCode() {
+		return this.symCode;
+	}
+
+	public void setSymCode(String symCode) {
+		this.symCode = symCode;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "symptom")

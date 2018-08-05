@@ -8,6 +8,7 @@ function loadDisease() {
 	id = getUrlParameter("id");
 	$.get("disease/" + id, function(data) {
 		$("#name").val(data.diseaseName);
+		$("#code").val(data.diseaseCode);
 	});
 }
 
@@ -15,7 +16,8 @@ function editDisease() {
 
 	var edit = JSON.stringify({
 		"diseaseId" : id,
-		"diseaseName" : $("#name").val()
+		"diseaseName" : $("#name").val(),
+		"diseaseCode" : $("#code").val()
 	});
 
 	$.ajax({

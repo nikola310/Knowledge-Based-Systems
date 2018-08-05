@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 2, 2018 12:56:36 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 4, 2018 9:09:23 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,24 +24,27 @@ public class Disease implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3865748186443949636L;
 	private Long diseaseId;
 	private Medicine medicine;
 	private String diseaseName;
+	private String diseaseCode;
 	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 
 	public Disease() {
 	}
 
-	public Disease(String diseaseName) {
+	public Disease(String diseaseName, String diseaseCode) {
 		this.diseaseName = diseaseName;
+		this.diseaseCode = diseaseCode;
 	}
 
-	public Disease(Medicine medicine, String diseaseName, Set<Symptomdisease> symptomdiseases,
+	public Disease(Medicine medicine, String diseaseName, String diseaseCode, Set<Symptomdisease> symptomdiseases,
 			Set<Diagnosis> diagnosises) {
 		this.medicine = medicine;
 		this.diseaseName = diseaseName;
+		this.diseaseCode = diseaseCode;
 		this.symptomdiseases = symptomdiseases;
 		this.diagnosises = diagnosises;
 	}
@@ -75,6 +78,15 @@ public class Disease implements java.io.Serializable {
 
 	public void setDiseaseName(String diseaseName) {
 		this.diseaseName = diseaseName;
+	}
+
+	@Column(name = "DISEASE_CODE", nullable = false, length = 5)
+	public String getDiseaseCode() {
+		return this.diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
