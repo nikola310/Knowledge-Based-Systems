@@ -1,9 +1,13 @@
 package com.sbnz.doctor.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +32,9 @@ public class LoginController {
 	@Autowired
 	private UserServiceInterface service;
 
+	@Autowired
+	private KieContainer container;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<LoginDTO> login(@Validated @RequestBody LoginDTO body, @Context HttpServletRequest request,
 			Errors errors) {
@@ -51,8 +58,15 @@ public class LoginController {
 
 		request.getSession().setAttribute("user", dto);
 
+		KieSession ks = container.newKieSession("rulesSession");
+		ks.insert(dto);
+		int k = ks.fireAllRules();
+		System.out.println(k);
+		HashMap<String, KieSession> sesije = new HashMap<>();
+		sesije.put("proba", ks);
+		System.out.println(dto.getUserSurname());
+		request.getSession().setAttribute("sesije", sesije);
 		body.setType(dto.getUserType());
-
 		return new ResponseEntity<LoginDTO>(body, HttpStatus.OK);
 	}
 

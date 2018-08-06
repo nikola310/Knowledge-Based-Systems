@@ -1,11 +1,14 @@
 package com.sbnz.doctor.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.SymptomDTO;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 
@@ -32,6 +37,9 @@ public class DiagnosisController {
 
 	@Autowired
 	private DiagnosisServiceInterface service;
+
+	@Autowired
+	private KieContainer container;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<DiagnosisDTO>> getAll() {
@@ -109,5 +117,26 @@ public class DiagnosisController {
 
 		List<MyDiagnosisDTO> lista = service.getDiagnoses(dto);
 		return new ResponseEntity<List<MyDiagnosisDTO>>(lista, HttpStatus.OK);
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/process", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+	public ResponseEntity<DiseaseDTO> getMostLikelyDisease(@RequestBody SymptomDTO[] symptoms,
+			@Context HttpServletRequest request) {
+
+		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
+		if (dto == null) {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (dto.getUserType() != 'D') {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
+		}
+
+		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
+
+		KieSession sesija = sesije.get("rulesSession");
+		
+		return null;
 	}
 }

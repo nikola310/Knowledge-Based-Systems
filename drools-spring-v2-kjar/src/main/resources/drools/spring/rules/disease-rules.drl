@@ -1,0 +1,35 @@
+//created on: Aug 6, 2018
+package rules
+
+//list any import classes here.
+import com.sbnz.doctor.model.Patient;
+import com.sbnz.doctor.model.Diagnosis;
+import com.sbnz.doctor.model.Symptom;
+import com.sbnz.doctor.model.Disease;
+import com.sbnz.doctor.services.DiseaseService;
+import com.sbnz.doctor.services.SymptomService;
+import com.sbnz.doctor.dto.SymptomDTO;
+
+//declare any global variables here
+
+
+
+
+rule "Prehlada"
+
+    when
+        //conditions
+        Number
+    then
+        //actions
+
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end

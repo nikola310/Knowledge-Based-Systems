@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 4, 2018 9:09:23 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 5, 2018 4:56:29 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +63,7 @@ public class Symptom implements java.io.Serializable {
 		this.symDesc = symDesc;
 	}
 
-	@Column(name = "SYM_CODE", nullable = false, length = 5)
+	@Column(name = "SYM_CODE", nullable = false, length = 5, columnDefinition = "char")
 	public String getSymCode() {
 		return this.symCode;
 	}
