@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Doctor</title>
+<title>Bare - Start Bootstrap Template</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,11 +28,12 @@ body {
 </style>
 
 
-<script type="text/javascript" src="js/doctor.js"></script>
+<script type="text/javascript" src="js/url-utils.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/process-diagnosis.js"></script>
 </head>
 
-<body onload="loadPatients(); loadMyDiagnoses();">
+<body onload="loadAllDiseases();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -51,7 +52,8 @@ body {
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="logout();">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -60,36 +62,29 @@ body {
 	<!-- Page Content -->
 	<div class="container">
 		<div class="container-page">
-			<a href="new-patient.html">Create new patient</a><br />
+			<form onsubmit="return processSymptoms();" action="">
+				<div class="col-md-6">
+					<h3 class="dark-grey" id="patient-name"></h3>
+					<div id="sym-container"></div>
+				</div>
+				<button type="submit" class="btn btn-primary" id="submit">Process
+					diagnosis</button>
+			</form>
 		</div>
 
-		<!-- div class="container-fluid" id="users-div"-->
-		<table id="patients-table" class="table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Surname</th>
-					<th>Temperature</th>
-					<th>Blood pressure</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
+		<div class="container">
 
-	<div class="container">
-		<table id="diagnoses-table" class="table-striped">
-			<thead>
-				<tr>
-					<th>Patient</th>
-					<th>Date</th>
-					<th>Disease</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+			<table id="disease-table" class="table-striped">
+				<thead>
+					<tr>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
 	</div>
 
 	<!-- Bootstrap core JavaScript -->

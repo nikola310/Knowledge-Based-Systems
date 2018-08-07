@@ -58,14 +58,12 @@ public class LoginController {
 
 		request.getSession().setAttribute("user", dto);
 
-		KieSession ks = container.newKieSession("rulesSession");
-		ks.insert(dto);
-		int k = ks.fireAllRules();
-		System.out.println(k);
+//		KieSession ks = container.newKieSession("rulesSession");
+//		ks.insert(dto);
+//		int k = ks.fireAllRules();
 		HashMap<String, KieSession> sesije = new HashMap<>();
-		sesije.put("proba", ks);
-		System.out.println(dto.getUserSurname());
-		request.getSession().setAttribute("sesije", sesije);
+//		sesije.put("proba", ks);
+//		request.getSession().setAttribute("sesije", sesije);
 		body.setType(dto.getUserType());
 		return new ResponseEntity<LoginDTO>(body, HttpStatus.OK);
 	}

@@ -8,16 +8,16 @@ function loadSymptoms(){
 	id = getUrlParameter("id");
 	$.get("patient/" + id, function(data) {
 		$("#patient-name").text(
-				"Choose symptoms for patient \"" + data.patientName + data.patientSurname + "\"");
+				"Choose symptoms for patient \"" + data.patientName + " " +  data.patientSurname + "\"");
 	});
 	
 	$.get("symptom", function(lista){
-		jQuery.each(data, function(i, val) {
+		jQuery.each(lista, function(i, val) {
 			
 			var box = $('<input>', {
 				type: "checkbox",
 				value: val.symDesc,
-				id: "sym-" + val.symId,
+				id: "sym-" + val.symId + "-" + val.symCode,
 				class: ".checkbox-circle"
 			});
 			
@@ -39,7 +39,8 @@ function processSymptoms(){
 			
 			var symDis = {
 				"diseaseId" : parseInt(id),
-				"symptomId" : parseInt(val.id.split("-")[1])
+				"symptomId" : parseInt(val.id.split("-")[1]),
+				"symCode" : val.id.split("-")[2]
 			};
 			
 			syms.push(symDis);
@@ -49,13 +50,13 @@ function processSymptoms(){
 	
 	$.ajax({
 		type : 'POST',
-		url : 'diagnosis/',
+		url : 'diagnosis/process',
 		data : JSON.stringify(syms),
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
-			window.alert("Symptoms added successfully.");
-			window.location.replace("admin.html");
+			console.log(data);
+			window.location.replace("process-diagnosis.html");
 		},
 		fail : function(data) {
 			window.alert("Fail!");

@@ -1,6 +1,6 @@
 package com.sbnz.doctor.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +26,8 @@ import com.sbnz.doctor.dto.MyDiagnosisDTO;
 import com.sbnz.doctor.dto.SymptomDTO;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
+import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
+import com.sbnz.doctor.utils.SymptomList;
 
 /**
  * @author Nikola
@@ -37,6 +39,9 @@ public class DiagnosisController {
 
 	@Autowired
 	private DiagnosisServiceInterface service;
+
+	@Autowired
+	private DiseaseServiceInterface diseaseService;
 
 	@Autowired
 	private KieContainer container;
@@ -119,11 +124,9 @@ public class DiagnosisController {
 		return new ResponseEntity<List<MyDiagnosisDTO>>(lista, HttpStatus.OK);
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/process", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-	public ResponseEntity<DiseaseDTO> getMostLikelyDisease(@RequestBody SymptomDTO[] symptoms,
+	public ResponseEntity<MyDiagnosisDTO> getMostLikelyDisease(@RequestBody List<SymptomDTO> symptoms,
 			@Context HttpServletRequest request) {
-
 		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
 		if (dto == null) {
 			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
@@ -133,10 +136,33 @@ public class DiagnosisController {
 			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
 		}
 
-		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
+//		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
-		KieSession sesija = sesije.get("rulesSession");
-		
-		return null;
+		KieSession sesija = container.newKieSession("rulesSession");// sesije.get("proba");
+
+		SymptomList sl = new SymptomList((ArrayList<SymptomDTO>) symptoms);
+		sesija.insert(sl);
+		int fired = sesija.fireAllRules();
+		System.out.println(fired);
+		sesija.getAgenda().getAgendaGroup("Disease group 1").setFocus();
+		fired = sesija.fireAllRules();
+		double max = 0;
+		String code = "";
+		if (sl.getMostLikelyDisease().size() > 0) {
+			for (String key : sl.getMostLikelyDisease().keySet()) {
+				if (sl.getMostLikelyDisease().get(key) > max) {
+					max = sl.getMostLikelyDisease().get(key);
+					code = key;
+				}
+			}
+		}
+
+		DiseaseDTO retVal = diseaseService.getByCode(code);
+		MyDiagnosisDTO myDto = new MyDiagnosisDTO();
+		myDto.setDisease(retVal.getDiseaseName());
+		myDto.setDiseaseCode(retVal.getDiseaseCode());
+		myDto.setDiseaseId(retVal.getDiseaseId());
+
+		return new ResponseEntity<MyDiagnosisDTO>(myDto, HttpStatus.OK);
 	}
 }

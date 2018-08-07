@@ -100,4 +100,14 @@ public class DiseaseService implements com.sbnz.doctor.interfaces.services.Disea
 		return converter.entityToDto(entity);
 	}
 
+	@Override
+	public DiseaseDTO getByCode(String code) {
+		try {
+			return converter.entityToDto(repository.getDiseaseByDiseaseCode(code));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -9,6 +9,8 @@ import com.sbnz.doctor.model.Disease;
 import com.sbnz.doctor.services.DiseaseService;
 import com.sbnz.doctor.services.SymptomService;
 import com.sbnz.doctor.dto.SymptomDTO;
+import com.sbnz.doctor.utils.SymptomList;
+import java.util.List;
 
 //declare any global variables here
 
@@ -16,20 +18,81 @@ import com.sbnz.doctor.dto.SymptomDTO;
 
 
 rule "Prehlada"
-
+	agenda-group "Disease group 1"
+	no-loop true
     when
         //conditions
-        Number
+        $s : SymptomList( $simptomi : symptoms  )
+        Number ( $sum : intValue >= 4) from accumulate(
+				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA") from $simptomi,
+					init ( int count = 0; ),
+					action ( count++; ),
+					result ( count )
+				)
     then
         //actions
-
+        $s.setFlag(1389);
+        double procena = $sum/5.0*100.0;
+		$s.getMostLikelyDisease().put("PREHL", procena);
+		update($s);
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
+rule "Groznica"
+	agenda-group "Disease group 1"
+	no-loop true
     when
         //conditions
+        $s : SymptomList( $simptomi : symptoms  )
+        Number ( $sum : intValue >= 4) from accumulate(
+				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38") from $simptomi,
+					init ( int count = 0; ),
+					action ( count++; ),
+					result ( count )
+				)
     then
         //actions
+        $s.setFlag(1389);
+        double procena = $sum/5.0*100.0;
+		$s.getMostLikelyDisease().put("GROZN", procena);
+		update($s);
+end
 
+rule "Upala krajnika"
+	agenda-group "Disease group 1"
+	no-loop true
+    when
+        //conditions
+        $s : SymptomList( $simptomi : symptoms  )
+        Number ( $sum : intValue >= 4) from accumulate(
+				SymptomDTO( symCode == "GUBAP" || symCode == "DRHTI" || symCode == "T4041" || symCode == "BOLOU" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "TIRED" || symCode == "ZHNOS") from $simptomi,
+					init ( int count = 0; ),
+					action ( count++; ),
+					result ( count )
+				)
+    then
+        //actions
+        $s.setFlag(1389);
+        double procena = $sum/5.0*100.0;
+		$s.getMostLikelyDisease().put("UPAKR", procena);
+		update($s);
+end
+
+rule "Sinusna infekcija"
+	agenda-group "Disease group 1"
+	no-loop true
+    when
+        //conditions
+        $s : SymptomList( $simptomi : symptoms  )
+        Number ( $sum : intValue >= 4) from accumulate(
+				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38") from $simptomi,
+					init ( int count = 0; ),
+					action ( count++; ),
+					result ( count )
+				)
+    then
+        //actions
+        $s.setFlag(1389);
+        double procena = $sum/5.0*100.0;
+		$s.getMostLikelyDisease().put("SININ", procena);
+		update($s);
 end

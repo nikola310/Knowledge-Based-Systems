@@ -10,4 +10,5 @@ import com.sbnz.doctor.model.Disease;
  */
 public interface DiseaseRepository extends JpaRepository<Disease, Long> {
 
+	public Disease getDiseaseByDiseaseCode(String code);
 }

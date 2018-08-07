@@ -11,4 +11,6 @@ import com.sbnz.doctor.dto.DiseaseDTO;
  */
 public interface DiseaseServiceInterface extends ServiceInterface<DiseaseDTO> {
 
+	public DiseaseDTO getByCode(String code);
+
 }

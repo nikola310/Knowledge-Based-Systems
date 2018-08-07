@@ -12,6 +12,23 @@ public class MyDiagnosisDTO {
 	private Date date;
 	private String disease;
 	private String patient;
+	private long diseaseId;
+	private long patientId;
+	private String diseaseCode;
+
+	public MyDiagnosisDTO() {
+	}
+
+	public MyDiagnosisDTO(long diagnosisId, Date date, String disease, String patient, long diseaseId, long patientId,
+			String diseaseCode) {
+		this.diagnosisId = diagnosisId;
+		this.date = date;
+		this.disease = disease;
+		this.patient = patient;
+		this.diseaseId = diseaseId;
+		this.patientId = patientId;
+		this.diseaseCode = diseaseCode;
+	}
 
 	public long getDiagnosisId() {
 		return diagnosisId;
@@ -43,5 +60,29 @@ public class MyDiagnosisDTO {
 
 	public void setPatient(String patient) {
 		this.patient = patient;
+	}
+
+	public long getDiseaseId() {
+		return diseaseId;
+	}
+
+	public void setDiseaseId(long diseaseId) {
+		this.diseaseId = diseaseId;
+	}
+
+	public long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getDiseaseCode() {
+		return diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
 	}
 }
