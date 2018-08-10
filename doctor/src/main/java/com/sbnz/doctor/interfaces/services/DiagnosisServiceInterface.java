@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.interfaces.services;
 
 import java.util.List;
@@ -16,4 +13,6 @@ import com.sbnz.doctor.dto.UserDTO;
 public interface DiagnosisServiceInterface extends ServiceInterface<DiagnosisDTO> {
 
 	public List<MyDiagnosisDTO> getDiagnoses(UserDTO user);
+
+	public boolean hadFever(long patient);
 }

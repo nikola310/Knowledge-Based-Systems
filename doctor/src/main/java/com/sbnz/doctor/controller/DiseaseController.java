@@ -125,4 +125,5 @@ public class DiseaseController {
 
 		return new ResponseEntity<DiseaseDTO>(dto, HttpStatus.OK);
 	}
+
 }

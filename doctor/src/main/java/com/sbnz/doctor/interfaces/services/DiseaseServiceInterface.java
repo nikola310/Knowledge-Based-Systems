@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.interfaces.services;
 
 import com.sbnz.doctor.dto.DiseaseDTO;

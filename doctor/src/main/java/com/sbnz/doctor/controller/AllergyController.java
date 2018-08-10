@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.controller;
 
 import java.util.List;

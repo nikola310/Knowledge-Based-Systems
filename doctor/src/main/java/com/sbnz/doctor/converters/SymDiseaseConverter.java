@@ -33,6 +33,7 @@ public class SymDiseaseConverter implements SymDiseaseConverterInterface {
 			dto.setDiseaseName(entity.getDisease().getDiseaseName());
 			dto.setSymptomId(entity.getSymptom().getSymId());
 			dto.setSymptomDesc(entity.getSymptom().getSymDesc());
+			dto.setSdSpecific(entity.isSdSpecific());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
@@ -48,6 +49,7 @@ public class SymDiseaseConverter implements SymDiseaseConverterInterface {
 			entity = mapper.map(dto, Symptomdisease.class);
 			entity.setDisease(diseaseRepo.getOne(dto.getDiseaseId()));
 			entity.setSymptom(symptomRepo.getOne(dto.getSymptomId()));
+			entity.setSdSpecific(dto.isSdSpecific());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

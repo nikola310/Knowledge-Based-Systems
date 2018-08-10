@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 5, 2018 4:56:29 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 10, 2018 1:55:33 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;

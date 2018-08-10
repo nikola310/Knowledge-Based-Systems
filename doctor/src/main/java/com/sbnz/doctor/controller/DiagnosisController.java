@@ -1,13 +1,12 @@
 package com.sbnz.doctor.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
-import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.PatientSymptomsDTO;
 import com.sbnz.doctor.dto.SymptomDTO;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
-import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
+import com.sbnz.doctor.interfaces.services.SymptomServiceInterface;
+import com.sbnz.doctor.utils.MapRetVal;
+import com.sbnz.doctor.utils.MapUtils;
 import com.sbnz.doctor.utils.SymptomList;
 
 /**
@@ -41,10 +42,7 @@ public class DiagnosisController {
 	private DiagnosisServiceInterface service;
 
 	@Autowired
-	private DiseaseServiceInterface diseaseService;
-
-	@Autowired
-	private KieContainer container;
+	private SymptomServiceInterface symService;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<DiagnosisDTO>> getAll() {
@@ -124,45 +122,84 @@ public class DiagnosisController {
 		return new ResponseEntity<List<MyDiagnosisDTO>>(lista, HttpStatus.OK);
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/process", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-	public ResponseEntity<MyDiagnosisDTO> getMostLikelyDisease(@RequestBody List<SymptomDTO> symptoms,
+	public ResponseEntity<MyDiagnosisDTO> getMostLikelyDisease(@RequestBody PatientSymptomsDTO dto,
 			@Context HttpServletRequest request) {
-		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
-		if (dto == null) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {
 			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (dto.getUserType() != 'D') {
+		if (user.getUserType() != 'D') {
 			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
 		}
-
-//		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
-
-		KieSession sesija = container.newKieSession("rulesSession");// sesije.get("proba");
-
-		SymptomList sl = new SymptomList((ArrayList<SymptomDTO>) symptoms);
-		sesija.insert(sl);
-		int fired = sesija.fireAllRules();
-		System.out.println(fired);
-		sesija.getAgenda().getAgendaGroup("Disease group 1").setFocus();
-		fired = sesija.fireAllRules();
-		double max = 0;
-		String code = "";
-		if (sl.getMostLikelyDisease().size() > 0) {
-			for (String key : sl.getMostLikelyDisease().keySet()) {
-				if (sl.getMostLikelyDisease().get(key) > max) {
-					max = sl.getMostLikelyDisease().get(key);
-					code = key;
-				}
-			}
+		if (service.hadFever(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("PRG60");
+			dto.getSymptoms().add(newSym);
 		}
 
-		DiseaseDTO retVal = diseaseService.getByCode(code);
-		MyDiagnosisDTO myDto = new MyDiagnosisDTO();
-		myDto.setDisease(retVal.getDiseaseName());
-		myDto.setDiseaseCode(retVal.getDiseaseCode());
-		myDto.setDiseaseId(retVal.getDiseaseId());
+		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
-		return new ResponseEntity<MyDiagnosisDTO>(myDto, HttpStatus.OK);
+		for (SymptomDTO s : dto.getSymptoms()) {
+			System.out.println(s.getSymCode());
+		}
+
+		KieSession sesija = sesije.get("proba");
+		SymptomList sl = new SymptomList(dto.getSymptoms());
+		sesija.insert(sl);
+		// sesija.getAgenda().getAgendaGroup("Disease group 1").setFocus();
+		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
+
+		// sesija.getAgenda().getAgendaGroup("Disease group 2").setFocus();
+		int fired = sesija.fireAllRules();
+		System.out.println(fired);
+
+		for (String key : sl.getMostLikelyDisease().keySet()) {
+			System.out.println(key + "  " + sl.getMostLikelyDisease().get(key));
+		}
+
+		MapRetVal dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
+		if (dis.getCode().equals("")) {
+			System.out.println("if code equals \"\"");
+			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
+			retVal.setDiseaseCode("NULL");
+			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
+		} else {
+			// zapamti iz prve grupe
+		}
+
+//		sesija.getAgenda().getAgendaGroup("Disease group 2").setFocus();
+//		sesija.fireAllRules();
+//		dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
+//		if (dis.getCode().equals("")) {
+//			System.out.println("if code equals \"\"");
+//			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
+//			retVal.setDiseaseCode("NULL");
+//			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
+//		} else {
+//			// zapamti iz druge grupe
+//		}
+//
+//		sesija.getAgenda().getAgendaGroup("Disease group 3").setFocus();
+//		sesija.fireAllRules();
+//		dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
+//		if (dis.getCode().equals("")) {
+//			System.out.println("if code equals \"\"");
+//			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
+//			retVal.setDiseaseCode("NULL");
+//			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
+//		} else {
+//			// zapamti iz trece grupe
+//		}
+
+		// DiseaseDTO retVal = diseaseService.getByCode(dis.getCode());
+//		MyDiagnosisDTO myDto = new MyDiagnosisDTO();
+//		myDto.setDisease(retVal.getDiseaseName());
+//		myDto.setDiseaseCode(retVal.getDiseaseCode());
+//		myDto.setDiseaseId(retVal.getDiseaseId());
+//
+//		return new ResponseEntity<MyDiagnosisDTO>(myDto, HttpStatus.OK);
+		return new ResponseEntity<MyDiagnosisDTO>(HttpStatus.OK);
 	}
 }

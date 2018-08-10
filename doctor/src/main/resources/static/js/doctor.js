@@ -147,3 +147,39 @@ function loadMyDiagnoses() {
 		});
 	});
 }
+
+function getChronic() {
+	$.get("report/chronic", function(data) {
+		console.log(data);
+	}).error(function(data) {
+		console.log(data);
+	}).fail(function(data) {
+		console.log(data);
+	});
+}
+
+function loadDiseases() {
+	$.get("disease", function(data) {
+		jQuery.each(data, function(i, val) {
+
+			var td1 = $('<td>', {
+				html : val.diseaseName
+			});
+
+			var a = $('<a>', {
+				href : "show-disease.html?id=" + val.diseaseId,
+				html : "See symptoms"
+			});
+
+			var td2 = $('<td>', {
+				html : a[0].outerHTML
+			});
+
+			var tr = $('<tr>', {
+				html : td1[0].outerHTML + td2[0].outerHTML
+			});
+
+			$("#disease-table tbody").append(tr);
+		});
+	});
+}

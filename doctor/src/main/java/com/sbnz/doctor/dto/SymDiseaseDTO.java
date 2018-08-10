@@ -6,6 +6,15 @@ public class SymDiseaseDTO {
 	private long symptomId;
 	private String diseaseName;
 	private String symptomDesc;
+	private boolean sdSpecific;
+
+	public boolean isSdSpecific() {
+		return sdSpecific;
+	}
+
+	public void setSdSpecific(boolean sdSpecific) {
+		this.sdSpecific = sdSpecific;
+	}
 
 	public long getSdId() {
 		return sdId;

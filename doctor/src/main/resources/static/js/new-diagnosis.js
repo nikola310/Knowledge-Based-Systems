@@ -48,15 +48,20 @@ function processSymptoms(){
 		}
 	});
 	
+	var toSend = JSON.stringify({
+		"symptoms" : syms,
+		"patientId" : id
+	});
+	
 	$.ajax({
 		type : 'POST',
 		url : 'diagnosis/process',
-		data : JSON.stringify(syms),
+		data : toSend,
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
 			console.log(data);
-			window.location.replace("process-diagnosis.html");
+			// window.location.replace("process-diagnosis.html");
 		},
 		fail : function(data) {
 			window.alert("Fail!");

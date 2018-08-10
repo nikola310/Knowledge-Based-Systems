@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 5, 2018 4:56:29 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 10, 2018 1:55:33 PM by Hibernate Tools 5.0.6.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,17 +21,19 @@ public class Symptomdisease implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2991888306240941709L;
+	private static final long serialVersionUID = 4315292758370746730L;
 	private Long sdId;
 	private Disease disease;
 	private Symptom symptom;
+	private boolean sdSpecific;
 
 	public Symptomdisease() {
 	}
 
-	public Symptomdisease(Disease disease, Symptom symptom) {
+	public Symptomdisease(Disease disease, Symptom symptom, boolean sdSpecific) {
 		this.disease = disease;
 		this.symptom = symptom;
+		this.sdSpecific = sdSpecific;
 	}
 
 	@Id
@@ -64,6 +66,15 @@ public class Symptomdisease implements java.io.Serializable {
 
 	public void setSymptom(Symptom symptom) {
 		this.symptom = symptom;
+	}
+
+	@Column(name = "SD_SPECIFIC", nullable = false)
+	public boolean isSdSpecific() {
+		return this.sdSpecific;
+	}
+
+	public void setSdSpecific(boolean sdSpecific) {
+		this.sdSpecific = sdSpecific;
 	}
 
 }

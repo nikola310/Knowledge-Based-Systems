@@ -58,12 +58,12 @@ public class LoginController {
 
 		request.getSession().setAttribute("user", dto);
 
-//		KieSession ks = container.newKieSession("rulesSession");
-//		ks.insert(dto);
-//		int k = ks.fireAllRules();
+		KieSession ks = container.newKieSession("rulesSession");
+		KieSession ks2 = container.newKieSession("patientSession");
 		HashMap<String, KieSession> sesije = new HashMap<>();
-//		sesije.put("proba", ks);
-//		request.getSession().setAttribute("sesije", sesije);
+		sesije.put("proba", ks);
+		sesije.put("proba2", ks2);
+		request.getSession().setAttribute("sesije", sesije);
 		body.setType(dto.getUserType());
 		return new ResponseEntity<LoginDTO>(body, HttpStatus.OK);
 	}
@@ -77,7 +77,6 @@ public class LoginController {
 			return new ResponseEntity<UserDTO>(user, HttpStatus.BAD_REQUEST);
 		}
 
-//		request.getSession().removeAttribute("user");
 		request.getSession().invalidate();
 
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);

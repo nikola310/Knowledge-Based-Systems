@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.dto;
 
 import java.util.Date;
@@ -16,6 +13,8 @@ public class DiagnosisDTO {
 	private long diagnosisId;
 	@NotNull
 	private Date diagnosisDate;
+	private long diseaseId;
+	private long patientId;
 
 	public long getDiagnosisId() {
 		return diagnosisId;
@@ -31,5 +30,21 @@ public class DiagnosisDTO {
 
 	public void setDiagnosisDate(Date diagnosisDate) {
 		this.diagnosisDate = diagnosisDate;
+	}
+
+	public long getDiseaseId() {
+		return diseaseId;
+	}
+
+	public void setDiseaseId(long diseaseId) {
+		this.diseaseId = diseaseId;
+	}
+
+	public long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
 	}
 }

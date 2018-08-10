@@ -1,0 +1,62 @@
+//created on: Aug 8, 2018
+package patient
+
+//list any import classes here.
+import com.sbnz.doctor.utils.ReportEntity;
+import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.PatientDTO;
+import com.sbnz.doctor.dto.DiseaseDTO;
+import java.util.Date;
+
+
+//declare any global variables here
+
+
+
+
+rule "Alergija"
+
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+rule "Ovisnik"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+		System.out.println("syso");
+end
+
+
+rule  "Pacijenti sa hronicnim oboljenjima"
+	no-loop true
+	agenda-group "Chronic report"
+	when
+		$r : ReportEntity( $year : yearLimit, $now: now, $diags : diagnoses, $pats : patients, $dis : diseases )
+		PatientDTO( $patId : patientId ) from $pats
+		$boles : DiseaseDTO( diseaseCode !=  "PREHL" && diseaseCode != "GROZN") from $dis
+		DiseaseDTO( $disId : diseaseId  ) from $boles
+		Number( $sum : intValue > 5) from accumulate(
+			DiagnosisDTO( diagnosisDate.getTime() >= $year.getTime() && diseaseId == $disId && patientId == $patId ) from $diags,
+			init( int count = 0; ),
+			action( count++; ),
+			result( count )
+		)
+	then
+		$r.getZavisnici().add($patId);
+		update($r);
+end
+
+rule  "Pacijenti sa hronicnim"
+	no-loop true
+	agenda-group "Chronic report"
+	when
+		ReportEntity(  )
+	then
+		System.out.println("neki syso");
+end

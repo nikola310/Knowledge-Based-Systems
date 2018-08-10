@@ -4,4 +4,7 @@
 	<kbase name="rules" packages="rules">
 		<ksession name="rulesSession" />
 	</kbase>
+	<kbase name="patient" packages="patient">
+		<ksession name="patientSession" />
+	</kbase>
 </kmodule>

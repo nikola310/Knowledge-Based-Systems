@@ -1,6 +1,8 @@
 package com.sbnz.doctor.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,11 @@ import com.sbnz.doctor.interfaces.converters.DiagnosisConverterInterface;
 import com.sbnz.doctor.interfaces.converters.UserConverterInterface;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 import com.sbnz.doctor.model.Diagnosis;
+import com.sbnz.doctor.model.Disease;
 import com.sbnz.doctor.model.Patient;
 import com.sbnz.doctor.repository.DiagnosisRepository;
+import com.sbnz.doctor.repository.DiseaseRepository;
+import com.sbnz.doctor.repository.PatientRepository;
 
 /**
  * @author Nikola
@@ -33,6 +38,12 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 
 	@Autowired
 	private UserConverterInterface userConverter;
+
+	@Autowired
+	private PatientRepository patientRepo;
+
+	@Autowired
+	private DiseaseRepository diseaseRepo;
 
 	@Override
 	public DiagnosisDTO Create(DiagnosisDTO dto) {
@@ -122,6 +133,31 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean hadFever(long patient) {
+		ArrayList<Diagnosis> dijagnoze = (ArrayList<Diagnosis>) repository
+				.getDiagnosisByPatient(patientRepo.getOne(patient));
+		System.out.println(dijagnoze.size());
+		Disease fever = diseaseRepo.getDiseaseByDiseaseCode("GROZN");
+		Disease cold = diseaseRepo.getDiseaseByDiseaseCode("PREHL");
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		cal.add(Calendar.DAY_OF_MONTH, -60);
+		Date days60 = cal.getTime();
+		System.out.println(today + " " + days60);
+		if (dijagnoze.size() > 0) {
+			for (Diagnosis d : dijagnoze) {
+				if (d.getDiagnosisDate().getTime() >= days60.getTime()) {
+					if (d.getDisease().getDiseaseId() == fever.getDiseaseId()
+							|| d.getDisease().getDiseaseId() == cold.getDiseaseId()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

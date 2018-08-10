@@ -100,4 +100,20 @@ public class SymptomService implements SymptomServiceInterface {
 		return converter.entityToDto(entity);
 	}
 
+	@Override
+	public SymptomDTO getHighBloodPressureSymptom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SymptomDTO getByCode(String code) {
+		try {
+			return converter.entityToDto(repository.getSymptomBySymCode(code));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
