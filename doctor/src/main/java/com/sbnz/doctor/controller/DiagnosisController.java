@@ -1,7 +1,9 @@
 package com.sbnz.doctor.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
@@ -20,13 +22,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.dto.PatientSymptomsDTO;
 import com.sbnz.doctor.dto.SymptomDTO;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
+import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
+import com.sbnz.doctor.interfaces.services.PatientServiceInterface;
 import com.sbnz.doctor.interfaces.services.SymptomServiceInterface;
-import com.sbnz.doctor.utils.MapRetVal;
 import com.sbnz.doctor.utils.MapUtils;
 import com.sbnz.doctor.utils.SymptomList;
 
@@ -43,6 +48,12 @@ public class DiagnosisController {
 
 	@Autowired
 	private SymptomServiceInterface symService;
+
+	@Autowired
+	private PatientServiceInterface patientService;
+
+	@Autowired
+	private DiseaseServiceInterface diseaseService;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<DiagnosisDTO>> getAll() {
@@ -73,7 +84,19 @@ public class DiagnosisController {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.BAD_REQUEST);
 		}
+		
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 
+		if (user == null) {
+			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'D') {
+			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		body.setUserId(user.getUserId());
+		
 		DiagnosisDTO dto = service.Create(body);
 
 		if (dto == null) {
@@ -141,65 +164,64 @@ public class DiagnosisController {
 
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
-		for (SymptomDTO s : dto.getSymptoms()) {
-			System.out.println(s.getSymCode());
-		}
+		/*
+		 * for (SymptomDTO s : dto.getSymptoms()) { System.out.println(s.getSymCode());
+		 * }
+		 */
 
 		KieSession sesija = sesije.get("proba");
 		SymptomList sl = new SymptomList(dto.getSymptoms());
 		sesija.insert(sl);
-		// sesija.getAgenda().getAgendaGroup("Disease group 1").setFocus();
 		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
 
-		// sesija.getAgenda().getAgendaGroup("Disease group 2").setFocus();
-		int fired = sesija.fireAllRules();
-		System.out.println(fired);
+		// int fired =
+		sesija.fireAllRules();
+		// System.out.println(fired);
 
-		for (String key : sl.getMostLikelyDisease().keySet()) {
-			System.out.println(key + "  " + sl.getMostLikelyDisease().get(key));
+		MyDiagnosisDTO retVal = new MyDiagnosisDTO();
+
+		if (sl.getMostLikelyDisease().size() == 0) {
+			retVal.setSuccess(false);
+			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.OK);
 		}
 
-		MapRetVal dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
-		if (dis.getCode().equals("")) {
-			System.out.println("if code equals \"\"");
-			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
-			retVal.setDiseaseCode("NULL");
-			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
-		} else {
-			// zapamti iz prve grupe
+		HashMap<String, Double> sortedMap = (HashMap<String, Double>) MapUtils
+				.sortByComparator(sl.getMostLikelyDisease(), MapUtils.DESC);
+
+		// MapUtils.printMap(sortedMap);
+
+		Map.Entry<String, Double> entry = sortedMap.entrySet().iterator().next();
+		String key = entry.getKey();
+		if (key == null) {
+			retVal.setSuccess(false);
+			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.OK);
 		}
+		retVal.setSuccess(true);
+		retVal.setDiseaseCode(key);
+		retVal.setPatientId(dto.getPatientId());
+		retVal.setDate(new Date());
+		PatientDTO pacijent = patientService.Read(dto.getPatientId());
+		retVal.setPatient(pacijent.getPatientName() + " " + pacijent.getPatientSurname());
+		DiseaseDTO bolest = diseaseService.getByCode(key);
+		retVal.setDisease(bolest.getDiseaseName());
+		retVal.setDiseaseId(bolest.getDiseaseId());
+		request.getSession().setAttribute("diagnosis", retVal);
+		return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.OK);
+	}
 
-//		sesija.getAgenda().getAgendaGroup("Disease group 2").setFocus();
-//		sesija.fireAllRules();
-//		dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
-//		if (dis.getCode().equals("")) {
-//			System.out.println("if code equals \"\"");
-//			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
-//			retVal.setDiseaseCode("NULL");
-//			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
-//		} else {
-//			// zapamti iz druge grupe
-//		}
-//
-//		sesija.getAgenda().getAgendaGroup("Disease group 3").setFocus();
-//		sesija.fireAllRules();
-//		dis = MapUtils.getMostLikelyCode(sl.getMostLikelyDisease());
-//		if (dis.getCode().equals("")) {
-//			System.out.println("if code equals \"\"");
-//			MyDiagnosisDTO retVal = new MyDiagnosisDTO();
-//			retVal.setDiseaseCode("NULL");
-//			return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.NOT_FOUND);
-//		} else {
-//			// zapamti iz trece grupe
-//		}
-
-		// DiseaseDTO retVal = diseaseService.getByCode(dis.getCode());
-//		MyDiagnosisDTO myDto = new MyDiagnosisDTO();
-//		myDto.setDisease(retVal.getDiseaseName());
-//		myDto.setDiseaseCode(retVal.getDiseaseCode());
-//		myDto.setDiseaseId(retVal.getDiseaseId());
-//
-//		return new ResponseEntity<MyDiagnosisDTO>(myDto, HttpStatus.OK);
-		return new ResponseEntity<MyDiagnosisDTO>(HttpStatus.OK);
+	@RequestMapping(value = "/get-current", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<MyDiagnosisDTO> getCurrentDiagnosis(@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
+		}
+		if (user.getUserType() != 'D') {
+			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
+		}
+		MyDiagnosisDTO current = (MyDiagnosisDTO) request.getSession().getAttribute("diagnosis");
+		if (current == null) {
+			return new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<MyDiagnosisDTO>(current, HttpStatus.OK);
 	}
 }

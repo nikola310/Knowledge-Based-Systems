@@ -15,6 +15,23 @@ public class DiagnosisDTO {
 	private Date diagnosisDate;
 	private long diseaseId;
 	private long patientId;
+	private long userId;
+
+	public DiagnosisDTO(long diagnosisId, @NotNull Date diagnosisDate, long diseaseId, long patientId, long userId) {
+		this.diagnosisId = diagnosisId;
+		this.diagnosisDate = diagnosisDate;
+		this.diseaseId = diseaseId;
+		this.patientId = patientId;
+		this.userId = userId;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
 
 	public long getDiagnosisId() {
 		return diagnosisId;

@@ -9,6 +9,7 @@ import java.util.Date;
 public class MyDiagnosisDTO {
 
 	private long diagnosisId;
+	private boolean success;
 	private Date date;
 	private String disease;
 	private String patient;
@@ -19,9 +20,10 @@ public class MyDiagnosisDTO {
 	public MyDiagnosisDTO() {
 	}
 
-	public MyDiagnosisDTO(long diagnosisId, Date date, String disease, String patient, long diseaseId, long patientId,
-			String diseaseCode) {
+	public MyDiagnosisDTO(long diagnosisId, boolean success, Date date, String disease, String patient, long diseaseId,
+			long patientId, String diseaseCode) {
 		this.diagnosisId = diagnosisId;
+		this.success = success;
 		this.date = date;
 		this.disease = disease;
 		this.patient = patient;
@@ -84,5 +86,13 @@ public class MyDiagnosisDTO {
 
 	public void setDiseaseCode(String diseaseCode) {
 		this.diseaseCode = diseaseCode;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }

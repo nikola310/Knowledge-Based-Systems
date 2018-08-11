@@ -30,10 +30,10 @@ body {
 
 <script type="text/javascript" src="js/url-utils.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
-<script type="text/javascript" src="js/process-diagnosis.js"></script>
+<script type="text/javascript" src="js/meds.js"></script>
 </head>
 
-<body onload="loadAllDiseases();">
+<body onload="load();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -62,21 +62,14 @@ body {
 	<!-- Page Content -->
 	<div class="container">
 		<div class="container-page">
-			<form onsubmit="return proceed();" action="">
+			<form onsubmit="return addMeds();" action="">
 				<div class="col-md-6">
-					<h3 class="dark-grey" id="disease-name"></h3>
-					<div>
-						<label id="patient-name"></label><br /> <label id="patient-name"></label><br />
-						<label id="date"></label><br />
-					</div>
+					<h3 class="dark-grey" id="patient-name"></h3>
+					<div id="med-container"></div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit">Proceed</button>
+				<button type="submit" class="btn btn-primary" id="submit">Add
+					meds</button>
 			</form>
-		</div>
-
-		<div class="container">
-
-			<button onclick="rediret();">Override</button>
 		</div>
 
 	</div>

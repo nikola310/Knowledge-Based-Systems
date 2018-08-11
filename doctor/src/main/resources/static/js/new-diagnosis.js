@@ -61,7 +61,7 @@ function processSymptoms(){
 		dataType : "json",
 		success : function(data) {
 			console.log(data);
-			// window.location.replace("process-diagnosis.html");
+			window.location.replace("process-diagnosis.html");
 		},
 		fail : function(data) {
 			window.alert("Fail!");

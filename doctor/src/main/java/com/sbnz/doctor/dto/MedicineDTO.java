@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.dto;
 
 import javax.validation.constraints.NotNull;
@@ -20,11 +17,9 @@ public class MedicineDTO {
 	private char medicineType;
 
 	public MedicineDTO() {
-		super();
 	}
 
 	public MedicineDTO(long medicineId, String medicineName, char medicineType) {
-		super();
 		this.medicineId = medicineId;
 		this.medicineName = medicineName;
 		this.medicineType = medicineType;

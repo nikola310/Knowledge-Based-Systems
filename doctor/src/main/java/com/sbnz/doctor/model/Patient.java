@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 10, 2018 1:55:33 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 11, 2018 4:31:23 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class Patient implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1248121618143696484L;
+	private static final long serialVersionUID = 2085871803800607606L;
 	private Long patientId;
 	private String patientName;
 	private String patientSurname;
@@ -30,6 +30,7 @@ public class Patient implements java.io.Serializable {
 	private Float patientTemperature;
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 	private Set<Allergy> allergies = new HashSet<Allergy>(0);
+	private Set<Therapy> therapies = new HashSet<Therapy>(0);
 
 	public Patient() {
 	}
@@ -41,13 +42,14 @@ public class Patient implements java.io.Serializable {
 	}
 
 	public Patient(String patientName, String patientSurname, int patientBloodPressure, Float patientTemperature,
-			Set<Diagnosis> diagnosises, Set<Allergy> allergies) {
+			Set<Diagnosis> diagnosises, Set<Allergy> allergies, Set<Therapy> therapies) {
 		this.patientName = patientName;
 		this.patientSurname = patientSurname;
 		this.patientBloodPressure = patientBloodPressure;
 		this.patientTemperature = patientTemperature;
 		this.diagnosises = diagnosises;
 		this.allergies = allergies;
+		this.therapies = therapies;
 	}
 
 	@Id
@@ -114,6 +116,15 @@ public class Patient implements java.io.Serializable {
 
 	public void setAllergies(Set<Allergy> allergies) {
 		this.allergies = allergies;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+	public Set<Therapy> getTherapies() {
+		return this.therapies;
+	}
+
+	public void setTherapies(Set<Therapy> therapies) {
+		this.therapies = therapies;
 	}
 
 }

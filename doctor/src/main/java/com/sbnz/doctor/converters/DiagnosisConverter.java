@@ -10,6 +10,7 @@ import com.sbnz.doctor.interfaces.converters.DiagnosisConverterInterface;
 import com.sbnz.doctor.model.Diagnosis;
 import com.sbnz.doctor.repository.DiseaseRepository;
 import com.sbnz.doctor.repository.PatientRepository;
+import com.sbnz.doctor.repository.UserRepository;
 
 /**
  * 
@@ -26,6 +27,9 @@ public class DiagnosisConverter implements DiagnosisConverterInterface {
 	@Autowired
 	private PatientRepository patientRepo;
 
+	@Autowired
+	private UserRepository userRepo;
+
 	private ModelMapper mapper = new ModelMapper();
 
 	@Override
@@ -36,6 +40,7 @@ public class DiagnosisConverter implements DiagnosisConverterInterface {
 			dto = mapper.map(entity, DiagnosisDTO.class);
 			dto.setDiseaseId(entity.getDisease().getDiseaseId());
 			dto.setPatientId(entity.getPatient().getPatientId());
+			dto.setUserId(entity.getUser().getUserId());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
@@ -51,6 +56,7 @@ public class DiagnosisConverter implements DiagnosisConverterInterface {
 			entity = mapper.map(dto, Diagnosis.class);
 			entity.setDisease(diseaseRepo.getOne(dto.getDiseaseId()));
 			entity.setPatient(patientRepo.getOne(dto.getPatientId()));
+			entity.setUser(userRepo.getOne(dto.getUserId()));
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

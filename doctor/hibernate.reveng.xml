@@ -14,5 +14,6 @@
 	<table-filter match-catalog="sbnz" match-name="symptom" />
 	<table-filter match-catalog="sbnz"
 		match-name="symptomdisease" />
+	<table-filter match-catalog="sbnz" match-name="therapy" />
 	<table-filter match-catalog="sbnz" match-name="user" />
 </hibernate-reverse-engineering>

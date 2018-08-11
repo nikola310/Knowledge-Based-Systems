@@ -23,6 +23,7 @@ rule "Prehlada"
 	//agenda-group "Disease group 1"
 	salience 75
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -35,11 +36,11 @@ rule "Prehlada"
 				
     then
         //actions
-        
-        $s.setFlag(1389);
-        double procena = $sum/5.0*100.0;
+        double procena = 0;
         if($sum == 5){
         	procena = 3000;
+        }else{
+        	procena = $sum/5.0*100.0;
         }
 		$s.getMostLikelyDisease().put("PREHL", procena);
 		update($s);
@@ -50,6 +51,7 @@ rule "Groznica"
 	//agenda-group "Disease group 1"
 	salience 75
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -61,10 +63,11 @@ rule "Groznica"
 				)
     then
         //actions
-        $s.setFlag(1389);
-        double procena = $sum/7.0*100.0;
-        if($sum == 5){
+        double procena = 0;
+        if($sum == 7){
         	procena = 3000;
+        }else{
+        	procena = $sum/7.0*100.0;
         }
 		$s.getMostLikelyDisease().put("GROZN", procena);
 		update($s);
@@ -75,6 +78,7 @@ rule "Upala krajnika"
 	//agenda-group "Disease group 1"
 	salience 75
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -86,10 +90,11 @@ rule "Upala krajnika"
 				)
     then
         //actions
-        $s.setFlag(1389);
-        double procena = $sum/8.0*100.0;
-        if($sum == 5){
+        double procena = 0;
+        if($sum == 8){
         	procena = 3000;
+        }else{
+        	procena = $sum/8.0*100.0;
         }
 		$s.getMostLikelyDisease().put("UPAKR", procena);
 		update($s);
@@ -100,6 +105,7 @@ rule "Sinusna infekcija"
 	//agenda-group "Disease group 1"
 	salience 75
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -111,10 +117,11 @@ rule "Sinusna infekcija"
 				)
     then
         //actions
-        $s.setFlag(1389);
-        double procena = $sum/7.0*100.0;
-        if($sum == 5){
+        double procena = 0;
+        if($sum == 7){
         	procena = 3000;
+        }else{
+        	procena = $sum/7.0*100.0;
         }
 		$s.getMostLikelyDisease().put("SININ", procena);
 		update($s);
@@ -126,6 +133,7 @@ rule "Dijabetes"
 	//agenda-group "Disease group 2"
 	salience 50
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -137,8 +145,7 @@ rule "Dijabetes"
 				)
     then
         //actions
-        System.out.println("aloooooooooooooo");
-		$s.getMostLikelyDisease().put("DIJBE", 3000.0); // 4000.0? 3000.0?
+		$s.getMostLikelyDisease().put("DIJBE", 5000.0);
 		update($s);
 end
 
@@ -147,6 +154,7 @@ rule "Hipertenzija"
 	//agenda-group "Disease group 2"
 	salience 50
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -158,7 +166,7 @@ rule "Hipertenzija"
 				)
     then
         //actions
-		$s.getMostLikelyDisease().put("HIPTE", 3000.0);
+		$s.getMostLikelyDisease().put("HIPTE", 5000.0);
 		update($s);
 end
 
@@ -167,6 +175,7 @@ rule "Hronicna bubrezna povreda"
 	agenda-group "Diseases"//agenda-group "Disease group 3"
 	salience 25
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -184,7 +193,8 @@ rule "Hronicna bubrezna povreda"
 				)
     then
         //actions
-		$s.getMostLikelyDisease().put("HRBUB", 3000.0);
+        $s.getMostLikelyDisease().remove("AKBUB");
+		$s.getMostLikelyDisease().put("HRBUB", 13000.0);
 		update($s);
 end
 
@@ -192,6 +202,7 @@ rule "Akutna bubrezna povreda"
 	agenda-group "Diseases"//agenda-group "Disease group 3"
 	salience 25
 	no-loop true
+	lock-on-active true
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
@@ -209,6 +220,7 @@ rule "Akutna bubrezna povreda"
 				)
     then
         //actions
-		$s.getMostLikelyDisease().put("AKBUB", 3000.0);
+        $s.getMostLikelyDisease().remove("HRBUB");
+		$s.getMostLikelyDisease().put("AKBUB", 13000.0);
 		update($s);
 end
