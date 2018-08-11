@@ -7,4 +7,7 @@
 	<kbase name="patient" packages="patient">
 		<ksession name="patientSession" />
 	</kbase>
+	<kbase name="count" packages="count">
+		<ksession name="countSession" />
+	</kbase>
 </kmodule>

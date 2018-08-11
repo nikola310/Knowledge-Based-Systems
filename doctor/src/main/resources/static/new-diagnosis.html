@@ -60,14 +60,17 @@ body {
 	</nav>
 
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container" id="page-container">
 		<div class="container-page">
 			<form onsubmit="return processSymptoms();" action="">
 				<div class="col-md-6">
 					<h3 class="dark-grey" id="patient-name"></h3>
 					<div id="sym-container"></div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit">Process diagnosis</button>
+				<button type="submit" class="btn btn-primary" id="submit">Process
+					diagnosis</button>
+				<button type="button" onclick="analyzeSymptoms();">Get by
+					number of symptoms</button>
 			</form>
 		</div>
 

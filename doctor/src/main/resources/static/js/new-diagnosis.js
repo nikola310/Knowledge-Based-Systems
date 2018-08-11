@@ -73,3 +73,74 @@ function processSymptoms(){
 	
 	return false;
 }
+
+function analyzeSymptoms(){
+kids = $("#sym-container").children(":input");
+	
+	syms = [];
+	
+	jQuery.each(kids, function(i, val){
+		
+		if(val.checked){
+			
+			var symDis = {
+				"diseaseId" : parseInt(id),
+				"symptomId" : parseInt(val.id.split("-")[1]),
+				"symCode" : val.id.split("-")[2]
+			};
+			
+			syms.push(symDis);
+
+		}
+	});
+	
+	var toSend = JSON.stringify({
+		"symptoms" : syms,
+		"patientId" : id
+	});
+	
+	$.ajax({
+		type : 'POST',
+		url : 'diagnosis/process/all',
+		data : toSend,
+		contentType : "application/json; charset=utf-8",
+		dataType : "json",
+		success : function(data) {
+			$("#disease-list-container").remove();
+			writeThemDown(data);
+		},
+		fail : function(data) {
+			window.alert("Fail!");
+		},
+		error : function(data) {
+			window.alert("Error!");
+		}
+	});
+	return false;
+}
+
+function writeThemDown(data){
+	
+	var someBtn = $("<input/>", {
+		type: "button",
+		onclick: "clearContainer()",
+		value: "Clear",
+		class: "btn btn-primary"
+	});
+	var mainDiv = $("<div/>", {
+		class: "container-page",
+		id: "disease-list-container"
+	});
+	jQuery.each(data, function(i, val){
+		
+		mainDiv.append(i + " (" + val + ") " + "<br/>");
+		
+	});
+	
+	mainDiv.append(someBtn[0].outerHTML);
+	$("#page-container").append(mainDiv[0].outerHTML);
+}
+
+function clearContainer() {
+	$("#disease-list-container").remove();
+}

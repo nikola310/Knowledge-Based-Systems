@@ -84,7 +84,7 @@ public class DiagnosisController {
 		if (errors.hasErrors()) {
 			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
 
 		if (user == null) {
@@ -94,9 +94,9 @@ public class DiagnosisController {
 		if (user.getUserType() != 'D') {
 			return new ResponseEntity<DiagnosisDTO>(body, HttpStatus.NOT_ACCEPTABLE);
 		}
-		
+
 		body.setUserId(user.getUserId());
-		
+
 		DiagnosisDTO dto = service.Create(body);
 
 		if (dto == null) {
@@ -169,7 +169,7 @@ public class DiagnosisController {
 		 * }
 		 */
 
-		KieSession sesija = sesije.get("proba");
+		KieSession sesija = sesije.get("rulesSession");
 		SymptomList sl = new SymptomList(dto.getSymptoms());
 		sesija.insert(sl);
 		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
@@ -223,5 +223,46 @@ public class DiagnosisController {
 			return new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<MyDiagnosisDTO>(current, HttpStatus.OK);
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/process/all", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+	public ResponseEntity<Map<String, Double>> getDiseaseList(@RequestBody PatientSymptomsDTO dto,
+			@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {
+			new ResponseEntity<Map<String, Double>>(HttpStatus.BAD_REQUEST);
+		}
+		if (user.getUserType() != 'D') {
+			new ResponseEntity<Map<String, Double>>(HttpStatus.FORBIDDEN);
+		}
+		if (service.hadFever(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("PRG60");
+			dto.getSymptoms().add(newSym);
+		}
+		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
+		KieSession sesija = sesije.get("countSession");
+		SymptomList sl = new SymptomList(dto.getSymptoms());
+		sesija.insert(sl);
+		sesija.getAgenda().getAgendaGroup("Count diseases").setFocus();
+		int fired = sesija.fireAllRules();
+		System.out.println(fired);
+		HashMap<String, Double> retVal = new HashMap<>();
+		if (sl.getMostLikelyDisease().size() == 0) {
+			return new ResponseEntity<Map<String, Double>>(HttpStatus.BAD_REQUEST);
+		}
+
+		HashMap<String, Double> sortedMap = (HashMap<String, Double>) MapUtils
+				.sortByComparator(sl.getMostLikelyDisease(), MapUtils.DESC);
+
+		// MapUtils.printMap(sortedMap);
+
+		for (String key : sortedMap.keySet()) {
+			DiseaseDTO bolest = diseaseService.getByCode(key);
+			retVal.put(bolest.getDiseaseName(), sortedMap.get(key));
+		}
+
+		// request.getSession().setAttribute("diagnosis", retVal);
+		return new ResponseEntity<Map<String, Double>>(retVal, HttpStatus.OK);
 	}
 }
