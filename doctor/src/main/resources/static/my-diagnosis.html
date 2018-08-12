@@ -62,41 +62,12 @@ body {
 	<!-- Page Content -->
 	<div class="container">
 		<div class="container-page">
-			<form onsubmit="return createUser();" action="">
+			<form onsubmit="return setDiagnosis();" action="" id="disease-form">
 				<div class="col-md-6">
-					<h3 class="dark-grey">Create new user</h3>
+					<h3 class="dark-grey" id="patient-name"></h3>
 
-					<div class="form-group col-lg-6">
-						<label>Username:</label> <input type="text" class="form-control"
-							id="username" maxlength="150">
-					</div>
+					<div class="form-group col-lg-6" id="dis-container"></div>
 
-					<div class="form-group col-lg-6">
-						<label>Name:</label> <input type="text" class="form-control"
-							id="name" maxlength="100">
-					</div>
-
-					<div class="form-group col-lg-6">
-						<label>Surname:</label> <input type="text" class="form-control"
-							id="surname" maxlength="200">
-					</div>
-
-					<div class="form-group col-lg-6">
-						<label>Password:</label> <input type="password"
-							class="form-control" id="password">
-					</div>
-
-					<div class="form-group col-lg-6">
-						<label>Type</label>
-						<div class="radio">
-							<label><input type="radio" name="optradio" id="doctor"
-								value="doctor" checked>Doctor</label>
-						</div>
-						<div class="radio">
-							<label><input type="radio" name="optradio" id="admin"
-								value="admin">Administrator</label>
-						</div>
-					</div>
 				</div>
 				<button type="submit" class="btn btn-primary" id="submit">Set
 					diagnosis</button>

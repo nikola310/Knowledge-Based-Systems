@@ -10,7 +10,7 @@ function loadAllDiseases() {
 		patientId = data.patientId;
 		diseaseId = data.diseaseId;
 		var t = $("#disease-name");
-		t[0].innerHTML = "Most probable disease: " + data.disease;
+		t[0].innerHTML = "Disease: " + data.disease;
 		// .val("Most probable disease: " + data.disease);
 		t = $("#patient-name"); // .val(data.patient);
 		t[0].innerHTML = "Patient: " + data.patient;
@@ -47,6 +47,6 @@ function proceed() {
 	return false;
 }
 
-function redirect() {
+function myDiagnosis() {
 	window.location.replace("my-diagnosis.html?id=" + patientId);
 }

@@ -144,3 +144,7 @@ function writeThemDown(data){
 function clearContainer() {
 	$("#disease-list-container").remove();
 }
+
+function myDiagnosis() {
+	window.location.replace("my-diagnosis.html?id=" + id);
+}

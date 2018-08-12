@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
@@ -265,4 +266,28 @@ public class DiagnosisController {
 		// request.getSession().setAttribute("diagnosis", retVal);
 		return new ResponseEntity<Map<String, Double>>(retVal, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/process/mine", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_FORM_URLENCODED)
+	public ResponseEntity<DiagnosisDTO> setMine(@RequestParam("patientId") long patientId,
+			@RequestParam("diseaseCode") String diseaseCode, @Context HttpServletRequest request) {
+
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {
+			new ResponseEntity<DiagnosisDTO>(HttpStatus.BAD_REQUEST);
+		}
+		if (user.getUserType() != 'D') {
+			new ResponseEntity<DiagnosisDTO>(HttpStatus.FORBIDDEN);
+		}
+
+		DiseaseDTO bolest = diseaseService.getByCode(diseaseCode);
+		DiagnosisDTO toSave = new DiagnosisDTO(0, new Date(), bolest.getDiseaseId(), patientId, user.getUserId());
+		DiagnosisDTO dto = service.Create(toSave);
+
+		if (dto == null) {
+			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.OK);
+	}
+
 }
