@@ -12,8 +12,10 @@ import com.sbnz.doctor.interfaces.converters.MedicineConverterInterface;
 import com.sbnz.doctor.interfaces.services.MedicineServiceInterface;
 import com.sbnz.doctor.model.Ingredientmedicine;
 import com.sbnz.doctor.model.Medicine;
+import com.sbnz.doctor.model.Medicineallergy;
 import com.sbnz.doctor.repository.IngredientMedicineRepository;
 import com.sbnz.doctor.repository.MedicineRepository;
+import com.sbnz.doctor.repository.MedicineallergyRepository;
 
 /**
  * 
@@ -29,9 +31,12 @@ public class MedicineService implements MedicineServiceInterface {
 
 	@Autowired
 	private IngredientMedicineRepository imRepo;
-	
+
 	@Autowired
 	private MedicineConverterInterface converter;
+
+	@Autowired
+	private MedicineallergyRepository medAllergyRepo;
 
 	@Override
 	public MedicineDTO Create(MedicineDTO dto) {
@@ -88,7 +93,7 @@ public class MedicineService implements MedicineServiceInterface {
 	@Override
 	public MedicineDTO Delete(long id) {
 		Medicine entity = repository.getOne(id);
-		
+
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
 		}
@@ -96,7 +101,11 @@ public class MedicineService implements MedicineServiceInterface {
 		for (Ingredientmedicine toDelete : imRepo.findByMedicine(entity)) {
 			imRepo.delete(toDelete);
 		}
-		
+
+		for (Medicineallergy toDelete : medAllergyRepo.findByMedicine(entity)) {
+			medAllergyRepo.delete(toDelete);
+		}
+
 		repository.delete(entity);
 
 		return converter.entityToDto(entity);

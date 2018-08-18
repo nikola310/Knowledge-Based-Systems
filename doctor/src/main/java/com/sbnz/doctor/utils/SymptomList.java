@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sbnz.doctor.utils;
 
 import java.util.ArrayList;

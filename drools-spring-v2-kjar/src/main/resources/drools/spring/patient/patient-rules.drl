@@ -7,19 +7,30 @@ import com.sbnz.doctor.dto.DiagnosisDTO;
 import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.dto.DiseaseDTO;
 import java.util.Date;
-
-
-//declare any global variables here
-
-
-
+import com.sbnz.doctor.model.Patient;
+import com.sbnz.doctor.model.Diagnosis;
+import com.sbnz.doctor.model.Symptom;
+import com.sbnz.doctor.model.Disease;
+import com.sbnz.doctor.services.DiseaseService;
+import com.sbnz.doctor.services.SymptomService;
+import com.sbnz.doctor.services.AllergyService;
+import com.sbnz.doctor.services.IngredientMedService;
+import com.sbnz.doctor.dto.SymptomDTO;
+import com.sbnz.doctor.utils.SymptomList;
+import com.sbnz.doctor.utils.MedicineList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
 
 rule "Alergija"
-
+	no-loop true
+	agenda-group "Allergy"
+	lock-on-active true
     when
         //conditions
     then
         //actions
+        System.out.println("syso");
 
 end
 
@@ -29,7 +40,6 @@ rule "Ovisnik"
         //conditions
     then
         //actions
-		System.out.println("syso");
 end
 
 
@@ -39,7 +49,7 @@ rule  "Pacijenti sa hronicnim oboljenjima"
 	when
 		$r : ReportEntity( $year : yearLimit, $now: now, $diags : diagnoses, $pats : patients, $dis : diseases )
 		PatientDTO( $patId : patientId ) from $pats
-		$boles : DiseaseDTO( diseaseCode !=  "PREHL" && diseaseCode != "GROZN") from $dis
+		$boles : DiseaseDTO( (diseaseCode !=  "PREHL") && (diseaseCode != "GROZN")) from $dis
 		DiseaseDTO( $disId : diseaseId  ) from $boles
 		Number( $sum : intValue > 5) from accumulate(
 			DiagnosisDTO( diagnosisDate.getTime() >= $year.getTime() && diseaseId == $disId && patientId == $patId ) from $diags,
@@ -50,13 +60,4 @@ rule  "Pacijenti sa hronicnim oboljenjima"
 	then
 		$r.getZavisnici().add($patId);
 		update($r);
-end
-
-rule  "Pacijenti sa hronicnim"
-	no-loop true
-	agenda-group "Chronic report"
-	when
-		ReportEntity(  )
-	then
-		System.out.println("neki syso");
 end

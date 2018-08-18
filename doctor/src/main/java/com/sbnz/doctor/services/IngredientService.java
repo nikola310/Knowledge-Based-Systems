@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sbnz.doctor.dto.IngredientDTO;
 import com.sbnz.doctor.interfaces.converters.IngredientConverterInterface;
 import com.sbnz.doctor.interfaces.services.IngredientServiceInterface;
+import com.sbnz.doctor.model.Allergy;
 import com.sbnz.doctor.model.Ingredient;
 import com.sbnz.doctor.model.Ingredientmedicine;
+import com.sbnz.doctor.repository.AllergyRepository;
 import com.sbnz.doctor.repository.IngredientMedicineRepository;
 import com.sbnz.doctor.repository.IngredientRepository;
 
@@ -32,6 +34,9 @@ public class IngredientService implements IngredientServiceInterface {
 
 	@Autowired
 	private IngredientConverterInterface converter;
+
+	@Autowired
+	private AllergyRepository allergyRepo;
 
 	@Override
 	public IngredientDTO Create(IngredientDTO dto) {
@@ -91,9 +96,13 @@ public class IngredientService implements IngredientServiceInterface {
 		if (entity == null) {
 			throw new IllegalArgumentException("Tried to delete non-existing entity");
 		}
-		
+
 		for (Ingredientmedicine toDelete : imRepo.findByIngredient(entity)) {
 			imRepo.delete(toDelete);
+		}
+
+		for (Allergy toDelete : allergyRepo.findByIngredient(entity)) {
+			allergyRepo.delete(toDelete);
 		}
 
 		repository.delete(entity);

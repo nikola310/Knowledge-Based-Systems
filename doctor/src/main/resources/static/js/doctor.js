@@ -50,12 +50,30 @@ function loadPatients() {
 			});
 
 			var a4 = $('<a>', {
-				href : "new-diagnosis.html?id=" + val.patientId,
-				html : "Add diagnosis"
+				href : "med-allergies.html?id=" + val.patientId,
+				html : "Add (medicine) allergies"
 			});
 
 			var td8 = $('<td>', {
 				html : a4[0].outerHTML
+			});
+
+			var a5 = $('<a>', {
+				href : "remove-med-aller.html?id=" + val.patientId,
+				html : "Remove (medicine) allergies"
+			});
+
+			var td9 = $('<td>', {
+				html : a5[0].outerHTML
+			});
+
+			var a6 = $('<a>', {
+				href : "new-diagnosis.html?id=" + val.patientId,
+				html : "Add diagnosis"
+			});
+
+			var td10 = $('<td>', {
+				html : a6[0].outerHTML
 			});
 
 			var del = $('<button>', {
@@ -63,7 +81,7 @@ function loadPatients() {
 				html : "Delete",
 				onclick : "deletePatient(this);"
 			});
-			var td9 = $('<td>', {
+			var td11 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
@@ -72,6 +90,7 @@ function loadPatients() {
 						+ td4[0].outerHTML + td5[0].outerHTML
 						+ td6[0].outerHTML + td7[0].outerHTML
 						+ td8[0].outerHTML + td9[0].outerHTML
+						+ td10[0].outerHTML + td11[0].outerHTML
 			});
 
 			$("#patients-table tbody").append(tr);

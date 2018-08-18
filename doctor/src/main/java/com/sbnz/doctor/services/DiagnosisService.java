@@ -160,4 +160,28 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 		return false;
 	}
 
+	@Override
+	public boolean hasHipte(long patient) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasDiab(long patient) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasHighTem(long patient) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean receivedAntibiotics(long patient) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

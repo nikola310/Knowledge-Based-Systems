@@ -18,7 +18,8 @@ create table DIAGNOSIS
    USER_ID              bigint not null  comment '',
    PATIENT_ID           bigint not null  comment '',
    DISEASE_ID           bigint not null  comment '',
-   DIAGNOSIS_DATE       date not null  comment '',
+   DIAGNOSIS_DATE       datetime not null  comment '',
+   DIAGNOSIS_ACTIVE     bool not null  comment '',
    primary key (DIAGNOSIS_ID)
 );
 
@@ -68,6 +69,17 @@ create table MEDICINE
 );
 
 /*==============================================================*/
+/* Table: MEDICINEALLERGY                                       */
+/*==============================================================*/
+create table MEDICINEALLERGY
+(
+   MED_ID               bigint not null auto_increment  comment '',
+   PATIENT_ID           bigint not null  comment '',
+   MEDICINE_ID          bigint not null  comment '',
+   primary key (MED_ID)
+);
+
+/*==============================================================*/
 /* Table: PATIENT                                               */
 /*==============================================================*/
 create table PATIENT
@@ -75,7 +87,7 @@ create table PATIENT
    PATIENT_ID           bigint not null auto_increment  comment '',
    PATIENT_NAME         varchar(100) not null  comment '',
    PATIENT_SURNAME      varchar(250) not null  comment '',
-   PATIENT_BLOOD_PRESSURE int not null  comment '',
+   PATIENT_BLOOD_PRESSURE int  comment '',
    PATIENT_TEMPERATURE  float  comment '',
    primary key (PATIENT_ID)
 );
@@ -112,6 +124,8 @@ create table THERAPY
    THERAPY_ID           bigint not null auto_increment  comment '',
    MEDICINE_ID          bigint not null  comment '',
    PATIENT_ID           bigint not null  comment '',
+   USER_ID              bigint not null  comment '',
+   THERAPY_DATE         datetime not null  comment '',
    primary key (THERAPY_ID)
 );
 
@@ -154,6 +168,12 @@ alter table INGREDIENTMEDICINE add constraint FK_INGREDIE_RELATIONS_INGREDIE for
 alter table INGREDIENTMEDICINE add constraint FK_INGREDIE_RELATIONS_MEDICINE foreign key (MEDICINE_ID)
       references MEDICINE (MEDICINE_ID) on delete restrict on update restrict;
 
+alter table MEDICINEALLERGY add constraint FK_MEDICINE_RELATIONS_MEDICINE foreign key (MEDICINE_ID)
+      references MEDICINE (MEDICINE_ID) on delete restrict on update restrict;
+
+alter table MEDICINEALLERGY add constraint FK_MEDICINE_RELATIONS_PATIENT foreign key (PATIENT_ID)
+      references PATIENT (PATIENT_ID) on delete restrict on update restrict;
+
 alter table SYMPTOMDISEASE add constraint FK_SYMPTOMD_RELATIONS_SYMPTOM foreign key (SYM_ID)
       references SYMPTOM (SYM_ID) on delete restrict on update restrict;
 
@@ -165,3 +185,6 @@ alter table THERAPY add constraint FK_THERAPY_RELATIONS_PATIENT foreign key (PAT
 
 alter table THERAPY add constraint FK_THERAPY_RELATIONS_MEDICINE foreign key (MEDICINE_ID)
       references MEDICINE (MEDICINE_ID) on delete restrict on update restrict;
+
+alter table THERAPY add constraint FK_THERAPY_RELATIONS_USER foreign key (USER_ID)
+      references USER (USER_ID) on delete restrict on update restrict;

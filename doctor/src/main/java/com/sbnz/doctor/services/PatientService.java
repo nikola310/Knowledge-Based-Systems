@@ -11,8 +11,10 @@ import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.interfaces.converters.PatientConverterInterface;
 import com.sbnz.doctor.interfaces.services.PatientServiceInterface;
 import com.sbnz.doctor.model.Allergy;
+import com.sbnz.doctor.model.Medicineallergy;
 import com.sbnz.doctor.model.Patient;
 import com.sbnz.doctor.repository.AllergyRepository;
+import com.sbnz.doctor.repository.MedicineallergyRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 
 /**
@@ -32,6 +34,9 @@ public class PatientService implements PatientServiceInterface {
 
 	@Autowired
 	private AllergyRepository allergyRepo;
+
+	@Autowired
+	private MedicineallergyRepository medAllergyRepo;
 
 	@Override
 	public PatientDTO Create(PatientDTO dto) {
@@ -93,6 +98,10 @@ public class PatientService implements PatientServiceInterface {
 
 		for (Allergy a : allergyRepo.findByPatient(entity)) {
 			allergyRepo.delete(a);
+		}
+
+		for (Medicineallergy toDelete : medAllergyRepo.findByPatient(entity)) {
+			medAllergyRepo.delete(toDelete);
 		}
 
 		repository.delete(entity);

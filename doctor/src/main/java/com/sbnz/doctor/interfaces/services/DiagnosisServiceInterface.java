@@ -15,4 +15,12 @@ public interface DiagnosisServiceInterface extends ServiceInterface<DiagnosisDTO
 	public List<MyDiagnosisDTO> getDiagnoses(UserDTO user);
 
 	public boolean hadFever(long patient);
+
+	public boolean hasHipte(long patient);
+
+	public boolean hasDiab(long patient);
+
+	public boolean hasHighTem(long patient);
+
+	public boolean receivedAntibiotics(long patient);
 }

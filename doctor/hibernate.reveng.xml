@@ -16,4 +16,6 @@
 		match-name="symptomdisease" />
 	<table-filter match-catalog="sbnz" match-name="therapy" />
 	<table-filter match-catalog="sbnz" match-name="user" />
+	<table-filter match-catalog="sbnz"
+		match-name="medicineallergy" />
 </hibernate-reverse-engineering>
