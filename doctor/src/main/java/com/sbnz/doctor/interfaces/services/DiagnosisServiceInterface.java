@@ -16,9 +16,9 @@ public interface DiagnosisServiceInterface extends ServiceInterface<DiagnosisDTO
 
 	public boolean hadFever(long patient);
 
-	public boolean hasHipte(long patient);
+	public boolean hasHipertension(long patient);
 
-	public boolean hasDiab(long patient);
+	public boolean hasDiabetes(long patient);
 
 	public boolean hasHighTem(long patient);
 

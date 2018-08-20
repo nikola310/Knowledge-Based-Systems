@@ -18,9 +18,13 @@ import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 import com.sbnz.doctor.model.Diagnosis;
 import com.sbnz.doctor.model.Disease;
 import com.sbnz.doctor.model.Patient;
+import com.sbnz.doctor.model.Symptomdisease;
+import com.sbnz.doctor.model.Therapy;
 import com.sbnz.doctor.repository.DiagnosisRepository;
 import com.sbnz.doctor.repository.DiseaseRepository;
 import com.sbnz.doctor.repository.PatientRepository;
+import com.sbnz.doctor.repository.SymptomDiseaseRepository;
+import com.sbnz.doctor.repository.TherapyRepository;
 
 /**
  * @author Nikola
@@ -44,6 +48,12 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 
 	@Autowired
 	private DiseaseRepository diseaseRepo;
+
+	@Autowired
+	private SymptomDiseaseRepository symDiseaseRepo;
+
+	@Autowired
+	private TherapyRepository therapyRepo;
 
 	@Override
 	public DiagnosisDTO Create(DiagnosisDTO dto) {
@@ -117,7 +127,6 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 	@Override
 	public List<MyDiagnosisDTO> getDiagnoses(UserDTO user) {
 		ArrayList<MyDiagnosisDTO> list = new ArrayList<MyDiagnosisDTO>();
-
 		try {
 			for (Diagnosis entity : repository.getDiagnosisByUser(userConverter.DtoToEntity(user))) {
 				MyDiagnosisDTO tmp = new MyDiagnosisDTO();
@@ -139,14 +148,11 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 	public boolean hadFever(long patient) {
 		ArrayList<Diagnosis> dijagnoze = (ArrayList<Diagnosis>) repository
 				.getDiagnosisByPatient(patientRepo.getOne(patient));
-		System.out.println(dijagnoze.size());
 		Disease fever = diseaseRepo.getDiseaseByDiseaseCode("GROZN");
 		Disease cold = diseaseRepo.getDiseaseByDiseaseCode("PREHL");
 		Calendar cal = Calendar.getInstance();
-		Date today = cal.getTime();
 		cal.add(Calendar.DAY_OF_MONTH, -60);
 		Date days60 = cal.getTime();
-		System.out.println(today + " " + days60);
 		if (dijagnoze.size() > 0) {
 			for (Diagnosis d : dijagnoze) {
 				if (d.getDiagnosisDate().getTime() >= days60.getTime()) {
@@ -161,26 +167,76 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 	}
 
 	@Override
-	public boolean hasHipte(long patient) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasDiab(long patient) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean hasHighTem(long patient) {
-		// TODO Auto-generated method stub
+		ArrayList<Diagnosis> dijagnoze = (ArrayList<Diagnosis>) repository
+				.getDiagnosisByPatient(patientRepo.getOne(patient));
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, -14);
+		Date days14 = cal.getTime();
+		if (dijagnoze.size() > 0) {
+			for (Diagnosis d : dijagnoze) {
+				if (d.getDiagnosisDate().getTime() >= days14.getTime()) {
+					List<Symptomdisease> lista = symDiseaseRepo.findByDisease(d.getDisease());
+					for (Symptomdisease syd : lista) {
+						if (syd.getSymptom().getSymCode().equals("TEM38")
+								|| syd.getSymptom().getSymCode().equals("T4041")) {
+							return true;
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean receivedAntibiotics(long patient) {
-		// TODO Auto-generated method stub
+		ArrayList<Therapy> terapije = (ArrayList<Therapy>) therapyRepo.findByPatient(patientRepo.getOne(patient));
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_MONTH, -21);
+		Date days21 = cal.getTime();
+		if (terapije.size() > 0) {
+			for (Therapy t : terapije) {
+				if (t.getMedicine().getMedicineType() == 'A' && t.getTherapyDate().getTime() >= days21.getTime()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasHipertension(long patient) {
+		ArrayList<Diagnosis> dijagnoze = (ArrayList<Diagnosis>) repository
+				.getDiagnosisByPatient(patientRepo.getOne(patient));
+		Disease hipte = diseaseRepo.getDiseaseByDiseaseCode("HIPTE");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -6);
+		Date months6 = cal.getTime();
+		if (dijagnoze.size() > 0) {
+			for (Diagnosis d : dijagnoze) {
+				if (d.getDiagnosisDate().getTime() >= months6.getTime() && d.isDiagnosisActive() == true) {
+					if (d.getDisease().getDiseaseId() == hipte.getDiseaseId()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasDiabetes(long patient) {
+		ArrayList<Diagnosis> dijagnoze = (ArrayList<Diagnosis>) repository
+				.getDiagnosisByPatient(patientRepo.getOne(patient));
+		Disease dijbe = diseaseRepo.getDiseaseByDiseaseCode("DIJBE");
+		if (dijagnoze.size() > 0) {
+			for (Diagnosis d : dijagnoze) {
+				if (d.getDisease().getDiseaseId() == dijbe.getDiseaseId() && d.isDiagnosisActive() == true) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 

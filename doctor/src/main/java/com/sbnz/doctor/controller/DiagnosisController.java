@@ -103,7 +103,7 @@ public class DiagnosisController {
 		if (dto == null) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		MyDiagnosisDTO current = (MyDiagnosisDTO) request.getSession().getAttribute("diagnosis");
 		current.setPatientId(dto.getPatientId());
 		request.getSession().setAttribute("diagnosis", current);
@@ -162,11 +162,27 @@ public class DiagnosisController {
 		if (user.getUserType() != 'D') {
 			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
 		}
+
 		if (service.hadFever(dto.getPatientId())) {
 			SymptomDTO newSym = symService.getByCode("PRG60");
 			dto.getSymptoms().add(newSym);
 		}
-
+		if (service.hasHipertension(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("PRG60");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.hasDiabetes(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("DIANW");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.hasHighTem(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("TEM14");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.receivedAntibiotics(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("ANB21");
+			dto.getSymptoms().add(newSym);
+		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
 		/*
@@ -243,6 +259,22 @@ public class DiagnosisController {
 		}
 		if (service.hadFever(dto.getPatientId())) {
 			SymptomDTO newSym = symService.getByCode("PRG60");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.hasHipertension(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("PRG60");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.hasDiabetes(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("DIANW");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.hasHighTem(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("TEM14");
+			dto.getSymptoms().add(newSym);
+		}
+		if (service.receivedAntibiotics(dto.getPatientId())) {
+			SymptomDTO newSym = symService.getByCode("ANB21");
 			dto.getSymptoms().add(newSym);
 		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");

@@ -1,5 +1,6 @@
 package com.sbnz.doctor.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,13 @@ public class SymptomController {
 
 		if (dtos == null) {
 			return new ResponseEntity<List<SymptomDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+		
+		for (Iterator<SymptomDTO> iterator = dtos.iterator(); iterator.hasNext();) {
+			SymptomDTO symptomDTO = (SymptomDTO) iterator.next();
+			if(symptomDTO.isSymSystem()) {
+				iterator.remove();
+			}
 		}
 
 		return new ResponseEntity<List<SymptomDTO>>(dtos, HttpStatus.OK);

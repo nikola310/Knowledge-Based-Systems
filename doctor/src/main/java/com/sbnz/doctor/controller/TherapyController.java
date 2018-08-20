@@ -165,10 +165,10 @@ public class TherapyController {
 		}
 		cao.setPatientId(current.getPatientId());
 
-		for(MedicineallergyDTO med : cao.getMedAllergies()) {
+		for (MedicineallergyDTO med : cao.getMedAllergies()) {
 			System.out.println(med.getMedicine());
 		}
-		for(AllergyDTO alergy : cao.getAllergies()) {
+		for (AllergyDTO alergy : cao.getAllergies()) {
 			System.out.println(alergy.getIngredientName());
 		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
@@ -207,7 +207,7 @@ public class TherapyController {
 		if (user.getUserType() != 'D') {
 			return new ResponseEntity<List<TherapyDTO>>(body, HttpStatus.NOT_ACCEPTABLE);
 		}
-		
+
 		for (TherapyDTO therapyDTO : body) {
 			therapyDTO.setUserId(user.getUserId());
 		}

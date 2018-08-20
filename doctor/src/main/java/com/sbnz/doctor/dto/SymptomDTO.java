@@ -18,15 +18,23 @@ public class SymptomDTO {
 	@NotNull
 	@Size(min = 5, max = 5)
 	private String symCode;
+	@NotNull
+	private boolean symSystem;
 
 	public SymptomDTO() {
-		super();
 	}
 
 	public SymptomDTO(long symId, String symDesc) {
-		super();
 		this.symId = symId;
 		this.symDesc = symDesc;
+	}
+
+	public SymptomDTO(long symId, @NotNull @Size(min = 5, max = 300) String symDesc,
+			@NotNull @Size(min = 5, max = 5) String symCode, @NotNull boolean symSystem) {
+		this.symId = symId;
+		this.symDesc = symDesc;
+		this.symCode = symCode;
+		this.symSystem = symSystem;
 	}
 
 	public long getSymId() {
@@ -51,5 +59,13 @@ public class SymptomDTO {
 
 	public void setSymCode(String symCode) {
 		this.symCode = symCode;
+	}
+
+	public boolean isSymSystem() {
+		return symSystem;
+	}
+
+	public void setSymSystem(boolean symSystem) {
+		this.symSystem = symSystem;
 	}
 }

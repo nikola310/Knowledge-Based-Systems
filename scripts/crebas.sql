@@ -100,6 +100,7 @@ create table SYMPTOM
    SYM_ID               bigint not null auto_increment  comment '',
    SYM_DESC             varchar(300) not null  comment '',
    SYM_CODE             char(5) not null  comment '',
+   SYM_SYSTEM           bool not null  comment '',
    primary key (SYM_ID),
    key AK_IDENTIFIER_2 (SYM_CODE)
 );
