@@ -1,5 +1,7 @@
 package com.sbnz.doctor.dto;
 
+import java.util.Date;
+
 /**
  * @author Nikola
  *
@@ -9,6 +11,8 @@ public class TherapyDTO {
 	private long therapyId;
 	private long medicineId;
 	private long patientId;
+	private long userId;
+	private Date therapyDate;
 
 	public long getTherapyId() {
 		return therapyId;
@@ -34,10 +38,28 @@ public class TherapyDTO {
 		this.patientId = patientId;
 	}
 
-	public TherapyDTO(long therapyId, long medicineId, long patientId) {
+	public Date getTherapyDate() {
+		return therapyDate;
+	}
+
+	public void setTherapyDate(Date therapyDate) {
+		this.therapyDate = therapyDate;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public TherapyDTO(long therapyId, long medicineId, long patientId, long userId, Date therapyDate) {
 		this.therapyId = therapyId;
 		this.medicineId = medicineId;
 		this.patientId = patientId;
+		this.userId = userId;
+		this.therapyDate = therapyDate;
 	}
 
 	public TherapyDTO() {

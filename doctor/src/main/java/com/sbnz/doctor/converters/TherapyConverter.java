@@ -10,6 +10,7 @@ import com.sbnz.doctor.interfaces.converters.TherapyConverterInterface;
 import com.sbnz.doctor.model.Therapy;
 import com.sbnz.doctor.repository.MedicineRepository;
 import com.sbnz.doctor.repository.PatientRepository;
+import com.sbnz.doctor.repository.UserRepository;
 
 @Component
 @Transactional
@@ -23,6 +24,9 @@ public class TherapyConverter implements TherapyConverterInterface {
 	@Autowired
 	private PatientRepository patientRepo;
 
+	@Autowired
+	private UserRepository userRepo;
+
 	@Override
 	public TherapyDTO entityToDto(Therapy entity) {
 		TherapyDTO dto;
@@ -31,6 +35,7 @@ public class TherapyConverter implements TherapyConverterInterface {
 			dto = mapper.map(entity, TherapyDTO.class);
 			dto.setMedicineId(entity.getMedicine().getMedicineId());
 			dto.setPatientId(entity.getPatient().getPatientId());
+			dto.setUserId(entity.getUser().getUserId());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
@@ -46,6 +51,7 @@ public class TherapyConverter implements TherapyConverterInterface {
 			entity = mapper.map(dto, Therapy.class);
 			entity.setMedicine(medRepo.getOne(dto.getMedicineId()));
 			entity.setPatient(patientRepo.getOne(dto.getPatientId()));
+			entity.setUser(userRepo.getOne(dto.getUserId()));
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

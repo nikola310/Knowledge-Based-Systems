@@ -103,6 +103,10 @@ public class DiagnosisController {
 		if (dto == null) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
+		
+		MyDiagnosisDTO current = (MyDiagnosisDTO) request.getSession().getAttribute("diagnosis");
+		current.setPatientId(dto.getPatientId());
+		request.getSession().setAttribute("diagnosis", current);
 
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.CREATED);
 	}

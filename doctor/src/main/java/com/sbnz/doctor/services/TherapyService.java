@@ -101,4 +101,20 @@ public class TherapyService implements TherapyServiceInterface {
 		return converter.entityToDto(entity);
 	}
 
+	@Override
+	public List<TherapyDTO> addInBulk(List<TherapyDTO> dtos) {
+		try {
+
+			for (TherapyDTO tmp : dtos) {
+				Therapy entity = converter.DtoToEntity(tmp);
+				repository.save(entity);
+			}
+
+			return dtos;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

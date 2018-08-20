@@ -15,7 +15,7 @@ function loadAllDiseases() {
 		t = $("#patient-name"); // .val(data.patient);
 		t[0].innerHTML = "Patient: " + data.patient;
 		t = $("#date"); // .val(new Date(data.date).toUTCString());
-		t[0].innerHTML = "Date " + new Date(data.date).toUTCString();
+		t[0].innerHTML = new Date(data.date).toUTCString();
 	});
 }
 
@@ -23,7 +23,7 @@ function proceed() {
 	var diag = JSON.stringify({
 		"patientId" : patientId,
 		"diseaseId" : diseaseId,
-		"diagnosisDate" : new Date($("#date").val())
+		"diagnosisDate" : new Date($("#date")[0].innerHTML)
 	});
 
 	$.ajax({
@@ -34,7 +34,7 @@ function proceed() {
 		dataType : "json",
 		success : function(data) {
 			window.alert("Success!");
-			window.location.replace("meds.html");
+			window.location.replace("meds.html?id=" + patientId);
 		},
 		fail : function(data) {
 			window.alert("Fail!");

@@ -11,4 +11,6 @@ public interface AllergyServiceInterface extends ServiceInterface<AllergyDTO> {
 	public List<AllergyDTO> getByPatient(long patient);
 
 	public AllergyDTO[] addInBulk(AllergyDTO[] dtos);
+
+	public List<AllergyDTO> getByMedicine(long medicine);
 }

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sbnz.doctor.dto.IngredientDTO;
 import com.sbnz.doctor.dto.MedicineDTO;
+import com.sbnz.doctor.interfaces.converters.IngredientConverterInterface;
 import com.sbnz.doctor.interfaces.converters.MedicineConverterInterface;
 import com.sbnz.doctor.interfaces.services.MedicineServiceInterface;
 import com.sbnz.doctor.model.Ingredientmedicine;
@@ -34,6 +36,9 @@ public class MedicineService implements MedicineServiceInterface {
 
 	@Autowired
 	private MedicineConverterInterface converter;
+
+	@Autowired
+	private IngredientConverterInterface ingrConverter;
 
 	@Autowired
 	private MedicineallergyRepository medAllergyRepo;
@@ -109,6 +114,20 @@ public class MedicineService implements MedicineServiceInterface {
 		repository.delete(entity);
 
 		return converter.entityToDto(entity);
+	}
+
+	@Override
+	public List<IngredientDTO> getIngrediens(MedicineDTO m) {
+		try {
+			ArrayList<IngredientDTO> retVal = new ArrayList<>();
+			for (Ingredientmedicine im : imRepo.findByMedicine(repository.getOne(m.getMedicineId()))) {
+				retVal.add(ingrConverter.entityToDto(im.getIngredient()));
+			}
+			return retVal;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

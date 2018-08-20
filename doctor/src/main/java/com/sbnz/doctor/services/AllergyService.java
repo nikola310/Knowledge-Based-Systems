@@ -11,8 +11,12 @@ import com.sbnz.doctor.dto.AllergyDTO;
 import com.sbnz.doctor.interfaces.converters.AllergyConverterInterface;
 import com.sbnz.doctor.interfaces.services.AllergyServiceInterface;
 import com.sbnz.doctor.model.Allergy;
+import com.sbnz.doctor.model.Ingredientmedicine;
+import com.sbnz.doctor.model.Medicine;
 import com.sbnz.doctor.repository.AllergyRepository;
+import com.sbnz.doctor.repository.IngredientMedicineRepository;
 import com.sbnz.doctor.repository.IngredientRepository;
+import com.sbnz.doctor.repository.MedicineRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 
 @Service
@@ -30,6 +34,12 @@ public class AllergyService implements AllergyServiceInterface {
 
 	@Autowired
 	private PatientRepository patientRepo;
+
+	@Autowired
+	private MedicineRepository medRepo;
+
+	@Autowired
+	private IngredientMedicineRepository imRepo;
 
 	@Override
 	public AllergyDTO Create(AllergyDTO dto) {
@@ -134,7 +144,7 @@ public class AllergyService implements AllergyServiceInterface {
 	@Override
 	public AllergyDTO[] addInBulk(AllergyDTO[] dtos) {
 		try {
-			
+
 			for (AllergyDTO tmp : dtos) {
 				Allergy entity = converter.DtoToEntity(tmp);
 				repository.save(entity);
@@ -142,6 +152,25 @@ public class AllergyService implements AllergyServiceInterface {
 
 			return dtos;
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<AllergyDTO> getByMedicine(long medicine) {
+		try {
+			ArrayList<AllergyDTO> retVal = new ArrayList<>();
+			Medicine m = medRepo.getOne(medicine);
+			ArrayList<Ingredientmedicine> imList = (ArrayList<Ingredientmedicine>) imRepo.findByMedicine(m);
+			for (Ingredientmedicine im : imList) {
+				ArrayList<Allergy> tmp = (ArrayList<Allergy>) repository.findByIngredient(im.getIngredient());
+				for (Allergy al : tmp) {
+					retVal.add(converter.entityToDto(al));
+				}
+			}
+			return retVal;
+			} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
