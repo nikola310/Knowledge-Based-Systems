@@ -168,7 +168,7 @@ public class DiagnosisController {
 			dto.getSymptoms().add(newSym);
 		}
 		if (service.hasHipertension(dto.getPatientId())) {
-			SymptomDTO newSym = symService.getByCode("PRG60");
+			SymptomDTO newSym = symService.getByCode("HIPT6");
 			dto.getSymptoms().add(newSym);
 		}
 		if (service.hasDiabetes(dto.getPatientId())) {
@@ -185,19 +185,17 @@ public class DiagnosisController {
 		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
-		/*
-		 * for (SymptomDTO s : dto.getSymptoms()) { System.out.println(s.getSymCode());
-		 * }
-		 */
+//		for (SymptomDTO s : dto.getSymptoms()) {
+//			System.out.println(s.getSymCode());
+//		}
 
 		KieSession sesija = sesije.get("rulesSession");
 		SymptomList sl = new SymptomList(dto.getSymptoms());
 		sesija.insert(sl);
 		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
 
-		// int fired =
-		sesija.fireAllRules();
-		// System.out.println(fired);
+		int fired = sesija.fireAllRules();
+		System.out.println(fired);
 
 		MyDiagnosisDTO retVal = new MyDiagnosisDTO();
 
@@ -262,7 +260,7 @@ public class DiagnosisController {
 			dto.getSymptoms().add(newSym);
 		}
 		if (service.hasHipertension(dto.getPatientId())) {
-			SymptomDTO newSym = symService.getByCode("PRG60");
+			SymptomDTO newSym = symService.getByCode("HIPT6");
 			dto.getSymptoms().add(newSym);
 		}
 		if (service.hasDiabetes(dto.getPatientId())) {
@@ -277,6 +275,11 @@ public class DiagnosisController {
 			SymptomDTO newSym = symService.getByCode("ANB21");
 			dto.getSymptoms().add(newSym);
 		}
+
+//		for (SymptomDTO tmp : dto.getSymptoms()) {
+//			System.out.println(tmp.getSymCode());
+//		}
+
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 		KieSession sesija = sesije.get("countSession");
 		SymptomList sl = new SymptomList(dto.getSymptoms());

@@ -186,7 +186,7 @@ rule "Hronicna bubrezna povreda"
 					action ( count++; ),
 					result ( count )
 				) and Number( $sum2: intValue >= 1 ) from accumulate(
-					SymptomDTO( symCode == "OPORO" ) from $simptomi,
+					SymptomDTO( symCode == "HIPT6" || symCode == "DIANW") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )
@@ -213,7 +213,7 @@ rule "Akutna bubrezna povreda"
 					action ( count++; ),
 					result ( count )
 				) and Number( $sum2: intValue >= 1 ) from accumulate(
-					SymptomDTO( symCode == "OPORO" ) from $simptomi,
+					SymptomDTO( symCode == "OPORO" || symCode == "TEM14" || symCode == "ANB21") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )

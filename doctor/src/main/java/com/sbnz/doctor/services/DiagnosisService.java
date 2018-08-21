@@ -215,10 +215,10 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 		Date months6 = cal.getTime();
 		if (dijagnoze.size() > 0) {
 			for (Diagnosis d : dijagnoze) {
-				if (d.getDiagnosisDate().getTime() >= months6.getTime() && d.isDiagnosisActive() == true) {
-					if (d.getDisease().getDiseaseId() == hipte.getDiseaseId()) {
-						return true;
-					}
+				if (d.getDiagnosisDate().getTime() < months6.getTime() && d.isDiagnosisActive() == true
+						&& d.getDisease().getDiseaseId() == hipte.getDiseaseId()) {
+					System.out.println("HIPTE IF");
+					return true;
 				}
 			}
 		}
