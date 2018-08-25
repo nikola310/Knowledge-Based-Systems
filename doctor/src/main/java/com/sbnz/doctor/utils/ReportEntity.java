@@ -1,11 +1,10 @@
 package com.sbnz.doctor.utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.sbnz.doctor.dto.DiagnosisDTO;
 import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.PatientDTO;
+import com.sbnz.doctor.dto.ReportDiagnosis;
 
 /**
  * @author Nikola
@@ -13,20 +12,23 @@ import com.sbnz.doctor.dto.PatientDTO;
  */
 public class ReportEntity {
 
-	private Date yearLimit;
-	private Date now;
 	private ArrayList<PatientDTO> patients;
-	private ArrayList<DiagnosisDTO> diagnoses;
+	private ArrayList<ReportDiagnosis> diagnoses;
 	private ArrayList<DiseaseDTO> diseases;
 	private ArrayList<Long> zavisnici;
 
-	public ReportEntity(Date yearLimit, ArrayList<PatientDTO> patients, ArrayList<DiagnosisDTO> diagnoses) {
-		this.yearLimit = yearLimit;
+	public ReportEntity(ArrayList<PatientDTO> patients, ArrayList<ReportDiagnosis> diagnoses) {
 		this.patients = patients;
 		this.diagnoses = diagnoses;
+		this.diseases = new ArrayList<>();
+		this.zavisnici = new ArrayList<>();
 	}
 
 	public ReportEntity() {
+		this.diagnoses = new ArrayList<>();
+		this.diseases = new ArrayList<>();
+		this.patients = new ArrayList<>();
+		this.zavisnici = new ArrayList<>();
 	}
 
 	public ArrayList<DiseaseDTO> getDiseases() {
@@ -37,14 +39,6 @@ public class ReportEntity {
 		this.diseases = diseases;
 	}
 
-	public Date getYearLimit() {
-		return yearLimit;
-	}
-
-	public void setYearLimit(Date yearLimit) {
-		this.yearLimit = yearLimit;
-	}
-
 	public ArrayList<PatientDTO> getPatients() {
 		return patients;
 	}
@@ -53,20 +47,12 @@ public class ReportEntity {
 		this.patients = patients;
 	}
 
-	public ArrayList<DiagnosisDTO> getDiagnoses() {
+	public ArrayList<ReportDiagnosis> getDiagnoses() {
 		return diagnoses;
 	}
 
-	public void setDiagnoses(ArrayList<DiagnosisDTO> diagnoses) {
+	public void setDiagnoses(ArrayList<ReportDiagnosis> diagnoses) {
 		this.diagnoses = diagnoses;
-	}
-
-	public Date getNow() {
-		return now;
-	}
-
-	public void setNow(Date now) {
-		this.now = now;
 	}
 
 	public ArrayList<Long> getZavisnici() {

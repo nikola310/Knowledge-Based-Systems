@@ -17,22 +17,15 @@ public class PatientDTO {
 	@NotNull
 	@Size(max = 250)
 	private String patientSurname;
-	@NotNull
-	private int patientBloodPressure;
-	@NotNull
-	private float patientTemperature;
 
 	public PatientDTO() {
 	}
 
-	public PatientDTO(long patientId, long userId, String patientName, String patientSurname, int patientBloodPressure,
-			float patientTemperature) {
+	public PatientDTO(long patientId, long userId, String patientName, String patientSurname) {
 		this.patientId = patientId;
 		this.userId = userId;
 		this.patientName = patientName;
 		this.patientSurname = patientSurname;
-		this.patientBloodPressure = patientBloodPressure;
-		this.patientTemperature = patientTemperature;
 	}
 
 	public long getPatientId() {
@@ -67,19 +60,4 @@ public class PatientDTO {
 		this.patientSurname = patientSurname;
 	}
 
-	public int getPatientBloodPressure() {
-		return patientBloodPressure;
-	}
-
-	public void setPatientBloodPressure(int patientBloodPressure) {
-		this.patientBloodPressure = patientBloodPressure;
-	}
-
-	public float getPatientTemperature() {
-		return patientTemperature;
-	}
-
-	public void setPatientTemperature(float patientTemperature) {
-		this.patientTemperature = patientTemperature;
-	}
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
 import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.ReportDiagnosis;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.converters.DiagnosisConverterInterface;
 import com.sbnz.doctor.interfaces.converters.UserConverterInterface;
@@ -238,6 +239,26 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<ReportDiagnosis> getReportDiagnoses() {
+		ArrayList<ReportDiagnosis> list = new ArrayList<ReportDiagnosis>();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.YEAR, -2);
+		Date yearLimit = cal.getTime();
+		try {
+			for (Diagnosis entity : repository.findAll()) {
+				if (entity.getDiagnosisDate().getTime() >= yearLimit.getTime()) {
+					list.add(new ReportDiagnosis(entity));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
 	}
 
 }

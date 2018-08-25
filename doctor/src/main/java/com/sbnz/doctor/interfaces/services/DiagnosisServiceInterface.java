@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sbnz.doctor.dto.DiagnosisDTO;
 import com.sbnz.doctor.dto.MyDiagnosisDTO;
+import com.sbnz.doctor.dto.ReportDiagnosis;
 import com.sbnz.doctor.dto.UserDTO;
 
 /**
@@ -23,4 +24,6 @@ public interface DiagnosisServiceInterface extends ServiceInterface<DiagnosisDTO
 	public boolean hasHighTem(long patient);
 
 	public boolean receivedAntibiotics(long patient);
+	
+	public List<ReportDiagnosis> getReportDiagnoses();
 }

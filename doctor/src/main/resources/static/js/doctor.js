@@ -14,20 +14,12 @@ function loadPatients() {
 				html : val.patientSurname
 			});
 
-			var td3 = $('<td>', {
-				html : val.patientTemperature
-			});
-
-			var td4 = $('<td>', {
-				html : val.patientBloodPressure
-			});
-
 			var a = $('<a>', {
 				href : "edit-patient.html?id=" + val.patientId,
 				html : "Edit"
 			});
 
-			var td5 = $('<td>', {
+			var td3 = $('<td>', {
 				html : a[0].outerHTML
 			});
 
@@ -36,7 +28,7 @@ function loadPatients() {
 				html : "Add allergies"
 			});
 
-			var td6 = $('<td>', {
+			var td4 = $('<td>', {
 				html : a2[0].outerHTML
 			});
 
@@ -45,7 +37,7 @@ function loadPatients() {
 				html : "Remove allergies"
 			});
 
-			var td7 = $('<td>', {
+			var td5 = $('<td>', {
 				html : a3[0].outerHTML
 			});
 
@@ -54,7 +46,7 @@ function loadPatients() {
 				html : "Add (medicine) allergies"
 			});
 
-			var td8 = $('<td>', {
+			var td6 = $('<td>', {
 				html : a4[0].outerHTML
 			});
 
@@ -63,7 +55,7 @@ function loadPatients() {
 				html : "Remove (medicine) allergies"
 			});
 
-			var td9 = $('<td>', {
+			var td7 = $('<td>', {
 				html : a5[0].outerHTML
 			});
 
@@ -72,7 +64,7 @@ function loadPatients() {
 				html : "Add diagnosis"
 			});
 
-			var td10 = $('<td>', {
+			var td8 = $('<td>', {
 				html : a6[0].outerHTML
 			});
 
@@ -81,7 +73,7 @@ function loadPatients() {
 				html : "Delete",
 				onclick : "deletePatient(this);"
 			});
-			var td11 = $('<td>', {
+			var td9 = $('<td>', {
 				html : del[0].outerHTML
 			});
 
@@ -90,7 +82,6 @@ function loadPatients() {
 						+ td4[0].outerHTML + td5[0].outerHTML
 						+ td6[0].outerHTML + td7[0].outerHTML
 						+ td8[0].outerHTML + td9[0].outerHTML
-						+ td10[0].outerHTML + td11[0].outerHTML
 			});
 
 			$("#patients-table tbody").append(tr);
@@ -164,16 +155,6 @@ function loadMyDiagnoses() {
 
 			$("#diagnoses-table tbody").append(tr);
 		});
-	});
-}
-
-function getChronic() {
-	$.get("report/chronic", function(data) {
-		console.log(data);
-	}).error(function(data) {
-		console.log(data);
-	}).fail(function(data) {
-		console.log(data);
 	});
 }
 

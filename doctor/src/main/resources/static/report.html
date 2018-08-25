@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Doctor</title>
+<title>Bare - Start Bootstrap Template</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,11 +28,12 @@ body {
 </style>
 
 
-<script type="text/javascript" src="js/doctor.js"></script>
+<script type="text/javascript" src="js/url-utils.js"></script>
 <script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/report.js"></script>
 </head>
 
-<body onload="loadPatients(); loadMyDiagnoses(); loadDiseases();">
+<body onload="load();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -51,7 +52,8 @@ body {
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						onclick="logout();">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -59,56 +61,10 @@ body {
 
 	<!-- Page Content -->
 	<div class="container">
-		<div class="container-page">
-			<a href="new-patient.html">Create new patient</a><br />
-		</div>
-
-		<!-- div class="container-fluid" id="users-div"-->
-		<table id="patients-table" class="table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Surname</th>
-					<th>Temperature</th>
-					<th>Blood pressure</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+		<div class="container-page" id="result-container"></div>
+		<a href="doctor.html">Go back</a>
 	</div>
 
-	<div class="container">
-		<table id="diagnoses-table" class="table-striped">
-			<thead>
-				<tr>
-					<th>Patient</th>
-					<th>Date</th>
-					<th>Disease</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-
-	<div class="container">
-		<table id="disease-table" class="table-striped">
-			<thead>
-				<tr>
-					<th>Name</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</div>
-
-	<div class="container">
-		<a href="report.html?report=1">Get chronic diseases report</a> &nbsp;
-		<a href="report.html?report=2">Get addicts report</a>&nbsp; <a
-			href="report.html?report=3">Get weakened immunity report</a>
-	</div>
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

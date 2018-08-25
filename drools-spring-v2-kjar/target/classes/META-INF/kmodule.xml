@@ -10,4 +10,7 @@
 	<kbase name="count" packages="count">
 		<ksession name="countSession" />
 	</kbase>
+	<kbase name="report" packages="report">
+		<ksession name="reportSession" />
+	</kbase>
 </kmodule>

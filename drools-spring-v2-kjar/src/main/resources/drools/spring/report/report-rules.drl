@@ -1,0 +1,69 @@
+//created on: Aug 24, 2018
+package report
+
+//list any import classes here.
+import com.sbnz.doctor.dto.DiagnosisDTO;
+import com.sbnz.doctor.dto.PatientDTO;
+import com.sbnz.doctor.dto.DiseaseDTO;
+import com.sbnz.doctor.dto.MedicineallergyDTO;
+import com.sbnz.doctor.dto.AllergyDTO;
+import com.sbnz.doctor.dto.ReportDiagnosis;
+import com.sbnz.doctor.model.Patient;
+import com.sbnz.doctor.model.Diagnosis;
+import com.sbnz.doctor.model.Symptom;
+import com.sbnz.doctor.model.Disease;
+import com.sbnz.doctor.services.DiseaseService;
+import com.sbnz.doctor.services.SymptomService;
+import com.sbnz.doctor.services.PatientService;
+import com.sbnz.doctor.utils.SymptomList;
+import com.sbnz.doctor.utils.MedicineList;
+import com.sbnz.doctor.utils.CheckAllergyObject;
+import com.sbnz.doctor.utils.ReportEntity;
+import java.util.List;
+import java.util.HashMap;
+
+
+//declare any global variables here
+
+
+rule "Chronic disease patients"
+	lock-on-active true
+	no-loop true
+	agenda-group "Chronic"
+    when
+        //conditions
+        $re : ReportEntity($diags : diagnoses , $bolesti : diseases , $pacijenti : patients  )
+		$dto: PatientDTO( $pat : patientId  ) from $pacijenti
+        Number( $sum : intValue > 5) from accumulate(
+        	DiseaseDTO( $id : diseaseId ) from $bolesti and
+        	ReportDiagnosis( $id == diseaseId && diseaseCode != "PREHL" && diseaseCode != "GROZN" && $pat == patientId) from $diags,
+        	init(int count = 0;),
+        	action(count++;),
+        	result(count)
+        )
+    then
+        //actions
+        $re.getZavisnici().add($dto.getPatientId());
+
+end
+
+rule "Potential addicts"
+    lock-on-active true
+	no-loop true
+	agenda-group "Addicts"
+    when
+        //conditions
+    then
+        //actions
+
+end
+
+rule "Weak immunity"
+	lock-on-active true
+	no-loop true
+	agenda-group "Immunity"
+	when
+		
+	then
+		
+end

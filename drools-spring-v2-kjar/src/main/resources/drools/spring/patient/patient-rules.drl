@@ -2,13 +2,11 @@
 package patient
 
 //list any import classes here.
-import com.sbnz.doctor.utils.ReportEntity;
 import com.sbnz.doctor.dto.DiagnosisDTO;
 import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.MedicineallergyDTO;
 import com.sbnz.doctor.dto.AllergyDTO;
-import java.util.Date;
 import com.sbnz.doctor.model.Patient;
 import com.sbnz.doctor.model.Diagnosis;
 import com.sbnz.doctor.model.Symptom;
@@ -33,18 +31,13 @@ rule "Alergija"
         //conditions
         $c : CheckAllergyObject( $pacijent : patientId , $med : medAllergies )
         $medLista : List() from collect(	MedicineallergyDTO( patientId == $pacijent ) from $med )
-        //$sastojciLista: List() from accumulate(
-        //	AllergyDTO( patientId == $pacijent ) from $ingr
-        //)
     then
         //actions
         System.out.println("Alergija");
         for(int i = 0; i < $c.getMedAllergies().size(); i++){
         	System.out.println($c.getMedAllergies().get(i).getMedicine());
         }
-        System.out.println($medLista.size());
         $c.getIsMedAllergic().addAll($medLista);
-        System.out.println($c.getIsMedAllergic().size());
 		update($c);
 end
 
@@ -61,10 +54,6 @@ rule "Alergija 2"
         )
     then
         //actions
-        System.out.println("Alergija 2");
-        System.out.println($c.getIsAllergic().size());
-        System.out.println($sastojciLista.size());
 		$c.getIsAllergic().addAll($sastojciLista);
-		System.out.println($c.getIsAllergic().size());
 		update($c);
 end
