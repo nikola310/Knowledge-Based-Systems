@@ -29,7 +29,6 @@ create table DIAGNOSIS
 create table DISEASE
 (
    DISEASE_ID           bigint not null auto_increment  comment '',
-   MEDICINE_ID          bigint  comment '',
    DISEASE_NAME         varchar(100) not null  comment '',
    DISEASE_CODE         char(5) not null  comment '',
    primary key (DISEASE_ID),
@@ -87,8 +86,6 @@ create table PATIENT
    PATIENT_ID           bigint not null auto_increment  comment '',
    PATIENT_NAME         varchar(100) not null  comment '',
    PATIENT_SURNAME      varchar(250) not null  comment '',
-   PATIENT_BLOOD_PRESSURE int  comment '',
-   PATIENT_TEMPERATURE  float  comment '',
    primary key (PATIENT_ID)
 );
 
@@ -159,9 +156,6 @@ alter table DIAGNOSIS add constraint FK_DIAGNOSI_RELATIONS_USER foreign key (USE
 
 alter table DIAGNOSIS add constraint FK_DIAGNOSI_RELATIONS_PATIENT foreign key (PATIENT_ID)
       references PATIENT (PATIENT_ID) on delete restrict on update restrict;
-
-alter table DISEASE add constraint FK_DISEASE_IS_CURED__MEDICINE foreign key (MEDICINE_ID)
-      references MEDICINE (MEDICINE_ID) on delete restrict on update restrict;
 
 alter table INGREDIENTMEDICINE add constraint FK_INGREDIE_RELATIONS_INGREDIE foreign key (INGREDIENT_ID)
       references INGREDIENT (INGREDIENT_ID) on delete restrict on update restrict;

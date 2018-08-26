@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 20, 2018 8:56:25 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 26, 2018 11:22:47 AM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,8 +23,6 @@ public class Patient implements java.io.Serializable {
 	private Long patientId;
 	private String patientName;
 	private String patientSurname;
-	private Integer patientBloodPressure;
-	private Float patientTemperature;
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 	private Set<Allergy> allergies = new HashSet<Allergy>(0);
 	private Set<Therapy> therapies = new HashSet<Therapy>(0);
@@ -38,13 +36,10 @@ public class Patient implements java.io.Serializable {
 		this.patientSurname = patientSurname;
 	}
 
-	public Patient(String patientName, String patientSurname, Integer patientBloodPressure, Float patientTemperature,
-			Set<Diagnosis> diagnosises, Set<Allergy> allergies, Set<Therapy> therapies,
-			Set<Medicineallergy> medicineallergies) {
+	public Patient(String patientName, String patientSurname, Set<Diagnosis> diagnosises, Set<Allergy> allergies,
+			Set<Therapy> therapies, Set<Medicineallergy> medicineallergies) {
 		this.patientName = patientName;
 		this.patientSurname = patientSurname;
-		this.patientBloodPressure = patientBloodPressure;
-		this.patientTemperature = patientTemperature;
 		this.diagnosises = diagnosises;
 		this.allergies = allergies;
 		this.therapies = therapies;
@@ -79,24 +74,6 @@ public class Patient implements java.io.Serializable {
 
 	public void setPatientSurname(String patientSurname) {
 		this.patientSurname = patientSurname;
-	}
-
-	@Column(name = "PATIENT_BLOOD_PRESSURE")
-	public Integer getPatientBloodPressure() {
-		return this.patientBloodPressure;
-	}
-
-	public void setPatientBloodPressure(Integer patientBloodPressure) {
-		this.patientBloodPressure = patientBloodPressure;
-	}
-
-	@Column(name = "PATIENT_TEMPERATURE", precision = 12, scale = 0)
-	public Float getPatientTemperature() {
-		return this.patientTemperature;
-	}
-
-	public void setPatientTemperature(Float patientTemperature) {
-		this.patientTemperature = patientTemperature;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")

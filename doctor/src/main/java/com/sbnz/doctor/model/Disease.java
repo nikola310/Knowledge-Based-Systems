@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 20, 2018 8:56:25 PM by Hibernate Tools 5.0.6.Final
+// Generated Aug 26, 2018 11:22:47 AM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,7 +21,6 @@ import javax.persistence.Table;
 public class Disease implements java.io.Serializable {
 
 	private Long diseaseId;
-	private Medicine medicine;
 	private String diseaseName;
 	private String diseaseCode;
 	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
@@ -37,9 +34,8 @@ public class Disease implements java.io.Serializable {
 		this.diseaseCode = diseaseCode;
 	}
 
-	public Disease(Medicine medicine, String diseaseName, String diseaseCode, Set<Symptomdisease> symptomdiseases,
+	public Disease(String diseaseName, String diseaseCode, Set<Symptomdisease> symptomdiseases,
 			Set<Diagnosis> diagnosises) {
-		this.medicine = medicine;
 		this.diseaseName = diseaseName;
 		this.diseaseCode = diseaseCode;
 		this.symptomdiseases = symptomdiseases;
@@ -56,16 +52,6 @@ public class Disease implements java.io.Serializable {
 
 	public void setDiseaseId(Long diseaseId) {
 		this.diseaseId = diseaseId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MEDICINE_ID")
-	public Medicine getMedicine() {
-		return this.medicine;
-	}
-
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
 	}
 
 	@Column(name = "DISEASE_NAME", nullable = false, length = 100)

@@ -23,6 +23,7 @@ import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
 import com.sbnz.doctor.interfaces.services.PatientServiceInterface;
+import com.sbnz.doctor.interfaces.services.TherapyServiceInterface;
 import com.sbnz.doctor.utils.ReportEntity;
 
 /**
@@ -40,10 +41,75 @@ public class ReportController {
 	private PatientServiceInterface patientService;
 
 	@Autowired
+	private TherapyServiceInterface therapyService;
+
+	@Autowired
 	private DiagnosisServiceInterface diagService;
 
 	@RequestMapping(value = "/chronic", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<PatientDTO>> getChronic(@Context HttpServletRequest request) {
+		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
+		if (dto == null) {
+			new ResponseEntity<PatientDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (dto.getUserType() != 'D') {
+			new ResponseEntity<PatientDTO>(HttpStatus.FORBIDDEN);
+		}
+
+		ArrayList<ReportDiagnosis> reports = (ArrayList<ReportDiagnosis>) diagService.getReportDiagnoses();
+		ReportEntity re = new ReportEntity();
+		re.setDiagnoses(reports);
+		re.setPatients((ArrayList<PatientDTO>) patientService.ReadAll());
+		re.setDiseases((ArrayList<DiseaseDTO>) diseaseService.ReadAll());
+
+		@SuppressWarnings("unchecked")
+		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
+
+		KieSession sesija = sesije.get("reportSession");
+		sesija.insert(re);
+		sesija.getAgenda().getAgendaGroup("Chronic").setFocus();
+		sesija.fireAllRules();
+		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
+		for (Long pacijent : re.getRetVal()) {
+			pacijenti.add(patientService.Read(pacijent));
+		}
+		return new ResponseEntity<List<PatientDTO>>(pacijenti, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/addicts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<PatientDTO>> getAddicts(@Context HttpServletRequest request) {
+		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
+		if (dto == null) {
+			new ResponseEntity<PatientDTO>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (dto.getUserType() != 'D') {
+			new ResponseEntity<PatientDTO>(HttpStatus.FORBIDDEN);
+		}
+
+		ArrayList<ReportDiagnosis> reports = (ArrayList<ReportDiagnosis>) diagService.getReportDiagnoses();
+		ReportEntity re = new ReportEntity();
+		re.setDiagnoses(reports);
+		re.setPatients((ArrayList<PatientDTO>) patientService.ReadAll());
+		re.setTherapies(therapyService.getInLastSixMonths());
+
+		@SuppressWarnings("unchecked")
+		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
+
+		KieSession sesija = sesije.get("reportSession");
+		sesija.insert(re);
+		sesija.getAgenda().getAgendaGroup("Addicts").setFocus();
+		sesija.fireAllRules();
+		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
+		for (Long pacijent : re.getRetVal()) {
+			pacijenti.add(patientService.Read(pacijent));
+		}
+		return new ResponseEntity<List<PatientDTO>>(pacijenti, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/immunity", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<PatientDTO>> getImmunityReport(@Context HttpServletRequest request) {
 		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
 		if (dto == null) {
 			new ResponseEntity<PatientDTO>(HttpStatus.BAD_REQUEST);
@@ -66,13 +132,14 @@ public class ReportController {
 
 		KieSession sesija = sesije.get("reportSession");
 		sesija.insert(re);
-		sesija.getAgenda().getAgendaGroup("Chronic").setFocus();
+		sesija.getAgenda().getAgendaGroup("Immunity").setFocus();
 		int fired = sesija.fireAllRules();
 		System.out.println(fired);
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
-		for (Long pacijent : re.getZavisnici()) {
+		for (Long pacijent : re.getRetVal()) {
 			pacijenti.add(patientService.Read(pacijent));
 		}
 		return new ResponseEntity<List<PatientDTO>>(pacijenti, HttpStatus.OK);
 	}
+
 }

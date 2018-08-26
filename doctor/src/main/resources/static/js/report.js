@@ -76,9 +76,117 @@ function getChronicReport(id) {
 }
 
 function getAddictsReport(id) {
+	$.get("report/addicts", function(data) {
+		if (data.length == 0) {
 
+			var paragraf = $("<p/>", {
+				html : "There are no potential addicts"
+			});
+
+			$("#result-container")[0].innerHTML = paragraf[0].outerHTML;
+		} else {
+
+			var th1 = $("<th/>", {
+				html : "Name"
+			});
+			var th2 = $("<th/>", {
+				html : "Surname"
+			});
+			var trh = $("<tr/>", {
+				html : th1[0].outerHTML + th2[0].outerHTML
+			});
+			var th3 = $("<th/>", {
+				html: "Potential addicts"
+			});
+			var trh1 = $("<tr/>", {
+				html : th3[0].outerHTML
+			});
+			var thead = $("<thead/>", {
+				html : trh1[0].outerHTML + trh[0].outerHTML
+			});
+			var tbody = $("<tbody/>");
+			var table = $("<table/>", {
+				id : "result-table",
+				html : thead[0].outerHTML + tbody[0].outerHTML,
+				class : "table-striped"
+			});
+
+			$(table).appendTo("#result-container");
+			jQuery.each(data, function(i, val) {
+
+				var td1 = $("<td/>", {
+					html : val.patientName
+				});
+
+				var td2 = $("<td/>", {
+					html : val.patientSurname
+				});
+
+				var tr = $("<tr/>", {
+					html : td1[0].outerHTML + td2[0].outerHTML
+				});
+
+				$("#result-table tbody").append(tr);
+			});
+		}
+
+	});
 }
 
 function getImmunityReport(id) {
+	$.get("report/immunity", function(data) {
+		if (data.length == 0) {
 
+			var paragraf = $("<p/>", {
+				html : "There are no patients with weakened immunity"
+			});
+
+			$("#result-container")[0].innerHTML = paragraf[0].outerHTML;
+		} else {
+
+			var th1 = $("<th/>", {
+				html : "Name"
+			});
+			var th2 = $("<th/>", {
+				html : "Surname"
+			});
+			var trh = $("<tr/>", {
+				html : th1[0].outerHTML + th2[0].outerHTML
+			});
+			var th3 = $("<th/>", {
+				html: "Patients with weakened immunity"
+			});
+			var trh1 = $("<tr/>", {
+				html : th3[0].outerHTML
+			});
+			var thead = $("<thead/>", {
+				html : trh1[0].outerHTML + trh[0].outerHTML
+			});
+			var tbody = $("<tbody/>");
+			var table = $("<table/>", {
+				id : "result-table",
+				html : thead[0].outerHTML + tbody[0].outerHTML,
+				class : "table-striped"
+			});
+
+			$(table).appendTo("#result-container");
+			jQuery.each(data, function(i, val) {
+
+				var td1 = $("<td/>", {
+					html : val.patientName
+				});
+
+				var td2 = $("<td/>", {
+					html : val.patientSurname
+				});
+
+				var tr = $("<tr/>", {
+					html : td1[0].outerHTML + td2[0].outerHTML
+				});
+
+				$("#result-table tbody").append(tr);
+			});
+		}
+
+	});
 }

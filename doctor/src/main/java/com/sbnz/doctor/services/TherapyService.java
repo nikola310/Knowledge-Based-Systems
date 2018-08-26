@@ -1,6 +1,8 @@
 package com.sbnz.doctor.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sbnz.doctor.dto.TherapyDTO;
+import com.sbnz.doctor.dto.TherapyReport;
 import com.sbnz.doctor.interfaces.converters.TherapyConverterInterface;
 import com.sbnz.doctor.interfaces.services.TherapyServiceInterface;
 import com.sbnz.doctor.model.Therapy;
@@ -115,6 +118,25 @@ public class TherapyService implements TherapyServiceInterface {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<TherapyReport> getInLastSixMonths() {
+		try {
+			ArrayList<TherapyReport> retVal = new ArrayList<>();
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.MONTH, -6);
+			Date month6 = cal.getTime();
+			for (Therapy entity : repository.findAll()) {
+				if (entity.getTherapyDate().getTime() >= month6.getTime()) {
+					retVal.add(new TherapyReport(entity));
+				}
+			}
+			return retVal;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

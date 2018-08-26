@@ -8,6 +8,7 @@ import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.MedicineallergyDTO;
 import com.sbnz.doctor.dto.AllergyDTO;
 import com.sbnz.doctor.dto.ReportDiagnosis;
+import com.sbnz.doctor.dto.TherapyReport;
 import com.sbnz.doctor.model.Patient;
 import com.sbnz.doctor.model.Diagnosis;
 import com.sbnz.doctor.model.Symptom;
@@ -21,6 +22,7 @@ import com.sbnz.doctor.utils.CheckAllergyObject;
 import com.sbnz.doctor.utils.ReportEntity;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Set;
 
 
 //declare any global variables here
@@ -43,7 +45,7 @@ rule "Chronic disease patients"
         )
     then
         //actions
-        $re.getZavisnici().add($dto.getPatientId());
+        $re.getRetVal().add($dto.getPatientId());
 
 end
 
@@ -53,8 +55,19 @@ rule "Potential addicts"
 	agenda-group "Addicts"
     when
         //conditions
+        $re : ReportEntity($pacijenti : patients , $terapije : therapies  )
+		$dto: PatientDTO( $pat : patientId  ) from $pacijenti
+		Number ($sum : intValue >= 6) from accumulate(
+			$ter: TherapyReport( medicineType == 'P', $lekar : userId, patientId == $pat ) from $terapije,
+			init ( int count = 0; ),
+			action ( count++; $re.getLekari().add($lekar);),
+			result ( count )
+		)
     then
         //actions
+        if($re.getLekari().size() >= 3){
+        	$re.getRetVal().add($pat);
+        }
 
 end
 
