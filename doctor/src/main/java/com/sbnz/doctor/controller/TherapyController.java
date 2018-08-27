@@ -27,6 +27,7 @@ import com.sbnz.doctor.dto.MyDiagnosisDTO;
 import com.sbnz.doctor.dto.TherapyDTO;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.AllergyServiceInterface;
+import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
 import com.sbnz.doctor.interfaces.services.MedicineAllergyServiceInterface;
 import com.sbnz.doctor.interfaces.services.TherapyServiceInterface;
 import com.sbnz.doctor.utils.CheckAllergyObject;
@@ -47,6 +48,9 @@ public class TherapyController {
 
 	@Autowired
 	private MedicineAllergyServiceInterface medAllergyService;
+
+	@Autowired
+	private DiseaseServiceInterface diseaseService;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public ResponseEntity<List<TherapyDTO>> getAll() {
@@ -208,8 +212,16 @@ public class TherapyController {
 			return new ResponseEntity<List<TherapyDTO>>(body, HttpStatus.NOT_ACCEPTABLE);
 		}
 
+		String code = (String) request.getSession().getAttribute("disease");
+
+		if (code == null) {
+			return new ResponseEntity<List<TherapyDTO>>(body, HttpStatus.BAD_REQUEST);
+		}
+
 		for (TherapyDTO therapyDTO : body) {
 			therapyDTO.setUserId(user.getUserId());
+			therapyDTO.setDiseaseId(diseaseService.getByCode(code).getDiseaseId());
+			therapyDTO.setDiseaseCode(code);
 		}
 
 		List<TherapyDTO> dtos = service.addInBulk(body);

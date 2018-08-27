@@ -20,6 +20,8 @@ public class ReportEntity {
 	private ArrayList<DiseaseDTO> diseases;
 	private ArrayList<Long> retVal;
 	private HashSet<Long> lekari;
+	private HashSet<String> bolesti;
+	private HashSet<Character> tipovi;
 
 	public ReportEntity(ArrayList<PatientDTO> patients, ArrayList<ReportDiagnosis> diagnoses,
 			ArrayList<TherapyReport> therapies, ArrayList<DiseaseDTO> diseases, ArrayList<Long> retVal) {
@@ -28,6 +30,7 @@ public class ReportEntity {
 		this.therapies = therapies;
 		this.diseases = diseases;
 		this.retVal = retVal;
+		this.bolesti = new HashSet<>();
 	}
 
 	public ReportEntity(ArrayList<PatientDTO> patients, ArrayList<ReportDiagnosis> diagnoses) {
@@ -37,6 +40,7 @@ public class ReportEntity {
 		this.therapies = new ArrayList<>();
 		this.retVal = new ArrayList<>();
 		this.lekari = new HashSet<>();
+		this.bolesti = new HashSet<>();
 	}
 
 	public ReportEntity() {
@@ -46,6 +50,8 @@ public class ReportEntity {
 		this.patients = new ArrayList<>();
 		this.retVal = new ArrayList<>();
 		this.lekari = new HashSet<>();
+		this.bolesti = new HashSet<>();
+		this.tipovi = new HashSet<>();
 	}
 
 	public ArrayList<DiseaseDTO> getDiseases() {
@@ -94,6 +100,22 @@ public class ReportEntity {
 
 	public void setLekari(HashSet<Long> lekari) {
 		this.lekari = lekari;
+	}
+
+	public HashSet<String> getBolesti() {
+		return bolesti;
+	}
+
+	public void setBolesti(HashSet<String> bolesti) {
+		this.bolesti = bolesti;
+	}
+
+	public HashSet<Character> getTipovi() {
+		return tipovi;
+	}
+
+	public void setTipovi(HashSet<Character> tipovi) {
+		this.tipovi = tipovi;
 	}
 
 }

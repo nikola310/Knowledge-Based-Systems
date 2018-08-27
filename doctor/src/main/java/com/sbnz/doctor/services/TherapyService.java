@@ -139,4 +139,18 @@ public class TherapyService implements TherapyServiceInterface {
 		}
 	}
 
+	@Override
+	public ArrayList<TherapyReport> getTherapyReport() {
+		try {
+			ArrayList<TherapyReport> retVal = new ArrayList<>();
+			for (Therapy entity : repository.findAll()) {
+				retVal.add(new TherapyReport(entity));
+			}
+			return retVal;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

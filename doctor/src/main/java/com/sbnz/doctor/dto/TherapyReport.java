@@ -15,6 +15,7 @@ public class TherapyReport {
 	private long userId;
 	private Date therapyDate;
 	private char medicineType;
+	private String diseaseCode;
 
 	public TherapyReport(long therapyId, long medicineId, long patientId, long userId, Date therapyDate,
 			char medicineType) {
@@ -25,7 +26,7 @@ public class TherapyReport {
 		this.therapyDate = therapyDate;
 		this.medicineType = medicineType;
 	}
-	
+
 	public TherapyReport(Therapy therapy) {
 		this.therapyId = therapy.getTherapyId();
 		this.medicineId = therapy.getMedicine().getMedicineId();
@@ -33,6 +34,7 @@ public class TherapyReport {
 		this.patientId = therapy.getPatient().getPatientId();
 		this.userId = therapy.getUser().getUserId();
 		this.therapyDate = therapy.getTherapyDate();
+		this.diseaseCode = therapy.getDisease().getDiseaseCode();
 	}
 
 	public TherapyReport() {
@@ -84,5 +86,13 @@ public class TherapyReport {
 
 	public void setMedicineType(char medicineType) {
 		this.medicineType = medicineType;
+	}
+
+	public String getDiseaseCode() {
+		return diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
 	}
 }

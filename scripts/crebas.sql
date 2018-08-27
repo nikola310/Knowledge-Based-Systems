@@ -123,6 +123,7 @@ create table THERAPY
    MEDICINE_ID          bigint not null  comment '',
    PATIENT_ID           bigint not null  comment '',
    USER_ID              bigint not null  comment '',
+   DISEASE_ID           bigint not null  comment '',
    THERAPY_DATE         datetime not null  comment '',
    primary key (THERAPY_ID)
 );
@@ -183,3 +184,6 @@ alter table THERAPY add constraint FK_THERAPY_RELATIONS_MEDICINE foreign key (ME
 
 alter table THERAPY add constraint FK_THERAPY_RELATIONS_USER foreign key (USER_ID)
       references USER (USER_ID) on delete restrict on update restrict;
+
+alter table THERAPY add constraint FK_THERAPY_RELATIONS_DISEASE foreign key (DISEASE_ID)
+      references DISEASE (DISEASE_ID) on delete restrict on update restrict;

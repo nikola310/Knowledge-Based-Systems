@@ -11,6 +11,8 @@ public class TherapyDTO {
 	private long therapyId;
 	private long medicineId;
 	private long patientId;
+	private long diseaseId;
+	private String diseaseCode;
 	private long userId;
 	private Date therapyDate;
 
@@ -52,6 +54,34 @@ public class TherapyDTO {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public long getDiseaseId() {
+		return diseaseId;
+	}
+
+	public void setDiseaseId(long diseaseId) {
+		this.diseaseId = diseaseId;
+	}
+
+	public String getDiseaseCode() {
+		return diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
+	}
+
+	public TherapyDTO(long therapyId, long medicineId, long patientId, long diseaseId, String diseaseCode, long userId,
+			Date therapyDate) {
+		super();
+		this.therapyId = therapyId;
+		this.medicineId = medicineId;
+		this.patientId = patientId;
+		this.diseaseId = diseaseId;
+		this.diseaseCode = diseaseCode;
+		this.userId = userId;
+		this.therapyDate = therapyDate;
 	}
 
 	public TherapyDTO(long therapyId, long medicineId, long patientId, long userId, Date therapyDate) {

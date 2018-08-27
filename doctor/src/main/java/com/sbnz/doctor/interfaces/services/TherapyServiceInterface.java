@@ -11,4 +11,6 @@ public interface TherapyServiceInterface extends ServiceInterface<TherapyDTO> {
 	public List<TherapyDTO> addInBulk(List<TherapyDTO> dtos);
 	
 	public ArrayList<TherapyReport> getInLastSixMonths();
+	
+	public ArrayList<TherapyReport> getTherapyReport();
 }

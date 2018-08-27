@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sbnz.doctor.dto.TherapyDTO;
 import com.sbnz.doctor.interfaces.converters.TherapyConverterInterface;
 import com.sbnz.doctor.model.Therapy;
+import com.sbnz.doctor.repository.DiseaseRepository;
 import com.sbnz.doctor.repository.MedicineRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 import com.sbnz.doctor.repository.UserRepository;
@@ -20,6 +21,9 @@ public class TherapyConverter implements TherapyConverterInterface {
 
 	@Autowired
 	private MedicineRepository medRepo;
+
+	@Autowired
+	private DiseaseRepository diseaseRepo;
 
 	@Autowired
 	private PatientRepository patientRepo;
@@ -36,6 +40,8 @@ public class TherapyConverter implements TherapyConverterInterface {
 			dto.setMedicineId(entity.getMedicine().getMedicineId());
 			dto.setPatientId(entity.getPatient().getPatientId());
 			dto.setUserId(entity.getUser().getUserId());
+			dto.setDiseaseId(entity.getDisease().getDiseaseId());
+			dto.setDiseaseCode(entity.getDisease().getDiseaseCode());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;
@@ -52,6 +58,7 @@ public class TherapyConverter implements TherapyConverterInterface {
 			entity.setMedicine(medRepo.getOne(dto.getMedicineId()));
 			entity.setPatient(patientRepo.getOne(dto.getPatientId()));
 			entity.setUser(userRepo.getOne(dto.getUserId()));
+			entity.setDisease(diseaseRepo.getOne(dto.getDiseaseId()));
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

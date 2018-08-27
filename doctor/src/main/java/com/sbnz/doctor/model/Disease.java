@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 26, 2018 11:22:47 AM by Hibernate Tools 5.0.6.Final
+// Generated Aug 26, 2018 4:00:55 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ public class Disease implements java.io.Serializable {
 	private Long diseaseId;
 	private String diseaseName;
 	private String diseaseCode;
+	private Set<Therapy> therapies = new HashSet<Therapy>(0);
 	private Set<Symptomdisease> symptomdiseases = new HashSet<Symptomdisease>(0);
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>(0);
 
@@ -34,10 +35,11 @@ public class Disease implements java.io.Serializable {
 		this.diseaseCode = diseaseCode;
 	}
 
-	public Disease(String diseaseName, String diseaseCode, Set<Symptomdisease> symptomdiseases,
+	public Disease(String diseaseName, String diseaseCode, Set<Therapy> therapies, Set<Symptomdisease> symptomdiseases,
 			Set<Diagnosis> diagnosises) {
 		this.diseaseName = diseaseName;
 		this.diseaseCode = diseaseCode;
+		this.therapies = therapies;
 		this.symptomdiseases = symptomdiseases;
 		this.diagnosises = diagnosises;
 	}
@@ -70,6 +72,15 @@ public class Disease implements java.io.Serializable {
 
 	public void setDiseaseCode(String diseaseCode) {
 		this.diseaseCode = diseaseCode;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
+	public Set<Therapy> getTherapies() {
+		return this.therapies;
+	}
+
+	public void setTherapies(Set<Therapy> therapies) {
+		this.therapies = therapies;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")

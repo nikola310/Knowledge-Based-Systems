@@ -1,6 +1,8 @@
 package com.sbnz.doctor.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sbnz.doctor.dto.DiseaseDTO;
 import com.sbnz.doctor.dto.PatientDTO;
 import com.sbnz.doctor.dto.ReportDiagnosis;
+import com.sbnz.doctor.dto.TherapyReport;
 import com.sbnz.doctor.dto.UserDTO;
 import com.sbnz.doctor.interfaces.services.DiagnosisServiceInterface;
 import com.sbnz.doctor.interfaces.services.DiseaseServiceInterface;
@@ -123,19 +126,20 @@ public class ReportController {
 		ReportEntity re = new ReportEntity();
 		re.setDiagnoses(reports);
 		re.setPatients((ArrayList<PatientDTO>) patientService.ReadAll());
-		re.setDiseases((ArrayList<DiseaseDTO>) diseaseService.ReadAll());
-		System.out.println("diags: " + re.getDiagnoses().size() + ", pats: " + re.getPatients().size() + ", dis: "
-				+ re.getDiseases().size());
-
+		re.setTherapies((ArrayList<TherapyReport>) therapyService.getTherapyReport());
 		@SuppressWarnings("unchecked")
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
 		KieSession sesija = sesije.get("reportSession");
 		sesija.insert(re);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -12);
+		Date immunityLimit = cal.getTime();
+		sesija.setGlobal("immunityLimit", immunityLimit);
 		sesija.getAgenda().getAgendaGroup("Immunity").setFocus();
-		int fired = sesija.fireAllRules();
-		System.out.println(fired);
+		sesija.fireAllRules();
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
+		System.out.println(pacijenti.size());
 		for (Long pacijent : re.getRetVal()) {
 			pacijenti.add(patientService.Read(pacijent));
 		}

@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 26, 2018 11:22:47 AM by Hibernate Tools 5.0.6.Final
+// Generated Aug 26, 2018 4:00:55 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
 import javax.persistence.Column;

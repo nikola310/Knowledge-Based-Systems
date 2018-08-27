@@ -26,7 +26,7 @@ import java.util.Set;
 
 
 //declare any global variables here
-
+global java.util.Date immunityLimit; 
 
 rule "Chronic disease patients"
 	lock-on-active true
@@ -72,11 +72,28 @@ rule "Potential addicts"
 end
 
 rule "Weak immunity"
-	lock-on-active true
+    lock-on-active true
 	no-loop true
 	agenda-group "Immunity"
-	when
-		
-	then
+    when
+        //conditions
+        $re : ReportEntity($pacijenti : patients , $terapije : therapies  )
+		$dto: PatientDTO( $pat : patientId  ) from $pacijenti
+		Number ($sum : intValue > 10) from accumulate(
+			$ter: TherapyReport(  patientId == $pat, $tip : medicineType, $bolest : diseaseCode, therapyDate.getTime() >= immunityLimit.getTime() ) from $terapije,
+			init ( int count = 0; ),
+			action ( count++; $re.getBolesti().add($bolest); $re.getTipovi().add($ter.getMedicineType());),
+			result ( count )
+		) and Number($sum2 : intValue >= 0) from accumulate(
+			$ter: TherapyReport( medicineType != 'A', patientId == $pat, therapyDate.getTime() >= immunityLimit.getTime() ) from $terapije,
+			init ( int count = 0; ),
+			action ( count++; ),
+			result ( count )
+		)
+    then
+        //actions
+        if($re.getBolesti().size() >= 2 && $sum2 == 0){
+        	$re.getRetVal().add($pat);
+        }
 		
 end

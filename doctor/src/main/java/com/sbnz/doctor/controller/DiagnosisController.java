@@ -107,7 +107,8 @@ public class DiagnosisController {
 		MyDiagnosisDTO current = (MyDiagnosisDTO) request.getSession().getAttribute("diagnosis");
 		current.setPatientId(dto.getPatientId());
 		request.getSession().setAttribute("diagnosis", current);
-
+		request.getSession().setAttribute("disease", current.getDiseaseCode());
+		
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.CREATED);
 	}
 
@@ -194,8 +195,7 @@ public class DiagnosisController {
 		sesija.insert(sl);
 		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
 
-		int fired = sesija.fireAllRules();
-		System.out.println(fired);
+		sesija.fireAllRules();
 
 		MyDiagnosisDTO retVal = new MyDiagnosisDTO();
 
@@ -285,8 +285,7 @@ public class DiagnosisController {
 		SymptomList sl = new SymptomList(dto.getSymptoms());
 		sesija.insert(sl);
 		sesija.getAgenda().getAgendaGroup("Count diseases").setFocus();
-		int fired = sesija.fireAllRules();
-		System.out.println(fired);
+		sesija.fireAllRules();
 		HashMap<String, Double> retVal = new HashMap<>();
 		if (sl.getMostLikelyDisease().size() == 0) {
 			return new ResponseEntity<Map<String, Double>>(HttpStatus.BAD_REQUEST);
@@ -321,11 +320,13 @@ public class DiagnosisController {
 		DiseaseDTO bolest = diseaseService.getByCode(diseaseCode);
 		DiagnosisDTO toSave = new DiagnosisDTO(0, new Date(), bolest.getDiseaseId(), patientId, user.getUserId());
 		DiagnosisDTO dto = service.Create(toSave);
-
+		
 		if (dto == null) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
 
+		request.getSession().setAttribute("disease", diseaseCode);
+		
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.OK);
 	}
 

@@ -1,5 +1,5 @@
 package com.sbnz.doctor.model;
-// Generated Aug 26, 2018 11:22:47 AM by Hibernate Tools 5.0.6.Final
+// Generated Aug 26, 2018 4:00:55 PM by Hibernate Tools 5.0.6.Final
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
 public class Therapy implements java.io.Serializable {
 
 	private Long therapyId;
+	private Disease disease;
 	private Medicine medicine;
 	private Patient patient;
 	private User user;
@@ -31,7 +32,8 @@ public class Therapy implements java.io.Serializable {
 	public Therapy() {
 	}
 
-	public Therapy(Medicine medicine, Patient patient, User user, Date therapyDate) {
+	public Therapy(Disease disease, Medicine medicine, Patient patient, User user, Date therapyDate) {
+		this.disease = disease;
 		this.medicine = medicine;
 		this.patient = patient;
 		this.user = user;
@@ -48,6 +50,16 @@ public class Therapy implements java.io.Serializable {
 
 	public void setTherapyId(Long therapyId) {
 		this.therapyId = therapyId;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DISEASE_ID", nullable = false)
+	public Disease getDisease() {
+		return this.disease;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
