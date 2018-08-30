@@ -1,0 +1,72 @@
+//created on: Aug 28, 2018
+package monitoring
+
+//list any import classes here.
+import com.sbnz.doctor.monitoring.ChangeOxygenLevel;
+import com.sbnz.doctor.monitoring.Heartbeat;
+import com.sbnz.doctor.monitoring.PatientModel;
+import com.sbnz.doctor.monitoring.UrinationAmount;
+
+//declare any global variables here
+
+
+rule "Heartrate"
+	agenda-group "Heartbeat"
+    when
+        $pat : PatientModel( $id: patientId  )
+        Number( $sum: intValue > 25 ) from accumulate(
+        	Heartbeat( patientId == $id )
+        	over window:time(10s),
+        	init(int count = 0;),
+        	action(count++;),
+        	result(count)
+        )
+    then
+        //actions
+        System.out.println("Heartrate went up!");
+
+end
+
+rule "Dialysis needed ASAP"
+	agenda-group "Dialysis"
+	when
+		$pat :  PatientModel( $id: patientId , disease == "HRBUB" )
+		Number( $sum: intValue > 10 ) from accumulate(
+        	Heartbeat( patientId == $id )
+        	over window:time(10s),
+        	init(int count = 0;),
+        	action(count++;),
+        	result(count)
+        )
+        Number( $sum2: doubleValue < 100.0 ) from accumulate(
+        	UrinationAmount( patientId == $id , $amount : amount )
+        	over window:time(12h),
+        	sum($amount)
+        )
+    then
+    	System.out.println("Dialysis ASAP!");
+end
+
+rule "Update oxygen"
+	no-loop true
+	lock-on-active true
+	agenda-group "Oxygen"
+	when
+		$pat :  PatientModel( $id: patientId , $o : oxygenLevel )
+		$oxy : ChangeOxygenLevel( $id == patientId , $amount: amount  )	
+	then
+		$pat.setOxygenLevel($o + $amount);
+		update($pat);
+end
+
+rule "Oxygen problem"
+	agenda-group "Oxygen"
+	when
+		$pat :  PatientModel( $id: patientId , oxygenLevel < 70.0 )
+		not (
+			ChangeOxygenLevel( patientId ==$id , amount > 0 )
+			over window:time(15m)
+		)
+    then
+    	System.out.println("Oxygen ASAP!");
+end

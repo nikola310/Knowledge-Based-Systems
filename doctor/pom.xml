@@ -99,6 +99,11 @@
 			<version>7.9.0.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+			<version>6.5.0.Final</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.drools/drools-compiler -->
 		<dependency>
@@ -106,12 +111,6 @@
 			<artifactId>drools-compiler</artifactId>
 			<version>7.9.0.Final</version>
 		</dependency>
-
-		<!-- <exclusions> <exclusion> <groupId>com.thoughtworks.xstream</groupId> 
-			<artifactId>xstream</artifactId> </exclusion> </exclusions> -->
-
-		<!-- <dependency> <groupId>com.thoughtworks.xstream</groupId> <artifactId>xstream</artifactId> 
-			<version>1.4.10</version> </dependency> -->
 
 		<dependency>
 			<groupId>drools-spring-v2</groupId>
@@ -175,6 +174,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
 		<dependency>

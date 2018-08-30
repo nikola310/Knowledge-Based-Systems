@@ -12,8 +12,9 @@ public class PatientModel {
 	private String name;
 	private String surname;
 	private double oxygenLevel; // mmHg
-	private int heartBeat; //otkucaja u minuti
-	private double urinationAmount; //ml
+	private int heartBeat; // otkucaja u minuti
+	private double urinationAmount; // ml
+	private String disease;
 
 	public PatientModel(PatientDTO dto) {
 		this.patientId = dto.getPatientId();
@@ -21,7 +22,8 @@ public class PatientModel {
 		this.surname = dto.getPatientSurname();
 		this.oxygenLevel = 100.0;
 		this.heartBeat = 80;
-		this.urinationAmount = 1250.0;
+		this.urinationAmount = 0.0;
+		this.disease = "HRBUB";
 	}
 
 	public PatientModel(long patientId, String name, String surname, double oxygenLevel, int heartBeat,
@@ -83,5 +85,13 @@ public class PatientModel {
 
 	public void setUrinationAmount(double urinationAmount) {
 		this.urinationAmount = urinationAmount;
+	}
+
+	public String getDisease() {
+		return disease;
+	}
+
+	public void setDisease(String disease) {
+		this.disease = disease;
 	}
 }

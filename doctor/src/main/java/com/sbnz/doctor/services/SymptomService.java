@@ -102,7 +102,6 @@ public class SymptomService implements SymptomServiceInterface {
 
 	@Override
 	public SymptomDTO getHighBloodPressureSymptom() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

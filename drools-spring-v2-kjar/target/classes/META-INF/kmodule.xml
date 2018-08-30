@@ -13,4 +13,8 @@
 	<kbase name="report" packages="report">
 		<ksession name="reportSession" />
 	</kbase>
+	<kbase name="monitoring" eventProcessingMode="stream"
+		packages="monitoring">
+		<ksession name="monitoringSession" clockType="pseudo" />
+	</kbase>
 </kmodule>

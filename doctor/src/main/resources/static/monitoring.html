@@ -2,15 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Hello WebSocket</title>
-<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/main.css" rel="stylesheet">
+<title>Monitoring simulation</title>
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/monitoring.css" rel="stylesheet">
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script
-	src="vendor/sockjs.min.js"></script>
+<script src="vendor/sockjs.min.js"></script>
 <script src="vendor/stomp.js"></script>
-<script src="vendor/app.js"></script>
+<script src="js/monitoring.js"></script>
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -24,7 +23,7 @@
 			<div class="col-md-6">
 				<form class="form-inline">
 					<div class="form-group">
-						<label for="connect">WebSocket connection:</label>
+						<label for="connect">Simulator:&nbsp; &nbsp;</label>
 						<button id="connect" class="btn btn-default" type="submit">Connect</button>
 						<button id="disconnect" class="btn btn-default" type="submit"
 							disabled="disabled">Disconnect</button>
@@ -33,11 +32,8 @@
 			</div>
 			<div class="col-md-6">
 				<form class="form-inline">
-					<div class="form-group">
-						<label for="name">What is your name?</label> <input type="text"
-							id="name" class="form-control" placeholder="Your name here...">
-					</div>
-					<button id="send" class="btn btn-default" type="submit">Send</button>
+					<button id="send" class="btn btn-default" type="submit">Start
+						simulation</button>
 				</form>
 			</div>
 		</div>
@@ -46,10 +42,10 @@
 				<table id="conversation" class="table table-striped">
 					<thead>
 						<tr>
-							<th>Greetings</th>
+							<th>Monitoring notifications</th>
 						</tr>
 					</thead>
-					<tbody id="greetings">
+					<tbody id="notifications">
 					</tbody>
 				</table>
 			</div>

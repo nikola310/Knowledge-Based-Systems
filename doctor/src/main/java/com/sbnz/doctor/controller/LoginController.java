@@ -62,11 +62,13 @@ public class LoginController {
 		KieSession ks2 = container.newKieSession("patientSession");
 		KieSession ks3 = container.newKieSession("countSession");
 		KieSession ks4 = container.newKieSession("reportSession");
+		KieSession ks5 = container.newKieSession("monitoringSession");
 		HashMap<String, KieSession> sesije = new HashMap<>();
 		sesije.put("rulesSession", ks);
 		sesije.put("patientSession", ks2);
 		sesije.put("countSession", ks3);
 		sesije.put("reportSession", ks4);
+		sesije.put("monitoringSession", ks5);
 		request.getSession().setAttribute("sesije", sesije);
 		body.setType(dto.getUserType());
 		return new ResponseEntity<LoginDTO>(body, HttpStatus.OK);
