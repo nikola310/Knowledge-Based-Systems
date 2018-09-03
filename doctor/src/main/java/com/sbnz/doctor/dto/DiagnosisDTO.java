@@ -25,6 +25,9 @@ public class DiagnosisDTO {
 		this.userId = userId;
 	}
 
+	public DiagnosisDTO() {
+	}
+
 	public long getUserId() {
 		return userId;
 	}

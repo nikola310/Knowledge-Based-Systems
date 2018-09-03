@@ -87,4 +87,14 @@ public class LoginController {
 
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/login/check", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<Boolean> check(@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+		if (user == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+	}
 }

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Bare - Start Bootstrap Template</title>
+<title>Allergies</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,16 +28,16 @@ body {
 </style>
 
 <script type="text/javascript" src="js/url-utils.js"></script>
-<script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/user-utils.js"></script>
 <script type="text/javascript" src="js/allergies.js"></script>
 </head>
 
-<body onload="load();">
+<body onload="checkUser(true); load();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<a class="navbar-brand" href="#">Clinic</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -51,8 +51,6 @@ body {
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#"
-						onclick="logout();">Logout</a></li>
 				</ul>
 			</div>
 		</div>

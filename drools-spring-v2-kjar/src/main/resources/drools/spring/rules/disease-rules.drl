@@ -151,7 +151,7 @@ end
 
 rule "Hipertenzija"
 	agenda-group "Diseases"
-	//agenda-group "Disease group 2"
+	//agenda-group "Disease group 	2"
 	salience 50
 	no-loop true
 	lock-on-active true

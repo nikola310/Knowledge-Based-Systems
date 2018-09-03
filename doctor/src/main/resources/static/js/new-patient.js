@@ -7,8 +7,6 @@ function createPatient() {
 	var newPatient = JSON.stringify({
 		"patientName" : $("#name").val(),
 		"patientSurname" : $("#surname").val(),
-		"patientBloodPressure" : parseInt($("#pressure").val()),
-		"patientTemperature" : parseFloat($("#temperature").val())
 	});
 
 	$.ajax({
@@ -18,6 +16,7 @@ function createPatient() {
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",
 		success : function(data) {
+			window.alert("Success!");
 			window.location.replace("doctor.html");
 		},
 		fail : function(data) {

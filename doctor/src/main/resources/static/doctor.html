@@ -29,29 +29,29 @@ body {
 
 
 <script type="text/javascript" src="js/doctor.js"></script>
-<script type="text/javascript" src="js/logout.js"></script>
+<script type="text/javascript" src="js/user-utils.js"></script>
 </head>
 
-<body onload="loadPatients(); loadMyDiagnoses(); loadDiseases();">
+<body
+	onload="checkUser(true); loadPatients(); loadMyDiagnoses(); loadDiseases(); loadTherapies();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<a class="navbar-brand" href="index.html">Clinic</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">Home
-							<span class="sr-only">(current)</span>
+				<ul class="navbar-nav ml-auto" id="navbar-list">
+					<li class="nav-item active"><a class="nav-link"
+						href="index.html">Home <span class="sr-only">(current)</span>
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Services</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -97,6 +97,21 @@ body {
 			<thead>
 				<tr>
 					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="container">
+		<table id="therapy-table" class="table-striped">
+			<thead>
+				<tr>
+					<th>Patient</th>
+					<th>Disease</th>
+					<th>Medicine</th>
+					<th>Date</th>
 				</tr>
 			</thead>
 			<tbody>

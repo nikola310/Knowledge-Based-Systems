@@ -17,6 +17,7 @@ import com.sbnz.doctor.model.Therapy;
 import com.sbnz.doctor.repository.MedicineRepository;
 import com.sbnz.doctor.repository.PatientRepository;
 import com.sbnz.doctor.repository.TherapyRepository;
+import com.sbnz.doctor.repository.UserRepository;
 
 @Service
 @Transactional
@@ -33,6 +34,9 @@ public class TherapyService implements TherapyServiceInterface {
 
 	@Autowired
 	private PatientRepository patientRepo;
+
+	@Autowired
+	private UserRepository userRepo;
 
 	@Override
 	public TherapyDTO Create(TherapyDTO dto) {
@@ -151,6 +155,22 @@ public class TherapyService implements TherapyServiceInterface {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public List<TherapyDTO> readByUser(long user) {
+		ArrayList<TherapyDTO> list = new ArrayList<TherapyDTO>();
+
+		try {
+			for (Therapy entity : repository.getTherapyByUser(userRepo.getOne(user))) {
+				list.add(converter.entityToDto(entity));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return list;
 	}
 
 }

@@ -9,8 +9,6 @@ function loadPatient() {
 	$.get("patient/" + id, function(data) {
 		$("#name").val(data.patientName);
 		$("#surname").val(data.patientSurname);
-		$("#pressure").val(data.patientBloodPressure);
-		$("#temperature").val(data.patientTemperature);
 	});
 }
 
@@ -20,8 +18,6 @@ function editPatient() {
 		"patientId" : id,
 		"patientName" : $("#name").val(),
 		"patientSurname" : $("#surname").val(),
-		"patientBloodPressure" : $("#pressure").val(),
-		"patientTemperature" : $("#temperature").val()
 	});
 
 	$.ajax({

@@ -233,4 +233,24 @@ public class TherapyController {
 		return new ResponseEntity<List<TherapyDTO>>(dtos, HttpStatus.CREATED);
 	}
 
+	@RequestMapping(value = "/mine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<TherapyDTO>> getMine(@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<List<TherapyDTO>>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() != 'D') {
+			return new ResponseEntity<List<TherapyDTO>>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		List<TherapyDTO> dtos = service.readByUser(user.getUserId());
+
+		if (dtos == null) {
+			return new ResponseEntity<List<TherapyDTO>>(dtos, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<TherapyDTO>>(dtos, HttpStatus.OK);
+	}
 }

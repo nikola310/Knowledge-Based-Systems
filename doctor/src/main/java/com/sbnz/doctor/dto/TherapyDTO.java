@@ -14,7 +14,34 @@ public class TherapyDTO {
 	private long diseaseId;
 	private String diseaseCode;
 	private long userId;
+	private String diseaseName;
+	private String patientName;
+	private String medicineName;
 	private Date therapyDate;
+
+	public String getDiseaseName() {
+		return diseaseName;
+	}
+
+	public void setDiseaseName(String diseaseName) {
+		this.diseaseName = diseaseName;
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public String getMedicineName() {
+		return medicineName;
+	}
+
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
 
 	public long getTherapyId() {
 		return therapyId;

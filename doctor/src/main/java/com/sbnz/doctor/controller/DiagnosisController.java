@@ -108,7 +108,7 @@ public class DiagnosisController {
 		current.setPatientId(dto.getPatientId());
 		request.getSession().setAttribute("diagnosis", current);
 		request.getSession().setAttribute("disease", current.getDiseaseCode());
-		
+
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.CREATED);
 	}
 
@@ -140,11 +140,11 @@ public class DiagnosisController {
 	public ResponseEntity<List<MyDiagnosisDTO>> getMine(@Context HttpServletRequest request) {
 		UserDTO dto = (UserDTO) request.getSession().getAttribute("user");
 		if (dto == null) {
-			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<MyDiagnosisDTO>>(HttpStatus.BAD_REQUEST);
 		}
 
 		if (dto.getUserType() != 'D') {
-			new ResponseEntity<MyDiagnosisDTO>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<List<MyDiagnosisDTO>>(HttpStatus.UNAUTHORIZED);
 		}
 
 		List<MyDiagnosisDTO> lista = service.getDiagnoses(dto);
@@ -320,13 +320,13 @@ public class DiagnosisController {
 		DiseaseDTO bolest = diseaseService.getByCode(diseaseCode);
 		DiagnosisDTO toSave = new DiagnosisDTO(0, new Date(), bolest.getDiseaseId(), patientId, user.getUserId());
 		DiagnosisDTO dto = service.Create(toSave);
-		
+
 		if (dto == null) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
 
 		request.getSession().setAttribute("disease", diseaseCode);
-		
+
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.OK);
 	}
 

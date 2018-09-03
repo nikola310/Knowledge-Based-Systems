@@ -42,6 +42,9 @@ public class TherapyConverter implements TherapyConverterInterface {
 			dto.setUserId(entity.getUser().getUserId());
 			dto.setDiseaseId(entity.getDisease().getDiseaseId());
 			dto.setDiseaseCode(entity.getDisease().getDiseaseCode());
+			dto.setDiseaseName(entity.getDisease().getDiseaseName());
+			dto.setMedicineName(entity.getMedicine().getMedicineName());
+			dto.setPatientName(entity.getPatient().getPatientName() + " " + entity.getPatient().getPatientSurname());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Bare - Start Bootstrap Template</title>
+<title>Edit user</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,22 +29,23 @@ body {
 
 
 <script type="text/javascript" src="js/url-utils.js"></script>
+<script type="text/javascript" src="js/user-utils.js"></script>
 <script type="text/javascript" src="js/edit-user.js"></script>
 </head>
 
-<body onload="loadUser();">
+<body onload="checkUser(true); loadUser();">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<a class="navbar-brand" href="index.html">Clinic</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
+				<ul class="navbar-nav ml-auto" id="navbar-list">
 					<li class="nav-item active"><a class="nav-link" href="#">Home
 							<span class="sr-only">(current)</span>
 					</a></li>
@@ -100,7 +101,7 @@ body {
 				<button type="submit" class="btn btn-primary" id="submit">Edit</button>
 			</form>
 		</div>
-		
+		<a href="admin.html">Go back</a>
 	</div>
 
 	<!-- Bootstrap core JavaScript -->
