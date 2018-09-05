@@ -9,10 +9,11 @@
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="vendor/sockjs.min.js"></script>
 <script src="vendor/stomp.js"></script>
+<script type="text/javascript" src="js/user-utils.js"></script>
 <script src="js/monitoring.js"></script>
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body onload="checkUser(true);">
 	<noscript>
 		<h2 style="color: #ff0000">Seems your browser doesn't support
 			Javascript! Websocket relies on Javascript being enabled. Please
@@ -27,6 +28,7 @@
 						<button id="connect" class="btn btn-default" type="submit">Connect</button>
 						<button id="disconnect" class="btn btn-default" type="submit"
 							disabled="disabled">Disconnect</button>
+						<a href="doctor.html">Go back</a>
 					</div>
 				</form>
 			</div>

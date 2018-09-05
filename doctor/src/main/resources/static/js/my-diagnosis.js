@@ -48,7 +48,6 @@ function setDiagnosis() {
 		return false;
 	}
 
-	// contentType : "application/json; charset=utf-8",
 	$.ajax({
 		type : 'POST',
 		url : 'diagnosis/process/mine',
@@ -56,7 +55,7 @@ function setDiagnosis() {
 		dataType : "json",
 		success : function(data) {
 			window.alert("Success!");
-			window.location.replace("meds.html");
+			window.location.replace("meds.html?id=" + id);
 		},
 		fail : function(data) {
 			window.alert("Fail!");

@@ -71,6 +71,10 @@ public class ReportController {
 
 		KieSession sesija = sesije.get("reportSession");
 		sesija.insert(re);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.YEAR, -2);
+		Date chronicLimit = cal.getTime();
+		sesija.setGlobal("chronicLimit", chronicLimit);
 		sesija.getAgenda().getAgendaGroup("Chronic").setFocus();
 		sesija.fireAllRules();
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
@@ -102,6 +106,10 @@ public class ReportController {
 
 		KieSession sesija = sesije.get("reportSession");
 		sesija.insert(re);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -6);
+		Date addictLimit = cal.getTime();
+		sesija.setGlobal("addictLimit", addictLimit);
 		sesija.getAgenda().getAgendaGroup("Addicts").setFocus();
 		sesija.fireAllRules();
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();

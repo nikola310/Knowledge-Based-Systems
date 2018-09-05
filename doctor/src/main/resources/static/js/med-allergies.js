@@ -55,7 +55,6 @@ function loadMedicine(data){
 		$("#med-container").append(box[0].outerHTML + " " + val.medicineName + '<br/>');
 		
 	});
-		
 }
 
 function addMedicine(){

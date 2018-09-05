@@ -54,12 +54,12 @@ public class PatientMonitoringController {
 		sesija.getAgenda().getAgendaGroup("Heartbeat").setFocus();
 		int fired = sesija.fireAllRules();
 		if (fired > 0) {
-			WebsocketMessage reply = new WebsocketMessage("Pacijent ima problema sa srcem!");
+			WebsocketMessage reply = new WebsocketMessage("Patient has heart problems!");
 			simpMessagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/topic/notifications", reply,
 					ha.getMessageHeaders());
 		}
 
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 
 		clock.advanceTime(10, TimeUnit.SECONDS);
 		sesija.insert(new UrinationAmount(pm.getPatientId(), 25.0));
@@ -75,12 +75,12 @@ public class PatientMonitoringController {
 		fired = sesija.fireAllRules();
 		System.out.println(clock.getCurrentTime());
 		if (fired > 0) {
-			WebsocketMessage reply = new WebsocketMessage("Hitno potrebna dijaliza!");
+			WebsocketMessage reply = new WebsocketMessage("Patient needs dialysis!");
 			simpMessagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/topic/notifications", reply,
 					ha.getMessageHeaders());
 		}
 
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 
 		sesija.insert(new ChangeOxygenLevel(pm.getPatientId(), -10));
 		clock.advanceTime(5, TimeUnit.MINUTES);
@@ -94,7 +94,7 @@ public class PatientMonitoringController {
 		sesija.getAgenda().getAgendaGroup("Oxygen").setFocus();
 		fired = sesija.fireAllRules();
 		if (fired > 0) {
-			WebsocketMessage reply = new WebsocketMessage("Problemi sa kisikom!");
+			WebsocketMessage reply = new WebsocketMessage("Patient has oxygen problems!");
 			simpMessagingTemplate.convertAndSendToUser(headerAccessor.getSessionId(), "/topic/notifications", reply,
 					ha.getMessageHeaders());
 		}

@@ -20,6 +20,15 @@ public class MyDiagnosisDTO {
 	public MyDiagnosisDTO() {
 	}
 
+	public MyDiagnosisDTO(DiagnosisDTO dto) {
+		this.diagnosisId = dto.getDiagnosisId();
+		this.date = dto.getDiagnosisDate();
+		this.diseaseCode = dto.getDiseaseCode();
+		this.disease = dto.getDiseaseName();
+		this.diseaseId = dto.getDiseaseId();
+		this.patientId = dto.getPatientId();
+	}
+
 	public MyDiagnosisDTO(long diagnosisId, boolean success, Date date, String disease, String patient, long diseaseId,
 			long patientId, String diseaseCode) {
 		this.diagnosisId = diagnosisId;

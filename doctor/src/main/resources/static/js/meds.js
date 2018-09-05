@@ -35,16 +35,8 @@ function addMeds(){
 	meds = [];
 	
 	jQuery.each(kids, function(i, val){
-		
 		if(val.checked){
-			
-			// var Med = {
-				// "patientId" : parseInt(id),
-				// "medicineId" : parseInt(val.id.split("-")[1])
-			// };Med
-			
 			meds.push(parseInt(val.id.split("-")[1]));
-
 		}
 	});
 	

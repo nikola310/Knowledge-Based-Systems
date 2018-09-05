@@ -97,7 +97,7 @@ public class DiagnosisController {
 		}
 
 		body.setUserId(user.getUserId());
-
+		body.setDiagnosisActive(true);
 		DiagnosisDTO dto = service.Create(body);
 
 		if (dto == null) {
@@ -184,19 +184,18 @@ public class DiagnosisController {
 			SymptomDTO newSym = symService.getByCode("ANB21");
 			dto.getSymptoms().add(newSym);
 		}
+		for (SymptomDTO sym : dto.getSymptoms()) {
+			System.out.println(sym.getSymCode());
+		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
-
-//		for (SymptomDTO s : dto.getSymptoms()) {
-//			System.out.println(s.getSymCode());
-//		}
 
 		KieSession sesija = sesije.get("rulesSession");
 		SymptomList sl = new SymptomList(dto.getSymptoms());
 		sesija.insert(sl);
 		sesija.getAgenda().getAgendaGroup("Diseases").setFocus();
 
-		sesija.fireAllRules();
-
+		int fired = sesija.fireAllRules();
+		System.out.println(fired);
 		MyDiagnosisDTO retVal = new MyDiagnosisDTO();
 
 		if (sl.getMostLikelyDisease().size() == 0) {
@@ -207,7 +206,7 @@ public class DiagnosisController {
 		HashMap<String, Double> sortedMap = (HashMap<String, Double>) MapUtils
 				.sortByComparator(sl.getMostLikelyDisease(), MapUtils.DESC);
 
-		// MapUtils.printMap(sortedMap);
+		MapUtils.printMap(sortedMap);
 
 		Map.Entry<String, Double> entry = sortedMap.entrySet().iterator().next();
 		String key = entry.getKey();
@@ -225,6 +224,7 @@ public class DiagnosisController {
 		retVal.setDisease(bolest.getDiseaseName());
 		retVal.setDiseaseId(bolest.getDiseaseId());
 		request.getSession().setAttribute("diagnosis", retVal);
+		// System.out.println("dijagnoza: " + retVal.getDiseaseCode());
 		return new ResponseEntity<MyDiagnosisDTO>(retVal, HttpStatus.OK);
 	}
 
@@ -319,14 +319,15 @@ public class DiagnosisController {
 
 		DiseaseDTO bolest = diseaseService.getByCode(diseaseCode);
 		DiagnosisDTO toSave = new DiagnosisDTO(0, new Date(), bolest.getDiseaseId(), patientId, user.getUserId());
+		toSave.setDiagnosisActive(true);
 		DiagnosisDTO dto = service.Create(toSave);
-
 		if (dto == null) {
 			return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.BAD_REQUEST);
 		}
-
+		MyDiagnosisDTO serverSave = new MyDiagnosisDTO(dto);
+		serverSave.setSuccess(true);
 		request.getSession().setAttribute("disease", diseaseCode);
-
+		request.getSession().setAttribute("diagnosis", serverSave);
 		return new ResponseEntity<DiagnosisDTO>(dto, HttpStatus.OK);
 	}
 

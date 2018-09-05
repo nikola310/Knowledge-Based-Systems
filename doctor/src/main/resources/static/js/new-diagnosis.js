@@ -61,7 +61,11 @@ function processSymptoms(){
 		dataType : "json",
 		success : function(data) {
 			console.log(data);
-			window.location.replace("process-diagnosis.html");
+			if(data.success){
+				window.location.replace("process-diagnosis.html");
+			}else{
+				window.alert("Couldn't get any results!");
+			}
 		},
 		fail : function(data) {
 			window.alert("Fail!");
@@ -80,17 +84,13 @@ kids = $("#sym-container").children(":input");
 	syms = [];
 	
 	jQuery.each(kids, function(i, val){
-		
 		if(val.checked){
-			
 			var symDis = {
 				"diseaseId" : parseInt(id),
 				"symptomId" : parseInt(val.id.split("-")[1]),
 				"symCode" : val.id.split("-")[2]
 			};
-			
 			syms.push(symDis);
-
 		}
 	});
 	

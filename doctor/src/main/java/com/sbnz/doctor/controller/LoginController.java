@@ -97,4 +97,21 @@ public class LoginController {
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 	}
+
+	@RequestMapping(value = "/logged-in/check", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<Boolean> checkAdminOrDoctor(@Context HttpServletRequest request) {
+		UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (user.getUserType() == 'A') {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		} else if (user.getUserType() == 'D') {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Boolean>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

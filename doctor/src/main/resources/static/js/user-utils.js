@@ -25,6 +25,8 @@ function checkUser(redirect) {
 			});
 			
 			$("#navbar-list").append(li);
+			
+			indexCheckLinks();
 		} else if (data == false || data == null) {
 			if(redirect){
 				window.location.replace("index.html");
@@ -54,5 +56,40 @@ function checkLogin(){
 		if(data){
 			window.location.replace("index.html");
 		}
+	});
+}
+
+function indexCheckLinks(){
+	$.get("logged-in/check", function(data) {
+		if (data == true) {
+			var a = $('<a/>', {
+				class: "nav-link",
+				href: "admin.html",
+				html: "Admin dashboard"
+			});
+			
+			var li = $('<li/>', {
+				class: "nav-item",
+				html: a[0].outerHTML
+			});
+			
+			$('#navbar-list').find(' > li:nth-last-child(1)').before(li);
+		} else if (data == false) {
+			var a = $('<a/>', {
+				class: "nav-link",
+				href: "doctor.html",
+				html: "Doctor dashboard"
+			});
+			
+			var li = $('<li/>', {
+				class: "nav-item",
+				html: a[0].outerHTML
+			});
+			
+			$('#navbar-list').find(' > li:nth-last-child(1)').before(li);
+		} else {
+			console.log("Error!");
+		}
+
 	});
 }

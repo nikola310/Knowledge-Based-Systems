@@ -41,6 +41,8 @@ public class DiagnosisConverter implements DiagnosisConverterInterface {
 			dto.setDiseaseId(entity.getDisease().getDiseaseId());
 			dto.setPatientId(entity.getPatient().getPatientId());
 			dto.setUserId(entity.getUser().getUserId());
+			dto.setDiseaseName(entity.getDisease().getDiseaseName());
+			dto.setDiseaseCode(entity.getDisease().getDiseaseCode());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			return null;

@@ -169,22 +169,23 @@ public class TherapyController {
 		}
 		cao.setPatientId(current.getPatientId());
 
-		for (MedicineallergyDTO med : cao.getMedAllergies()) {
-			System.out.println(med.getMedicine());
-		}
-		for (AllergyDTO alergy : cao.getAllergies()) {
-			System.out.println(alergy.getIngredientName());
-		}
+//		for (MedicineallergyDTO med : cao.getMedAllergies()) {
+//			System.out.println(med.getMedicine());
+//		}
+//		for (AllergyDTO alergy : cao.getAllergies()) {
+//			System.out.println(alergy.getIngredientName());
+//		}
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 		KieSession sesija = sesije.get("patientSession");
-		System.out.println(cao.getMedAllergies().size());
-		System.out.println(cao.getAllergies().size());
+//		System.out.println(cao.getMedAllergies().size());
+//		System.out.println(cao.getAllergies().size());
 		sesija.insert(cao);
 		sesija.getAgenda().getAgendaGroup("Allergy").setFocus();
-		int fired = sesija.fireAllRules();
-		System.out.println("Fired: " + fired);
-		System.out.println(cao.getIsAllergic().size());
-		System.out.println(cao.getIsMedAllergic().size());
+//		int fired = 
+		sesija.fireAllRules();
+//		System.out.println("Fired: " + fired);
+//		System.out.println(cao.getIsAllergic().size());
+//		System.out.println(cao.getIsMedAllergic().size());
 		AllergicRetValDTO retVal = new AllergicRetValDTO();
 		for (AllergyDTO al : cao.getIsAllergic()) {
 			retVal.getIngredients().add(al.getIngredientName());
@@ -230,6 +231,9 @@ public class TherapyController {
 			return new ResponseEntity<List<TherapyDTO>>(dtos, HttpStatus.BAD_REQUEST);
 		}
 
+		request.getSession().removeAttribute("disease");
+		request.getSession().removeAttribute("diagnosis");
+		
 		return new ResponseEntity<List<TherapyDTO>>(dtos, HttpStatus.CREATED);
 	}
 

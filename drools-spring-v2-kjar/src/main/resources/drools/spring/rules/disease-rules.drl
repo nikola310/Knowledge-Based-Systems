@@ -110,7 +110,7 @@ rule "Sinusna infekcija"
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
         Number ( $sum : intValue >= 4) from accumulate(
-				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38") from $simptomi,
+				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38" || symCode == "PRG60") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )

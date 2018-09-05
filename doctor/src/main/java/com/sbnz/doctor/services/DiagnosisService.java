@@ -102,10 +102,11 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 			Diagnosis entity = repository.getOne(dto.getDiagnosisId());
 
 			if (entity != null) {
-				entity.setDiagnosisDate(dto.getDiagnosisDate());
+				entity.setDisease(diseaseRepo.getOne(dto.getDiseaseId()));
+				entity.setDiagnosisActive(dto.isDiagnosisActive());
 				repository.save(entity);
 			}
-
+			return dto;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -244,14 +245,9 @@ public class DiagnosisService implements DiagnosisServiceInterface {
 	@Override
 	public List<ReportDiagnosis> getReportDiagnoses() {
 		ArrayList<ReportDiagnosis> list = new ArrayList<ReportDiagnosis>();
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.YEAR, -2);
-		Date yearLimit = cal.getTime();
 		try {
 			for (Diagnosis entity : repository.findAll()) {
-				if (entity.getDiagnosisDate().getTime() >= yearLimit.getTime()) {
-					list.add(new ReportDiagnosis(entity));
-				}
+				list.add(new ReportDiagnosis(entity));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

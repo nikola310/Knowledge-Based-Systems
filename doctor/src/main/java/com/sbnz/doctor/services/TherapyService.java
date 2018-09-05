@@ -1,8 +1,6 @@
 package com.sbnz.doctor.services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,13 +126,8 @@ public class TherapyService implements TherapyServiceInterface {
 	public ArrayList<TherapyReport> getInLastSixMonths() {
 		try {
 			ArrayList<TherapyReport> retVal = new ArrayList<>();
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.MONTH, -6);
-			Date month6 = cal.getTime();
 			for (Therapy entity : repository.findAll()) {
-				if (entity.getTherapyDate().getTime() >= month6.getTime()) {
-					retVal.add(new TherapyReport(entity));
-				}
+				retVal.add(new TherapyReport(entity));
 			}
 			return retVal;
 		} catch (Exception e) {

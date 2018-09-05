@@ -2,8 +2,6 @@ package com.sbnz.doctor.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Nikola
  *
@@ -11,13 +9,15 @@ import javax.validation.constraints.NotNull;
 public class DiagnosisDTO {
 
 	private long diagnosisId;
-	@NotNull
 	private Date diagnosisDate;
 	private long diseaseId;
 	private long patientId;
 	private long userId;
+	private boolean diagnosisActive;
+	private String diseaseName;
+	private String diseaseCode;
 
-	public DiagnosisDTO(long diagnosisId, @NotNull Date diagnosisDate, long diseaseId, long patientId, long userId) {
+	public DiagnosisDTO(long diagnosisId, Date diagnosisDate, long diseaseId, long patientId, long userId) {
 		this.diagnosisId = diagnosisId;
 		this.diagnosisDate = diagnosisDate;
 		this.diseaseId = diseaseId;
@@ -26,6 +26,22 @@ public class DiagnosisDTO {
 	}
 
 	public DiagnosisDTO() {
+	}
+
+	public String getDiseaseName() {
+		return diseaseName;
+	}
+
+	public void setDiseaseName(String diseaseName) {
+		this.diseaseName = diseaseName;
+	}
+
+	public String getDiseaseCode() {
+		return diseaseCode;
+	}
+
+	public void setDiseaseCode(String diseaseCode) {
+		this.diseaseCode = diseaseCode;
 	}
 
 	public long getUserId() {
@@ -66,5 +82,13 @@ public class DiagnosisDTO {
 
 	public void setPatientId(long patientId) {
 		this.patientId = patientId;
+	}
+
+	public boolean isDiagnosisActive() {
+		return diagnosisActive;
+	}
+
+	public void setDiagnosisActive(boolean diagnosisActive) {
+		this.diagnosisActive = diagnosisActive;
 	}
 }
