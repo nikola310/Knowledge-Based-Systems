@@ -297,12 +297,13 @@ public class DiagnosisController {
 		// MapUtils.printMap(sortedMap);
 
 		for (String key : sortedMap.keySet()) {
-			DiseaseDTO bolest = diseaseService.getByCode(key);
-			retVal.put(bolest.getDiseaseName(), sortedMap.get(key));
+			if (sortedMap.get(key) != 0.0) {
+				DiseaseDTO bolest = diseaseService.getByCode(key);
+				retVal.put(bolest.getDiseaseName(), sortedMap.get(key));
+			}
 		}
-
-		// request.getSession().setAttribute("diagnosis", retVal);
-		return new ResponseEntity<Map<String, Double>>(retVal, HttpStatus.OK);
+		Map<String, Double> sortedRetVal = MapUtils.sortByComparator(retVal, MapUtils.DESC);
+		return new ResponseEntity<Map<String, Double>>(sortedRetVal, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/process/mine", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_FORM_URLENCODED)

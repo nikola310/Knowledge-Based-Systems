@@ -109,4 +109,18 @@ public class PatientService implements PatientServiceInterface {
 		return converter.entityToDto(entity);
 	}
 
+	@Override
+	public PatientDTO getAny() {
+		ArrayList<Patient> list = (ArrayList<Patient>) repository.findAll();
+		try {
+			if (list.isEmpty()) {
+				return null;
+			} else {
+				return converter.entityToDto(list.get(0));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

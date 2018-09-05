@@ -27,7 +27,7 @@ rule "Prehlada"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue >= 4) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -50,7 +50,7 @@ rule "Groznica"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue >= 4) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -72,7 +72,7 @@ rule "Upala krajnika"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue >= 4) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "GUBAP" || symCode == "DRHTI" || symCode == "T4041" || symCode == "BOLOU" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "TIRED" || symCode == "ZHNOS") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -94,8 +94,8 @@ rule "Sinusna infekcija"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue >= 4) from accumulate(
-				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38") from $simptomi,
+        Number ( $sum : intValue ) from accumulate(
+				SymptomDTO( symCode == "CURNO" || symCode == "BOLUG" || symCode == "GLAVB" || symCode == "KIJAN" || symCode == "KASHA" || symCode == "DRHTI" || symCode == "TEM38" || symCode == "PRG60") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )
@@ -117,7 +117,7 @@ rule "Dijabetes"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue == 4) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "CESTO" || symCode == "GUBTT" || symCode == "ZAMOR" || symCode == "MUPOV") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -138,7 +138,7 @@ rule "Hipertenzija"
     when
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
-        Number ( $sum : intValue == 1) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "VISPR") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -160,12 +160,12 @@ rule "Hronicna bubrezna povreda"
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
         // obicni i specificni simptomi
-        Number ( $sum : intValue >= 2) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "ZAMOR" || symCode == "NOCTA" || symCode == "ONOZG" || symCode == "BOLGR" || symCode == "GUSHI") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )
-				) and Number( $sum2: intValue >= 1 ) from accumulate(
+				) and Number( $sum2 : intValue ) from accumulate(
 					SymptomDTO( symCode == "OPORO" ) from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
@@ -188,12 +188,12 @@ rule "Akutna bubrezna povreda"
         //conditions
         $s : SymptomList( $simptomi : symptoms  )
         // obicni i specificni simptomi
-        Number ( $sum : intValue >= 2) from accumulate(
+        Number ( $sum : intValue ) from accumulate(
 				SymptomDTO( symCode == "ZAMOR" || symCode == "GUSHI" || symCode == "ONOZG" || symCode == "PROLJ") from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),
 					result ( count )
-				) and Number( $sum2: intValue >= 1 ) from accumulate(
+				) and Number( $sum2: intValue ) from accumulate(
 					SymptomDTO( symCode == "OPORO" ) from $simptomi,
 					init ( int count = 0; ),
 					action ( count++; ),

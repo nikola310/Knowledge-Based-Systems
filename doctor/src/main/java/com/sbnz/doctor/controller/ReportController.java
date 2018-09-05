@@ -101,6 +101,10 @@ public class ReportController {
 		re.setPatients((ArrayList<PatientDTO>) patientService.ReadAll());
 		re.setTherapies(therapyService.getInLastSixMonths());
 
+//		for (TherapyReport th : re.getTherapies()) {
+//			System.out.println(th.getTherapyDate());
+//		}
+
 		@SuppressWarnings("unchecked")
 		HashMap<String, KieSession> sesije = (HashMap<String, KieSession>) request.getSession().getAttribute("sesije");
 
@@ -109,7 +113,9 @@ public class ReportController {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -6);
 		Date addictLimit = cal.getTime();
+		Date immunityLimit = addictLimit;
 		sesija.setGlobal("addictLimit", addictLimit);
+		sesija.setGlobal("immunityLimit", immunityLimit);
 		sesija.getAgenda().getAgendaGroup("Addicts").setFocus();
 		sesija.fireAllRules();
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();
@@ -143,7 +149,9 @@ public class ReportController {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -12);
 		Date immunityLimit = cal.getTime();
+		Date addictLimit = cal.getTime();
 		sesija.setGlobal("immunityLimit", immunityLimit);
+		sesija.setGlobal("addictLimit", addictLimit);
 		sesija.getAgenda().getAgendaGroup("Immunity").setFocus();
 		sesija.fireAllRules();
 		ArrayList<PatientDTO> pacijenti = new ArrayList<>();

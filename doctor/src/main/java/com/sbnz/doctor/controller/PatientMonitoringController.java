@@ -44,7 +44,7 @@ public class PatientMonitoringController {
 		ha.setLeaveMutable(true);
 
 		KieSession sesija = container.newKieSession("monitoringSession");
-		PatientModel pm = new PatientModel(patientService.Read(1));
+		PatientModel pm = new PatientModel(patientService.getAny());
 		sesija.insert(pm);
 		SessionPseudoClock clock = sesija.getSessionClock();
 		for (int i = 0; i < 40; i++) {
