@@ -51,7 +51,13 @@ function loadSymptoms(data){
 			class: ".checkbox-circle"
 		});
 		
-		$("#sym-container").append(box[0].outerHTML + " " + val.symDesc + '<br/>');
+		var box2 = $('<input>', {
+			type: "checkbox",
+			id: "sym-spec-" + val.symId,
+			class: ".checkbox-circle"
+		});
+		
+		$("#sym-container").append(box[0].outerHTML + " " + val.symDesc + " " + box2[0].outerHTML + " Specific <br/>");
 		
 	});
 		
@@ -65,14 +71,20 @@ function addSymptoms(){
 	jQuery.each(kids, function(i, val){
 		
 		if(val.checked){
-			
-			var symDis = {
-				"diseaseId" : parseInt(id),
-				"symptomId" : parseInt(val.id.split("-")[1])
-			};
-			
-			syms.push(symDis);
-
+			if(i%2 == 0){
+				var symDis = {
+					"diseaseId" : parseInt(id),
+					"symptomId" : parseInt(val.id.split("-")[1])
+				};
+				
+				if($("#sym-spec-" + symDis.symptomId)[0].checked){
+					symDis.sdSpecific = true;
+				}else{
+					symDis.sdSpecific = false;
+				}
+				
+				syms.push(symDis);
+			}
 		}
 	});
 	

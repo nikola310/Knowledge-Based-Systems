@@ -18,7 +18,7 @@ function loadSyms() {
 
 			var spec = "Regular";
 			if (val.sdSpecific) {
-				spec = "Special";
+				spec = "Specific";
 			}
 			var td2 = $("<td/>", {
 				html : spec

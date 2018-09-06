@@ -163,6 +163,10 @@ public class SymDiseaseController {
 		if (user.getUserType() != 'A') {
 			return new ResponseEntity<SymDiseaseDTO[]>(body, HttpStatus.NOT_ACCEPTABLE);
 		}
+		
+		for(SymDiseaseDTO d : body) {
+			System.out.println(d.getSymptomId());
+		}
 
 		SymDiseaseDTO[] dtos = service.addInBulk(body);
 
