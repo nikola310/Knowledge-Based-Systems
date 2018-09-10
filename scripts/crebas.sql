@@ -1,4 +1,4 @@
-/*DROP SCHEMA `sbnz`;*/
+DROP SCHEMA IF EXISTS `sbnz`;
 CREATE SCHEMA `sbnz` ;
 USE sbnz;
 
